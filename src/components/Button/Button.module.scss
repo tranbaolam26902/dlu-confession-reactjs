@@ -1,0 +1,55 @@
+.wrapper {
+    display: inline-block;
+    padding: 8px 24px;
+    min-width: 80px;
+    min-height: 36px;
+    font-size: 1.6rem;
+    line-height: 1.8rem;
+    border-radius: 16px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    user-select: none;
+    & + .wrapper {
+        margin-left: 16px;
+    }
+    &:hover {
+        opacity: 0.7;
+    }
+}
+.secondary {
+    color: var(--white);
+    background-color: var(--secondary);
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.25);
+}
+.outline {
+    color: var(--secondary);
+    background-color: var(--primary);
+    border-color: currentColor;
+}
+.text {
+    background-color: transparent;
+    color: var(--text-color);
+    transition: all ease 0.2s;
+    span {
+        position: relative;
+    }
+    span::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -4px;
+        height: 2px;
+        right: 100%;
+        background-color: currentColor;
+        // transform: translateX(-100%);
+        transition: all ease 0.2s;
+    }
+    span:hover::after {
+        right: 0;
+        transform: translateX(0);
+        opacity: 0.7;
+    }
+}
+.fluid {
+    width: 100%;
+}

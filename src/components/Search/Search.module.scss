@@ -1,0 +1,18 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    padding: 7px 32px;
+    background-color: var(--primary);
+    border: 1px solid var(--gray-0);
+    border-radius: 32px;
+    box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.05);
+}
+.search-input {
+    flex: 1;
+    margin-right: 16px;
+    font-size: 1.6rem;
+    background-color: transparent;
+    &::placeholder {
+        color: var(--text-secondary-20);
+    }
+}
