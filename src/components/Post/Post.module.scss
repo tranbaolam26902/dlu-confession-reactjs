@@ -1,9 +1,9 @@
 .wrapper {
-    margin: 0 32px 32px;
+    margin: 0 0 32px;
     padding: 32px;
     background-color: var(--primary);
     border-radius: 16px;
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
 }
 .header {
     display: flex;
@@ -19,15 +19,24 @@
     }
     .time {
         font-size: 1.4rem;
-        font-weight: normal;
         color: var(--text-secondary-50);
     }
 }
-.title {
-    margin-bottom: 8px;
-    font-size: 2rem;
+.categories {
+    margin-bottom: 4px;
 }
-.content {
-    font-size: 1.6rem;
-    font-weight: normal;
+.body {
+    .title {
+        margin-bottom: 8px;
+        font-size: 2rem;
+        font-weight: bold;
+    }
+    .content {
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        margin-bottom: 4px;
+    }
 }

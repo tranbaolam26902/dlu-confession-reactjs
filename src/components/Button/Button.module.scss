@@ -7,6 +7,7 @@
     line-height: 1.8rem;
     border-radius: 16px;
     border: 1px solid transparent;
+    transition: all ease 0.2s;
     cursor: pointer;
     user-select: none;
     & + .wrapper {
@@ -20,16 +21,23 @@
     color: var(--white);
     background-color: var(--secondary);
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.25);
+    &:hover {
+        color: var(--white);
+    }
 }
 .outline {
     color: var(--secondary);
     background-color: var(--primary);
     border-color: currentColor;
+    &:hover {
+        color: var(--white);
+        background-color: var(--secondary);
+        border-color: var(--secondary);
+    }
 }
 .text {
     background-color: transparent;
     color: var(--text-color);
-    transition: all ease 0.2s;
     span {
         position: relative;
     }

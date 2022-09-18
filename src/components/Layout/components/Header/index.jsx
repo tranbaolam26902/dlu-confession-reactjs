@@ -1,37 +1,37 @@
-import { useState } from 'react';
+import { Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
+import useViewPort from '../../../../hooks';
 import styles from './Header.module.scss';
 import images from '../../../../assets/img';
-import Button from '../../../Button';
 import Search from '../../../Search';
-import icons from '../../../../assets/icons';
+import UserActions from '../../../UserActions';
 
 const cx = classNames.bind(styles);
 
 function Header() {
+    const viewPort = useViewPort();
+    const isMobile = viewPort.width <= 992;
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('inner')}>
-                <Link to="/" className={cx('logo')}>
-                    <img src={images.logoFull} alt="Logo" />
-                </Link>
-                <div className={cx('search')}>
-                    <Search />
-                </div>
-                <div className={cx('actions')}>
-                    <div className={cx('buttons')}>
-                        <Button text>
-                            Đăng ký
-                        </Button>
-                        <Button secondary to="/profile">
-                            Đăng nhập
-                        </Button>
-                    </div>
-                    <img className={cx('user')} src={icons.user} alt="user-icon" />
-                </div>
-            </div>
+            <Container fluid='md'>
+                <Row className={cx('inner')}>
+                    <Col>
+                        <Link to='/'>
+                            <img src={images.logoFull} alt='logo' />
+                        </Link>
+                    </Col>
+                    {!isMobile && (
+                        <Col>
+                            <Search placeholder='Tìm kiếm...' />
+                        </Col>
+                    )}
+                    <Col className='text-end'>
+                        <UserActions />
+                    </Col>
+                </Row>
+            </Container>
         </div>
     );
 }
