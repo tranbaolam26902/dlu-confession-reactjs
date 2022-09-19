@@ -3,8 +3,7 @@ const images = {
     logo: require('./logo.svg').default,
     logoText: require('./logo-text.svg').default,
     post: require('./post.jpg'),
-    test: require('./download.png')
-
+    test: require('./download.png'),
 };
 
 export default images;

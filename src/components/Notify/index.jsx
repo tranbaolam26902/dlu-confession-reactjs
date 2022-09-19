@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Notify.module.scss';
 import { useState, useEffect } from 'react';
+import icons from '../../assets/icons/index';
 
 const cx = classNames.bind(styles);
 
@@ -34,7 +35,7 @@ function Notify() {
             <div className={cx('container')}>
                 <div className={cx('first-row')}>
                     <h3 className={cx('title')}>Notifications</h3>
-                    <button className={cx('close-button')}>X</button>
+                    <button className={cx('close-button')}><img alt="close-btn" src={icons.close} /></button>
                 </div>
                 <div className={cx('notification')}></div>
                 {notifications.map((notification) => {
