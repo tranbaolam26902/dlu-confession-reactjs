@@ -280,10 +280,6 @@ function Home() {
         },
     ];
 
-    useEffect(() => {
-        document.title = 'Confession Trường Đại học Đà Lạt';
-    });
-
     return (
         <div>
             {posts.map((post) => {

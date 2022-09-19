@@ -1,20 +1,14 @@
 .wrapper {
-    // padding: 32px 32px 24px;
     padding-top: 16px;
     width: 100%;
     height: max-content;
-    // background-color: var(--primary);
     border-radius: 16px;
-    // box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.25);
     .header {
         display: flex;
         align-items: center;
-        // margin-bottom: 16px;
     }
     .title {
         margin-left: 8px;
-        font-size: 1.4rem;
-        line-height: 1.6rem;
         font-weight: bold;
         color: var(--text-secondary-50);
     }

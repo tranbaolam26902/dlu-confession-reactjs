@@ -8,6 +8,9 @@ const icons = {
     voteDown: require('./vote-down.svg').default,
     voteUpTrue: require('./vote-up-true.svg').default,
     voteDownTrue: require('./vote-down-true.svg').default,
+    comment: require('./comment.svg').default,
+    share: require('./share.svg').default,
+    popular: require('./popular.svg').default
 };
 
 export default icons;
