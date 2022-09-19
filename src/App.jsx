@@ -5,6 +5,8 @@ import { publicRoutes } from './routes';
 import { DefaultLayout } from './components/Layout';
 
 function App() {
+    document.title = 'Confession Trường Đại học Đà Lạt';
+
     return (
         <Router>
             <div className="App">
