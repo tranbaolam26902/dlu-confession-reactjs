@@ -25,7 +25,7 @@ function Vote({ voted, action, children }) {
             }
             action.setUp(!voted.up);
         } else {
-            dispatch(actions.setShowLogin(true));
+            dispatch(actions.setShowLoginModal(true));
         }
     };
     const handleVoteDown = () => {
@@ -41,7 +41,7 @@ function Vote({ voted, action, children }) {
             }
             action.setDown(!voted.down);
         } else {
-            dispatch(actions.setShowLogin(true));
+            dispatch(actions.setShowLoginModal(true));
         }
     };
 
