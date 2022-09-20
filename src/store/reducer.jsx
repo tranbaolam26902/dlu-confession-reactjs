@@ -1,8 +1,8 @@
-import { SET_TOKEN, SET_SHOW_LOGIN, SET_IS_LOGIN_MODAL } from './constants';
+import { SET_TOKEN, SET_SHOW_LOGIN_MODAL, SET_IS_LOGIN_MODAL } from './constants';
 
 const initStates = {
     token: '',
-    showLogin: false,
+    showLoginModal: false,
     isLoginModal: false
 }
 
@@ -13,10 +13,10 @@ function reducer(state, action) {
                 ...state,
                 token: action.payload
             }
-        case SET_SHOW_LOGIN:
+        case SET_SHOW_LOGIN_MODAL:
             return {
                 ...state,
-                showLogin: action.payload
+                showLoginModal: action.payload
             }
         case SET_IS_LOGIN_MODAL:
             return {

@@ -9,11 +9,11 @@ function UserActions() {
     const isMobile = viewPort.width < 992;
     const handleLogin = () => {
         dispatch(actions.setIsLoginModal(true));
-        dispatch(actions.setShowLogin(true));
+        dispatch(actions.setShowLoginModal(true));
     }
     const handleSignUp = () => {
         dispatch(actions.setIsLoginModal(false));
-        dispatch(actions.setShowLogin(true));
+        dispatch(actions.setShowLoginModal(true));
     }
     if (isMobile) {
         return <img src={icons.user} alt='logo' />;

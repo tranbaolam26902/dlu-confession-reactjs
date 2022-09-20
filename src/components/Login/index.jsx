@@ -12,16 +12,16 @@ const cx = classNames.bind(styles);
 
 function Login() {
     const [states, dispatch] = useStore();
-    const { showLogin, isLoginModal } = states;
+    const { showLoginModal, isLoginModal } = states;
     const handleClose = () => {
-        dispatch(actions.setShowLogin(false));
+        dispatch(actions.setShowLoginModal(false));
         dispatch(actions.setIsLoginModal(true));
     };
     const handleSwitch = () => dispatch(actions.setIsLoginModal(!isLoginModal));
 
     if (isLoginModal) {
         return (
-            <Modal show={showLogin} onHide={handleClose} centered>
+            <Modal show={showLoginModal} onHide={handleClose} centered>
                 <div className={cx('wrapper')}>
                     <button onClick={handleClose}>
                         <img src={icons.close} alt='icon-close' />
@@ -33,16 +33,16 @@ function Login() {
                     <form>
                         <Stack gap={2}>
                             <div className='d-flex flex-column'>
-                                <label for='username'>Tên đăng nhập</label>
-                                <input id='username' className={cx('text-box')} required />
+                                <label htmlFor='username-login'>Tên đăng nhập</label>
+                                <input id='username-login' className={cx('text-box')} required />
                             </div>
                             <div className='d-flex flex-column'>
-                                <label for='password'>Mật khẩu</label>
-                                <input id='password' type='password' className={cx('text-box')} required />
+                                <label htmlFor='password-login'>Mật khẩu</label>
+                                <input id='password-login' type='password' className={cx('text-box')} required />
                             </div>
                             <div className='d-flex align-items-center'>
                                 <input id='remember-user' type='checkbox' className='me-1' />
-                                <label for='remember-user'>Lưu tài khoản</label>
+                                <label htmlFor='remember-user'>Lưu tài khoản</label>
                             </div>
                             <Button secondary fluid>
                                 Đăng nhập
@@ -63,7 +63,7 @@ function Login() {
         );
     }
     return (
-        <Modal show={showLogin} onHide={handleClose} centered>
+        <Modal show={showLoginModal} onHide={handleClose} centered>
             <div className={cx('wrapper')}>
                 <button onClick={handleClose}>
                     <img src={icons.close} alt='icon-close' />
@@ -75,19 +75,19 @@ function Login() {
                 <form>
                     <Stack gap={2}>
                         <div className='d-flex flex-column'>
-                            <label for='username'>Tên đăng nhập</label>
-                            <input id='username' className={cx('text-box')} required />
+                            <label htmlFor='username-sign-up'>Tên đăng nhập</label>
+                            <input id='username-sign-up' className={cx('text-box')} required />
                         </div>
                         <div className='d-flex flex-column'>
-                            <label for='username'>Email</label>
-                            <input id='username' type='email' className={cx('text-box')} required />
+                            <label htmlFor='email'>Email</label>
+                            <input id='email' type='email' className={cx('text-box')} required />
                         </div>
                         <div className='d-flex flex-column'>
-                            <label for='password'>Mật khẩu</label>
-                            <input id='password' type='password' className={cx('text-box')} required />
+                            <label htmlFor='password-sign-up'>Mật khẩu</label>
+                            <input id='password-sign-up' type='password' className={cx('text-box')} required />
                         </div>
                         <div className='d-flex flex-column mb-2'>
-                            <label for='confirm-password'>Nhập lại mật khẩu</label>
+                            <label htmlFor='confirm-password'>Nhập lại mật khẩu</label>
                             <input id='confirm-password' type='password' className={cx('text-box')} required />
                         </div>
                         <Button secondary fluid>
