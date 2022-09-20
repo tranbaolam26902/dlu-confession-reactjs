@@ -1,5 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
+import { useContext } from 'react';
+import Context from './Context';
 
+// Hook for responsive
 const useViewPort = () => {
     const [width, setWidth] = useState(window.innerWidth);
 
@@ -12,4 +15,10 @@ const useViewPort = () => {
     return { width };
 };
 
-export default useViewPort;
+// Hook for global states
+const useStore = () => {
+    const [states, dispatch] = useContext(Context);
+    return [states, dispatch];
+}
+
+export { useViewPort, useStore };

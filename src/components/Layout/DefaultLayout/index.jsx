@@ -1,11 +1,14 @@
+import { Col, Container, Row, Stack } from 'react-bootstrap';
 import classNames from 'classnames/bind';
+
+import { useViewPort } from '../../../store';
+import styles from './DefaultLayout.module.scss';
+
 import Header from '../components/Header';
 import Category from '../components/Category';
-import styles from './DefaultLayout.module.scss';
-import { Col, Container, Row, Stack } from 'react-bootstrap';
-import useViewPort from '../../../hooks';
 import Popular from '../components/Popular';
 import PopularPost from '../../PopularPost';
+import Login from '../../Login';
 
 const cx = classNames.bind(styles);
 
@@ -14,7 +17,8 @@ function DefaultLayout({ children }) {
         {
             Id: '390c2287-ac33-4ae5-bdc6-9428d4bc1867',
             Title: 'Sửa lại cái tiêu đề cho nó dài dài để test thử cái ellipsis xem có ổn khum :)',
-            Description: 'Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng???Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng???Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng???Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng???Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng???Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng???Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng???Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng???',
+            Description:
+                'Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng???Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng???Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng???Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng???Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng???Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng???Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng???Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng??? Trong đoạn hội thoại ở Sumeru, Paimon đã nói muốn đẩy nhanh tiến độ để đến Natlan. Vậy có thể hành trình tiếp theo sẽ đến Hoả Quốc chẳng???',
             CreatedTime: '2008-11-11T00:00:00',
             Like: 1082,
             Dislike: 0,
@@ -308,14 +312,17 @@ function DefaultLayout({ children }) {
                     {!isMobile && (
                         <Col lg={3}>
                             <div className='sticky-top' style={stickyTop}>
-                                <Popular>{posts.map((post) => {
-                                    return <PopularPost key={post.Id} data={post} />
-                                })}</Popular>
+                                <Popular>
+                                    {posts.map((post) => {
+                                        return <PopularPost key={post.Id} data={post} />;
+                                    })}
+                                </Popular>
                             </div>
                         </Col>
                     )}
                 </Row>
             </Container>
+            <Login />
         </>
     );
 }

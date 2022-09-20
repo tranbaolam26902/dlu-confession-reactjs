@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import styles from './Post.module.scss';
 import icons from '../../assets/icons';
 import images from '../../assets/img';
+
 import CategoryTag from '../CategoryTag';
 import Vote from '../Vote';
 
@@ -45,7 +46,7 @@ function Post({ data }) {
                         <span className='ms-2'>Comments</span>
                     </button>
                     <button>
-                        <img src={icons.share} alt="icon-share" />
+                        <img src={icons.share} alt='icon-share' />
                         <span className='ms-2'>Share</span>
                     </button>
                 </div>

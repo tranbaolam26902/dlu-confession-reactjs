@@ -2,7 +2,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import useViewPort from '../../../../hooks';
+import { useViewPort } from '../../../../store';
 import styles from './Header.module.scss';
 import images from '../../../../assets/img';
 import Search from '../../../Search';
