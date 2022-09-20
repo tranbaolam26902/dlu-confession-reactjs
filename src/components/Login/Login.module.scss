@@ -24,8 +24,5 @@
         &:focus {
             border-color: var(--text-secondary-80);
         }
-        &:invalid {
-            border-color: var(--red);
-        }
     }
 }
