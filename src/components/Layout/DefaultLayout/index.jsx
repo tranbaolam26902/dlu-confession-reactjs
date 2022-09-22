@@ -9,6 +9,7 @@ import Category from '../components/Category';
 import Popular from '../components/Popular';
 import PopularPost from '../../PopularPost';
 import Login from '../../Login';
+import CreatePost from '../../CreatePost';
 
 const cx = classNames.bind(styles);
 
@@ -323,6 +324,7 @@ function DefaultLayout({ children }) {
                 </Row>
             </Container>
             <Login />
+            <CreatePost />
         </>
     );
 }

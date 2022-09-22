@@ -13,6 +13,7 @@ const icons = {
     popular: require('./popular.svg').default,
     noti: require('./noti.svg').default,
     notiNews: require('./noti-news.svg').default,
+    add: require('./add.svg').default,
 };
 
 export default icons;
