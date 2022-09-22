@@ -93,6 +93,11 @@ ul {
     list-style-type: none;
 }
 
+label {
+    cursor: pointer;
+    user-select: none;
+}
+
 ::-webkit-scrollbar {
     width: 8px;
 }
