@@ -1,0 +1,36 @@
+.wrapper {
+    display: flex;
+    margin: 16px 0 32px;
+    .avatar {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border-radius: 16px;
+        object-fit: cover;
+    }
+    .divider {
+        content: "";    
+        position: absolute;
+        top: 56px;
+        bottom: 0;
+        left: 18px;
+        width: 4px;
+        background-color: var(--red);
+        border-radius: 16px;
+    }
+    .info {
+        margin-bottom: 16px;
+        color: var(--text-secondary-50);
+        h5 {
+            font-weight: bold;
+        }
+    }
+    .content {
+        padding: 8px 16px;
+        background-color: var(--background);
+        border-radius: 16px;
+    }
+    .action {
+        color: var(--text-secondary-50);
+    }
+}

@@ -7,15 +7,16 @@ import images from '../../assets/img';
 
 import CategoryTag from '../CategoryTag';
 import Vote from '../Vote';
+import PostModal from '../PostModal';
 
 const cx = classNames.bind(styles);
 
 function Post({ data }) {
     const [up, setUp] = useState(false);
     const [down, setDown] = useState(false);
-
+    const [testShow, setTestShow] = useState(false);
     return (
-        <div id={data.Id} className={cx('wrapper')}>
+        <div show={true} id={data.Id} className={cx('wrapper')}>
             <div className='d-flex flex-column'>
                 <div className='d-flex mb-3'>
                     <img src={images.avatar} alt='avatar' />
@@ -33,7 +34,7 @@ function Post({ data }) {
                     })}
                 </div>
                 <div>
-                    <h3 className='mb-1 fw-bold'>{data.Title}</h3>
+                    <h3 className='mb-1 fw-bold' onClick={() => setTestShow(true)}>{data.Title}</h3>
                     <div className={cx('content')}>{data.Description}</div>
                     <img src={images.post} alt='post-img' className='w-100 rounded-3' />
                 </div>
@@ -51,6 +52,7 @@ function Post({ data }) {
                     </button>
                 </div>
             </div>
+            <PostModal show={testShow} data={data} setTestShow={setTestShow} />
         </div>
     );
 }
