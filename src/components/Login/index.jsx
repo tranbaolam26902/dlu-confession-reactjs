@@ -18,7 +18,14 @@ function Login() {
         dispatch(actions.setIsLoginModal(true));
     };
     const handleSwitch = () => dispatch(actions.setIsLoginModal(!isLoginModal));
-
+    const handleLogin = () => {
+        fetch('localhost:44332/token', {
+            method: 'POST',
+            body: 'grant_type=password&username=Admin&password=Admin#123'
+        })
+            .then(response => response.json())
+            .then(data => this.dispatch(actions.setToken(data.access_token)));
+    }
     if (isLoginModal) {
         return (
             <Modal show={showLoginModal} onHide={handleClose} centered>

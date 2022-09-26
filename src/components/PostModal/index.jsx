@@ -11,19 +11,20 @@ import { Modal } from 'react-bootstrap';
 
 const cx = classNames.bind(styles);
 
-function PostModal({ show, setTestShow, data }) {
+function PostModal({ showPostModal, setShowPostModal, data }) {
     const [up, setUp] = useState(false);
     const [down, setDown] = useState(false);
-    const handleClose = () => setTestShow(false);
+    const handleClose = () => setShowPostModal(false);
     return (
-        <Modal show={show} size='lg' onHide={handleClose} centered>
-            <div show={true} id={data.Id} className={cx('wrapper')}>
+        <Modal show={showPostModal} size='lg' onHide={handleClose} centered>
+            <div id={data.Id} className={cx('wrapper')}>
                 <div className={cx('header')}>
-                    <h3 className={cx('title')}>Tạo bài viết</h3>
+                    <h3 className={cx('title')}>Bài viết của {data.Name}</h3>
                     <button className={cx('close')} onClick={handleClose}>
                         <img src={icons.close} alt='icon-close' />
                     </button>
                 </div>
+                <hr className='mb-3' />
                 <div className='d-flex flex-column'>
                     <div className='d-flex mb-3'>
                         <img src={images.avatar} alt='avatar' />
