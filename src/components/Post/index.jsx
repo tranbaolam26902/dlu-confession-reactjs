@@ -1,23 +1,38 @@
 import { useState } from 'react';
-import { Row, Col } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
 import styles from './Post.module.scss';
 import icons from '../../assets/icons';
 import images from '../../assets/img';
 
+import { useStore, actions } from '../../store';
 import CategoryTag from '../CategoryTag';
 import Vote from '../Vote';
 import PostModal from '../PostModal';
+import PostImage from '../PostImage';
 
 const cx = classNames.bind(styles);
 
 function Post({ data }) {
-    const [up, setUp] = useState(false);
-    const [down, setDown] = useState(false);
+    const [states, dispatch] = useStore();
+    const { token } = states;
+
+    const [up, setUp] = useState(false); // Vote icon states
+    const [down, setDown] = useState(false); // Vote icon states
     const [showPostModal, setShowPostModal] = useState(false);
+    const [scrollToComment, setScrollToComment] = useState(false);
+    
     const handleOpenPostModal = () => setShowPostModal(true);
-    const imgList = [images.post, images.post];
+    const handleComment = () => {
+        if (token != '') {
+            setShowPostModal(true);
+            setScrollToComment(true);
+        } else dispatch(actions.setShowLoginModal(true));
+    };
+    
+    // For test
+    const imgList = [images.post, images.post, images.post, images.post, images.post, images.post];
+    
     return (
         <>
             <div id={data.Id} className={cx('wrapper')}>
@@ -44,25 +59,13 @@ function Post({ data }) {
                         <div className={cx('content')} onClick={handleOpenPostModal}>
                             {data.Description}
                         </div>
-                        <Row>
-                            <Col xs={7}>
-                                <img src={images.post} alt='post-image' className={cx('first')} />
-                            </Col>
-                            <Col xs={7}>
-                                <img src={images.post} alt='post-image' className={cx('first')} />
-                            </Col>
-                        </Row>
-
-
-
-
-
+                        <PostImage images={imgList} setShowPostModal={setShowPostModal} />
                     </div>
                     <div className='d-flex justify-content-between mt-3'>
                         <Vote voted={{ up, down }} action={{ setUp, setDown }}>
                             {up ? data.Like + 1 : data.Like}
                         </Vote>
-                        <button>
+                        <button onClick={handleComment}>
                             <img src={icons.comment} alt='icon-comment' />
                             <span className='ms-2'>Comments</span>
                         </button>
@@ -73,7 +76,13 @@ function Post({ data }) {
                     </div>
                 </div>
             </div>
-            <PostModal showPostModal={showPostModal} data={data} setShowPostModal={setShowPostModal} />
+            <PostModal
+                showPostModal={showPostModal}
+                setShowPostModal={setShowPostModal}
+                scrollToComment={scrollToComment}
+                setScrollToComment={setScrollToComment}
+                data={data}
+            />
         </>
     );
 }
