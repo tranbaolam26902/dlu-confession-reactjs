@@ -1,0 +1,22 @@
+img {
+    cursor: pointer;
+}
+.smaller {
+    position: absolute;
+    height: 100%;
+    transform: translateX(-25%);
+}
+.remaining {
+    position: absolute;
+    top: 0;
+    left: 6px;
+    right: 6px;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    border-radius: 16px;
+    background-color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
