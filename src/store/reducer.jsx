@@ -3,7 +3,7 @@ import { SET_TOKEN, SET_SHOW_LOGIN_MODAL, SET_IS_LOGIN_MODAL, SET_SHOW_CREATE_PO
 const initStates = {
     token: '',
     showLoginModal: false,
-    isLoginModal: false,
+    isLoginModal: true,
     showCreatePostModal: false,
 };
 
