@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { Modal } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
 import styles from './PostModal.module.scss';
@@ -7,16 +8,27 @@ import images from '../../assets/img';
 
 import CategoryTag from '../CategoryTag';
 import Vote from '../Vote';
-import { Modal } from 'react-bootstrap';
 
 const cx = classNames.bind(styles);
 
-function PostModal({ showPostModal, setShowPostModal, data }) {
-    const [up, setUp] = useState(false);
-    const [down, setDown] = useState(false);
-    const handleClose = () => setShowPostModal(false);
+function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScrollToComment, data }) {
+    const [up, setUp] = useState(false); // Vote icon states
+    const [down, setDown] = useState(false); // Vote icon states
+    const commentRef = useRef();
+
+    // For test
+    const imgList = [images.post, images.post, images.post, images.post, images.post, images.post];
+    
+    const handleScroll = () => {
+        if (scrollToComment) commentRef.current.scrollIntoView({ behavior: 'smooth' });
+    };
+    const handleClose = () => {
+        setShowPostModal(false);
+        setScrollToComment(false);
+    };
+
     return (
-        <Modal show={showPostModal} size='lg' onHide={handleClose} centered>
+        <Modal show={showPostModal} size='lg' onHide={handleClose} centered onEntering={handleScroll}>
             <div id={data.Id} className={cx('wrapper')}>
                 <div className={cx('header')}>
                     <h3 className={cx('title')}>Bài viết của {data.Name}</h3>
@@ -44,21 +56,20 @@ function PostModal({ showPostModal, setShowPostModal, data }) {
                     <div>
                         <h3 className='mb-1 fw-bold'>{data.Title}</h3>
                         <div className={cx('content')}>{data.Description}</div>
-                        <img src={images.post} alt='post-img' className='w-100 rounded-3' />
+                        {imgList.map((img, index) => {
+                            return <img src={img} alt='post-image' key={index} className={cx('images')} />;
+                        })}
                     </div>
                     <div className='d-flex justify-content-between mt-3'>
                         <Vote voted={{ up, down }} action={{ setUp, setDown }}>
                             {up ? data.Like + 1 : data.Like}
                         </Vote>
                         <button>
-                            <img src={icons.comment} alt='icon-comment' />
-                            <span className='ms-2'>Comments</span>
-                        </button>
-                        <button>
                             <img src={icons.share} alt='icon-share' />
                             <span className='ms-2'>Share</span>
                         </button>
                     </div>
+                    <div ref={commentRef}></div>
                 </div>
             </div>
         </Modal>
