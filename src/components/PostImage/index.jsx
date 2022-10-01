@@ -12,6 +12,7 @@ function PostImage({ images, setShowPostModal }) {
         case 1:
             return (
                 <img
+                    role='button'
                     src={images[0]}
                     alt='post-image'
                     className='w-100 rounded-3'
@@ -23,6 +24,7 @@ function PostImage({ images, setShowPostModal }) {
                 <Row>
                     <Col xs={7}>
                         <img
+                            role='button'
                             src={images[0]}
                             alt='post-image'
                             className='w-100 rounded-3'
@@ -32,6 +34,7 @@ function PostImage({ images, setShowPostModal }) {
                     <Col xs={5}>
                         <div className='position-relative h-100 overflow-hidden rounded-3'>
                             <img
+                                role='button'
                                 src={images[1]}
                                 alt='post-image'
                                 className={cx('smaller')}
@@ -45,6 +48,7 @@ function PostImage({ images, setShowPostModal }) {
             return (
                 <Row>
                     <img
+                        role='button'
                         src={images[0]}
                         alt='post-image'
                         className='mb-3 w-100 rounded-3'
@@ -52,6 +56,7 @@ function PostImage({ images, setShowPostModal }) {
                     />
                     <Col xs={7}>
                         <img
+                            role='button'
                             src={images[1]}
                             alt='post-image'
                             className='w-100 rounded-3'
@@ -61,6 +66,7 @@ function PostImage({ images, setShowPostModal }) {
                     <Col xs={5}>
                         <div className='position-relative h-100 overflow-hidden rounded-3'>
                             <img
+                                role='button'
                                 src={images[2]}
                                 alt='post-image'
                                 className={cx('smaller')}
@@ -76,6 +82,7 @@ function PostImage({ images, setShowPostModal }) {
                     <Row className='mb-3'>
                         <Col xs={7}>
                             <img
+                                role='button'
                                 src={images[0]}
                                 alt='post-image'
                                 className='w-100 rounded-3'
@@ -85,6 +92,7 @@ function PostImage({ images, setShowPostModal }) {
                         <Col xs={5}>
                             <div className='position-relative h-100 overflow-hidden rounded-3'>
                                 <img
+                                    role='button'
                                     src={images[1]}
                                     alt='post-image'
                                     className={cx('smaller')}
@@ -97,6 +105,7 @@ function PostImage({ images, setShowPostModal }) {
                         <Col xs={5}>
                             <div className='position-relative h-100 overflow-hidden rounded-3'>
                                 <img
+                                    role='button'
                                     src={images[2]}
                                     alt='post-image'
                                     className={cx('smaller')}
@@ -106,6 +115,7 @@ function PostImage({ images, setShowPostModal }) {
                         </Col>
                         <Col xs={7}>
                             <img
+                                role='button'
                                 src={images[3]}
                                 alt='post-image'
                                 className='w-100 rounded-3'
@@ -121,6 +131,7 @@ function PostImage({ images, setShowPostModal }) {
                     <Row className='mb-3'>
                         <Col xs={7}>
                             <img
+                                role='button'
                                 src={images[0]}
                                 alt='post-image'
                                 className='w-100 rounded-3'
@@ -130,6 +141,7 @@ function PostImage({ images, setShowPostModal }) {
                         <Col xs={5}>
                             <div className='position-relative h-100 overflow-hidden rounded-3'>
                                 <img
+                                    role='button'
                                     src={images[1]}
                                     alt='post-image'
                                     className={cx('smaller')}
@@ -142,6 +154,7 @@ function PostImage({ images, setShowPostModal }) {
                         <Col xs={5}>
                             <div className='position-relative h-100 overflow-hidden rounded-3'>
                                 <img
+                                    role='button'
                                     src={images[2]}
                                     alt='post-image'
                                     className={cx('smaller')}
@@ -150,7 +163,7 @@ function PostImage({ images, setShowPostModal }) {
                             </div>
                         </Col>
                         <Col xs={7} className='position-relative'>
-                            <img src={images[3]} alt='post-image' className='w-100 rounded-3' />
+                            <img role='button' src={images[3]} alt='post-image' className='w-100 rounded-3' />
                             <h1 className={cx('remaining')} onClick={() => setShowPostModal(true)}>
                                 +{images.length - 4}
                             </h1>

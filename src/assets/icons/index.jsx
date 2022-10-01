@@ -14,6 +14,8 @@ const icons = {
     noti: require('./noti.svg').default,
     notiNews: require('./noti-news.svg').default,
     add: require('./add.svg').default,
+    galleryAdd: require('./gallery-add.svg').default,
+    arrowDown: require('./arrow-down.svg').default,
 };
 
 export default icons;

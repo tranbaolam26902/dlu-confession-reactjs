@@ -17,16 +17,70 @@
         position: absolute;
         right: 0;
     }
-    .select-category {
-        margin-right: 8px;
-        padding: 4px 16px;
-        font-size: 1.4rem;
-        color: var(--text-secondary-50);
-        background-color: var(--white);
-        border: 2px solid var(--gray-50);
-        border-radius: 16px;
+    // Custom React Multiselect
+    .select-categories {
+        position: relative;
+        flex: 1;
+        // Button contains all items selected
+        & > div > button {
+            position: relative;
+            z-index: 1;
+            display: block;
+            padding: 8px 16px;
+            background-color: transparent;
+            border: 2px solid var(--gray-50);
+            border-radius: 16px;
+            &:hover {
+                background-color: transparent;
+                border: 2px solid var(--gray-50);
+            }
+        }
+        // Set font-size for all element inside
+        span,
+        div {
+            font-size: 1.4rem !important;
+            color: var(--text-color);
+        }
+        // Hide button select/deselect all items
+        button {
+            display: none;
+        }
+        [type='button'] {
+            display: block;
+        }
+        // Hide button's arrow
+        button::after {
+            content: '';
+            display: none;
+        }
+        // Override bootstrap default CSS
+        input:checked {
+            color: var(--white);
+            background-color: rgba(118, 118, 118, 1);
+            border-color: rgba(118, 118, 118, 1);
+        }
+        & > div > div > div {
+            color: var(--text-color);
+        }
+        & > div > div > div:active {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        input,
+        input:focus {
+            outline: none !important;
+            box-shadow: none;
+            border-color: rgba(118, 118, 118, 1);
+        }
     }
-    .text-box, .text-area {
+    .dropdown-icon {
+        position: absolute;
+        top: 50%;
+        right: 16px;
+        z-index: 0;
+        transform: translateY(-50%);
+    }
+    .text-box,
+    .text-area {
         display: block;
         padding: 8px 16px;
         background-color: var(--white);
@@ -39,8 +93,40 @@
     .text-area {
         height: 240px;
     }
+    .upload-icon {
+        margin-right: 8px;
+    }
     .private {
         font-size: 1.4rem;
-        color: var(--text-secondary-50);
+    }
+    .image-preview-wrapper {
+        overflow: hidden;
+        position: relative;
+        width: 116px;
+        height: 116px;
+        border-radius: 16px;
+        box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.25);
+        & + .image-preview-wrapper {
+            margin-left: 8px;
+        }
+    }
+    .image-preview {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        transform: translateX(-25%);
+    }
+    .upload-images-remaining {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        border-radius: 16px;
+        background-color: rgba(0, 0, 0, 0.5);
     }
 }

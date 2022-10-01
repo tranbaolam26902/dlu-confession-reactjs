@@ -4,14 +4,11 @@
         margin-top: 32px;
     }
 }
-.info {
-    margin-left: 8px;
-    color: var(--text-secondary-50);
-}
 .body {
     padding: 8px 16px;
     background-color: var(--background);
     border-radius: 16px;
+    cursor: pointer;
     .title {
         display: -webkit-box;
         -webkit-line-clamp: 2;

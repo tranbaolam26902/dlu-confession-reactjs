@@ -1,4 +1,3 @@
-import Comment from '../../components/Comment';
 import Post from '../../components/Post';
 
 function Home() {
