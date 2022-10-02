@@ -1,13 +1,23 @@
 .wrapper {
     display: flex;
     align-items: center;
-    padding: 7px 24px;
+    padding-left: 24px;
     background-color: var(--primary);
-    border: 1px solid var(--gray-0);
+    border: 2px solid var(--gray-0);
     border-radius: 32px;
     box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.05);
+    // Override Tippy
+    // Make Popover fill container
+    & + div {
+        padding: 4px 8px 0;
+        width: 100%;
+    }
+    &:focus-within {
+        border-color: var(--gray-50);
+    }
 }
 .search-input {
+    padding: 7px 0;
     width: 100%;
     margin-right: 16px;
     font-size: 1.6rem;
@@ -15,5 +25,18 @@
     background-color: transparent;
     &::placeholder {
         color: var(--text-secondary-20);
+    }
+}
+.search-result {
+    &-item {
+        padding: 8px 16px;
+    border-radius: 8px;
+        cursor: pointer;
+    }
+    &-item:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+    &-item + &-item {
+        margin-top: 8px;
     }
 }
