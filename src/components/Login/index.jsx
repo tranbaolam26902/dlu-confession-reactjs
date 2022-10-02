@@ -60,7 +60,7 @@ function Login() {
                         <Stack gap={2}>
                             <div className='d-flex flex-column'>
                                 <label htmlFor='username-login'>Tên đăng nhập</label>
-                                <input id='username-login' ref={loginUsernameRef} className={cx('text-box')} required />
+                                <input id='username-login' ref={loginUsernameRef} className={cx('text-box')} autoFocus required />
                             </div>
                             <div className='d-flex flex-column'>
                                 <label htmlFor='password-login'>Mật khẩu</label>
