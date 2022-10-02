@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import classNames from 'classnames/bind';
 
-import { useStore, actions } from '../../store';
+import { useStore, actions, useToken } from '../../store';
 import styles from './Vote.module.scss';
 import icons from '../../assets/icons';
 
@@ -9,11 +9,11 @@ const cx = classNames.bind(styles);
 
 function Vote({ voted, action, children }) {
     const [states, dispatch] = useStore();
-    const { token } = states;
+    const { token } = useToken();
     const [voteUpIcon, setVoteUpIcon] = useState(icons.voteUp);
     const [voteDownIcon, setVoteDownIcon] = useState(icons.voteDown);
     const handleVoteUp = () => {
-        if (token != '') {
+        if (token) {
             if (!voted.up) {
                 setVoteUpIcon(icons.voteUpTrue);
                 if (voted.down) {
@@ -29,7 +29,7 @@ function Vote({ voted, action, children }) {
         }
     };
     const handleVoteDown = () => {
-        if (token != '') {
+        if (token) {
             if (!voted.down) {
                 setVoteDownIcon(icons.voteDownTrue);
                 if (voted.up) {
