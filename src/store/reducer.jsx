@@ -1,7 +1,6 @@
-import { SET_TOKEN, SET_SHOW_LOGIN_MODAL, SET_IS_LOGIN_MODAL, SET_SHOW_CREATE_POST_MODAL } from './constants';
+import { SET_SHOW_LOGIN_MODAL, SET_IS_LOGIN_MODAL, SET_SHOW_CREATE_POST_MODAL } from './constants';
 
 const initStates = {
-    token: '',
     showLoginModal: false,
     isLoginModal: true,
     showCreatePostModal: false,
@@ -9,11 +8,6 @@ const initStates = {
 
 function reducer(state, action) {
     switch (action.type) {
-        case SET_TOKEN:
-            return {
-                ...state,
-                token: action.payload,
-            };
         case SET_SHOW_LOGIN_MODAL:
             return {
                 ...state,

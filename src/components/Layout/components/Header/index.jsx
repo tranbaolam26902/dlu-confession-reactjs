@@ -1,10 +1,11 @@
-import { Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { Col, Container, Row } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
 import { useViewPort } from '../../../../store';
 import styles from './Header.module.scss';
 import images from '../../../../assets/img';
+
 import Search from '../../../Search';
 import UserActions from '../../../UserActions';
 
@@ -23,7 +24,7 @@ function Header() {
                         </Link>
                     </Col>
                     {!isMobile && (
-                        <Col>
+                        <Col className='position-relative'>
                             <Search placeholder='Tìm kiếm...' />
                         </Col>
                     )}
