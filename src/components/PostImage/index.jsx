@@ -4,8 +4,9 @@ import classNames from 'classnames/bind';
 import styles from './PostImage.module.scss';
 
 const cx = classNames.bind(styles);
-
+const url = "https://localhost:44332/image/post?id=";
 function PostImage({ images, setShowPostModal }) {
+    
     switch (images.length) {
         case 0:
             return <></>;
@@ -13,7 +14,7 @@ function PostImage({ images, setShowPostModal }) {
             return (
                 <img
                     role='button'
-                    src={images[0]}
+                    src={url + images[0].Path}
                     alt='post-image'
                     className='w-100 rounded-3'
                     onClick={() => setShowPostModal(true)}
@@ -25,7 +26,7 @@ function PostImage({ images, setShowPostModal }) {
                     <Col xs={7}>
                         <img
                             role='button'
-                            src={images[0]}
+                            src={url + images[0].Path}
                             alt='post-image'
                             className='w-100 rounded-3'
                             onClick={() => setShowPostModal(true)}
@@ -35,7 +36,7 @@ function PostImage({ images, setShowPostModal }) {
                         <div className='position-relative h-100 overflow-hidden rounded-3'>
                             <img
                                 role='button'
-                                src={images[1]}
+                                src={url + images[1].Path}
                                 alt='post-image'
                                 className={cx('smaller')}
                                 onClick={() => setShowPostModal(true)}
@@ -49,7 +50,7 @@ function PostImage({ images, setShowPostModal }) {
                 <Row>
                     <img
                         role='button'
-                        src={images[0]}
+                        src={url + images[0].Path}
                         alt='post-image'
                         className='mb-3 w-100 rounded-3'
                         onClick={() => setShowPostModal(true)}
@@ -57,7 +58,7 @@ function PostImage({ images, setShowPostModal }) {
                     <Col xs={7}>
                         <img
                             role='button'
-                            src={images[1]}
+                            src={url + images[1].Path}
                             alt='post-image'
                             className='w-100 rounded-3'
                             onClick={() => setShowPostModal(true)}
@@ -67,7 +68,7 @@ function PostImage({ images, setShowPostModal }) {
                         <div className='position-relative h-100 overflow-hidden rounded-3'>
                             <img
                                 role='button'
-                                src={images[2]}
+                                src={url + images[2].Path}
                                 alt='post-image'
                                 className={cx('smaller')}
                                 onClick={() => setShowPostModal(true)}
@@ -83,7 +84,7 @@ function PostImage({ images, setShowPostModal }) {
                         <Col xs={7}>
                             <img
                                 role='button'
-                                src={images[0]}
+                                src={url + images[0].Path}
                                 alt='post-image'
                                 className='w-100 rounded-3'
                                 onClick={() => setShowPostModal(true)}
@@ -93,7 +94,7 @@ function PostImage({ images, setShowPostModal }) {
                             <div className='position-relative h-100 overflow-hidden rounded-3'>
                                 <img
                                     role='button'
-                                    src={images[1]}
+                                    src={url + images[1].Path}
                                     alt='post-image'
                                     className={cx('smaller')}
                                     onClick={() => setShowPostModal(true)}
@@ -106,7 +107,7 @@ function PostImage({ images, setShowPostModal }) {
                             <div className='position-relative h-100 overflow-hidden rounded-3'>
                                 <img
                                     role='button'
-                                    src={images[2]}
+                                    src={url + images[2].Path}
                                     alt='post-image'
                                     className={cx('smaller')}
                                     onClick={() => setShowPostModal(true)}
@@ -116,7 +117,7 @@ function PostImage({ images, setShowPostModal }) {
                         <Col xs={7}>
                             <img
                                 role='button'
-                                src={images[3]}
+                                src={url + images[3].Path}
                                 alt='post-image'
                                 className='w-100 rounded-3'
                                 onClick={() => setShowPostModal(true)}
@@ -132,7 +133,7 @@ function PostImage({ images, setShowPostModal }) {
                         <Col xs={7}>
                             <img
                                 role='button'
-                                src={images[0]}
+                                src={url + images[0].Path}
                                 alt='post-image'
                                 className='w-100 rounded-3'
                                 onClick={() => setShowPostModal(true)}
@@ -142,7 +143,7 @@ function PostImage({ images, setShowPostModal }) {
                             <div className='position-relative h-100 overflow-hidden rounded-3'>
                                 <img
                                     role='button'
-                                    src={images[1]}
+                                    src={url + images[1].Path}
                                     alt='post-image'
                                     className={cx('smaller')}
                                     onClick={() => setShowPostModal(true)}
@@ -155,7 +156,7 @@ function PostImage({ images, setShowPostModal }) {
                             <div className='position-relative h-100 overflow-hidden rounded-3'>
                                 <img
                                     role='button'
-                                    src={images[2]}
+                                    src={url + images[2].Path}
                                     alt='post-image'
                                     className={cx('smaller')}
                                     onClick={() => setShowPostModal(true)}
@@ -163,7 +164,7 @@ function PostImage({ images, setShowPostModal }) {
                             </div>
                         </Col>
                         <Col xs={7} className='position-relative'>
-                            <img role='button' src={images[3]} alt='post-image' className='w-100 rounded-3' />
+                            <img role='button' src={url + images[3].Path} alt='post-image' className='w-100 rounded-3' />
                             <h1 className={cx('remaining')} onClick={() => setShowPostModal(true)}>
                                 +{images.length - 4}
                             </h1>

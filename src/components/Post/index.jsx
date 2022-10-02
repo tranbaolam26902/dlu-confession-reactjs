@@ -31,7 +31,9 @@ function Post({ data }) {
     };
     
     // For test
-    const imgList = [images.post, images.post, images.post, images.post, images.post, images.post];
+    // const imgList = [images.post, images.post, images.post, images.post, images.post, images.post];
+    const imgList = data.Pictures;
+
     
     return (
         <>
