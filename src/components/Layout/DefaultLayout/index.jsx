@@ -301,7 +301,7 @@ function DefaultLayout({ children }) {
             <Container fluid='md'>
                 <Row className='position-relative gx-lg-4 mt-lg-4 mt-3'>
                     {!isMobile && (
-                        <Col lg={3}>
+                        <Col lg={3} className={cx('reset-z-index')}>
                             <div className='sticky-top' style={stickyTop}>
                                 <Category />
                             </div>
@@ -311,7 +311,7 @@ function DefaultLayout({ children }) {
                         {children}
                     </Col>
                     {!isMobile && (
-                        <Col lg={3}>
+                        <Col lg={3} className={cx('reset-z-index')}>
                             <div className='sticky-top' style={stickyTop}>
                                 <Popular>
                                     {posts.map((post) => {
