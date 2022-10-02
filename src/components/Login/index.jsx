@@ -30,7 +30,7 @@ function Login() {
     const handleLogin = () => {
         setLoginUsername(loginUsernameRef.current.value);
         setLoginPassword(loginPasswordRef.current.value);
-        fetch('localhost:44332/token', {
+        fetch('http://localhost:44332/token', {
             method: 'POST',
             body: `grant_type=password&username=${loginUsername}&password=${loginPassword}`,
         })
