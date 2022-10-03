@@ -13,7 +13,7 @@ function Search({ placeholder }) {
     return (
         <Tippy
             interactive
-            visible={true}
+            delay={[0, 700]}
             render={(attrs) => (
                 <PopoverWrapper>
                     <div className={cx('search-result')} tabIndex='-1' {...attrs}>

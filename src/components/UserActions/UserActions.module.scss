@@ -1,8 +1,11 @@
+.user-actions {
+    padding: 0 12px;
+}
 .notification {
     position: relative;
     display: inline-block;
     &::before {
-        content: attr(dataNewNotification);
+        content: attr(data);
         position: absolute;
         top: -2px;
         right: -2px;
@@ -16,5 +19,13 @@
         color: var(--white);
         border-radius: 50%;
         background-color: var(--red);
+    }
+}
+.btn-logout {
+    padding: 8px 16px;
+    color: var(--red);
+    border-radius: 8px;
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
     }
 }

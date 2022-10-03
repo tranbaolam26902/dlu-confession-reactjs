@@ -19,26 +19,32 @@ const useViewPort = () => {
 const useStore = () => {
     const [states, dispatch] = useContext(Context);
     return [states, dispatch];
-}
+};
 
 const useToken = () => {
     const getToken = () => {
         const tokenString = localStorage.getItem('token');
         const userToken = JSON.parse(tokenString);
-        return userToken?.token;
-    }
+        return userToken;
+    };
 
     const [token, setToken] = useState(getToken());
 
     const saveToken = (userToken) => {
-        localStorage.setItem('token', userToken);
+        localStorage.setItem('token', JSON.stringify(userToken));
         setToken(userToken.token);
-    }
+    };
+
+    const removeToken = () => {
+        localStorage.removeItem('token');
+        window.location.reload();
+    };
 
     return {
         setToken: saveToken,
-        token
-    }
-}
+        token,
+        removeToken,
+    };
+};
 
 export { useViewPort, useStore, useToken };

@@ -1,21 +1,23 @@
+import classNames from 'classnames/bind';
+import Tippy from '@tippyjs/react/headless';
+
 import { useStore, actions, useToken } from '../../store';
 import { useViewPort } from '../../store';
-import classNames from 'classnames/bind';
 
 import styles from './UserActions.module.scss';
 import icons from '../../assets/icons';
 import images from '../../assets/img';
 
 import Button from '../Button';
+import { Wrapper as PopoverWrapper } from '../Popover';
 
 const cx = classNames.bind(styles);
 
 function UserActions() {
     //Test notification
     let notification = 12;
-    
     const [states, dispatch] = useStore();
-    const { token } = useToken;
+    const { token, removeToken } = useToken();
     const viewPort = useViewPort();
     const isMobile = viewPort.width < 992;
     const handleLogin = () => {
@@ -47,11 +49,26 @@ function UserActions() {
                             Tạo bài viết
                         </Button>
                         <button className='mx-3'>
-                            <div dataNewNotification={notification} className={cx({notification: notification})}>
+                            <div data={notification} className={cx({ notification: notification })}>
                                 <img src={icons.noti} alt='icon-notification' />
                             </div>
                         </button>
-                        <img src={images.avatar} alt='user-avatar' />
+                        <Tippy
+                            interactive
+                            delay={[0, 700]}
+                            placement='bottom-end'
+                            render={(attrs) => (
+                                <PopoverWrapper>
+                                    <div className={cx('user-actions')}>
+                                        <button className={cx('btn-logout')} onClick={removeToken}>
+                                            Logout
+                                        </button>
+                                    </div>
+                                </PopoverWrapper>
+                            )}
+                        >
+                            <img src={images.avatar} alt='user-avatar' />
+                        </Tippy>
                     </>
                 )}
             </>
