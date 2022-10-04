@@ -22,7 +22,13 @@
 .wrapper {
     min-width: 600px;
     padding: 8px 32px;
-    .header {
-        margin: 32px!important;
+    h3 {
+        color: var(--text-secondary-50);
+    }
+    .noti-list {
+        margin: 16px 0;
+        padding-top: 16px;
+        height: 100%;
+        border-top: 1px solid var(--text-secondary-20);
     }
 }

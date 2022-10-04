@@ -57,6 +57,20 @@ const notify = [
         description: '5 sao, he Phong, kiem don',
         state: true,
     },
+    {
+        id: 6,
+        imgUrl: 'avatar.png',
+        time: '12 minutes ago',
+        description: '5 sao, he Phong, kiem don',
+        state: true,
+    },
+    {
+        id: 7,
+        imgUrl: 'avatar.png',
+        time: '12 minutes ago',
+        description: '5 sao, he Phong, kiem don',
+        state: true,
+    },
 ];
 
 function UserActions() {
