@@ -9,6 +9,9 @@ import NotificationItem from '../NotificationItem';
 
 const cx = classNames.bind(styles);
 
+var ok = document.getElementsByClassName('header');
+console.log(ok);
+
 function NotificationButton(props) {
     const notificationList = props.data;
     return (
@@ -20,14 +23,16 @@ function NotificationButton(props) {
                 <PopoverWrapper>
                     <div className={cx('wrapper')} tabIndex={-1} {...attrs}>
                         <div className={cx('header fs-5 d-flex flex-row justify-content-between align-items-center')}>
-                            <h3 className={cx('title')}>Notifications</h3>
+                            <h3 className={cx('fw-bold')}>Notifications</h3>
                             <button className={cx('close-btn')}>
                                 <img src={icons.close} alt='close-btn' />
                             </button>
                         </div>
-                        {notificationList.map((noti) => {
-                            return <NotificationItem key={noti.id} {...noti} />;
-                        })}
+                        <div className={cx('noti-list')}>
+                            {notificationList.map((noti) => {
+                                return <NotificationItem key={noti.id} {...noti} />;
+                            })}
+                        </div>
                     </div>
                 </PopoverWrapper>
             )}
