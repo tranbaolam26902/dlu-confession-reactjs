@@ -33,6 +33,7 @@ const useToken = () => {
     const saveToken = (userToken) => {
         localStorage.setItem('token', JSON.stringify(userToken));
         setToken(userToken.token);
+        window.location.reload();
     };
 
     const removeToken = () => {

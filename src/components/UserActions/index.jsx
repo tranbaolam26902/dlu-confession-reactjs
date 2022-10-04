@@ -10,12 +10,62 @@ import images from '../../assets/img';
 
 import Button from '../Button';
 import { Wrapper as PopoverWrapper } from '../Popover';
+import NotificationButton from '../Notification/NotificationButton';
 
 const cx = classNames.bind(styles);
+
+const notify = [
+    {
+        id: 0,
+        imgUrl: 'avatar.png',
+        time: '12 minutes ago',
+        description: '5 sao, he Phong, kiem don',
+        state: true,
+    },
+    {
+        id: 1,
+        imgUrl: 'avatar.png',
+        time: '12 minutes ago',
+        description: '5 sao, he Phong, kiem don',
+        state: true,
+    },
+    {
+        id: 2,
+        imgUrl: 'avatar.png',
+        time: '12 minutes ago',
+        description: '5 sao, he Phong, kiem don',
+        state: true,
+    },
+    {
+        id: 3,
+        imgUrl: 'avatar.png',
+        time: '12 minutes ago',
+        description: '5 sao, he Phong, kiem don',
+        state: true,
+    },
+    {
+        id: 4,
+        imgUrl: 'avatar.png',
+        time: '12 minutes ago',
+        description: '5 sao, he Phong, kiem don',
+        state: true,
+    },
+    {
+        id: 5,
+        imgUrl: 'avatar.png',
+        time: '12 minutes ago',
+        description: '5 sao, he Phong, kiem don',
+        state: true,
+    },
+];
 
 function UserActions() {
     //Test notification
     let notification = 12;
+    let notificationProps = {
+        notification: notification,
+        data:notify,
+    }
     const [states, dispatch] = useStore();
     const { token, removeToken } = useToken();
     const viewPort = useViewPort();
@@ -41,6 +91,7 @@ function UserActions() {
                         <Button secondary onClick={handleLogin}>
                             Đăng nhập
                         </Button>
+                        <NotificationButton {...notificationProps} />
                     </>
                 )}
                 {token && (
@@ -48,11 +99,7 @@ function UserActions() {
                         <Button secondary onClick={() => dispatch(actions.setShowCreatePostModal(true))}>
                             Tạo bài viết
                         </Button>
-                        <button className='mx-3'>
-                            <div data={notification} className={cx({ notification: notification })}>
-                                <img src={icons.noti} alt='icon-notification' />
-                            </div>
-                        </button>
+                        <NotificationButton {...notificationProps} />
                         <Tippy
                             interactive
                             delay={[0, 700]}
