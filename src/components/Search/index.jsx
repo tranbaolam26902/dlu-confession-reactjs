@@ -9,7 +9,27 @@ import { Wrapper as PopoverWrapper } from '../Popover';
 const cx = classNames.bind(styles);
 
 function Search({ placeholder }) {
-    const searchResult = ['Sumeru', 'Dehya c0 r1'];
+    const searchResult = [
+        'Sumeru',
+        'Dehya c0 r1',
+        'Dehya c0 r1',
+        'Dehya c0 r1',
+        'Dehya c0 r1',
+        'Dehya c0 r1',
+        'Dehya c0 r1',
+        'Dehya c0 r1',
+        'Dehya c0 r1',
+        'Dehya c0 r1',
+        'Dehya c0 r1',
+        'Dehya c0 r1',
+        'Dehya c0 r1',
+        'Dehya c0 r1',
+        'Dehya c0 r1',
+        'Dehya c0 r1',
+        'Dehya c0 r1',
+        'Dehya c0 r1',
+        'Dehya c0 r1',
+    ];
     return (
         <Tippy
             interactive

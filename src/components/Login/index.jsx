@@ -27,19 +27,19 @@ function Login() {
         setErrorMessage('');
     };
     const handleSwitch = () => dispatch(actions.setIsLoginModal(!isLoginModal));
-    const handleLogin = () => {
+    const handleLogin = (e) => {
+        e.preventDefault();
         setLoginUsername(loginUsernameRef.current.value);
         setLoginPassword(loginPasswordRef.current.value);
-        fetch('http://localhost:44332/token', {
+        fetch('http://10.0.247.100:31234/token', {
             method: 'POST',
             body: `grant_type=password&username=${loginUsername}&password=${loginPassword}`,
         })
             .then((response) => response.json())
             .then((data) => {
                 if (data.access_token) {
-                    setToken(data.access_token);
-                }
-                else {
+                    setToken('bearer ' + data.access_token);
+                } else {
                     setErrorMessage(data.error_description);
                 }
             });
@@ -52,7 +52,7 @@ function Login() {
                         <img src={icons.close} alt='icon-close' />
                     </button>
                     <div className='mt-3 mb-4 text-center'>
-                        <img src={images.logoLarge} alt='logo'/>
+                        <img src={images.logoLarge} alt='logo' />
                         <h4 className='my-2 fw-bold'>ĐĂNG NHẬP</h4>
                     </div>
                     {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
@@ -60,11 +60,23 @@ function Login() {
                         <Stack gap={2}>
                             <div className='d-flex flex-column'>
                                 <label htmlFor='username-login'>Tên đăng nhập</label>
-                                <input id='username-login' ref={loginUsernameRef} className={cx('text-box')} autoFocus required />
+                                <input
+                                    id='username-login'
+                                    ref={loginUsernameRef}
+                                    className={cx('text-box')}
+                                    autoFocus
+                                    required
+                                />
                             </div>
                             <div className='d-flex flex-column'>
                                 <label htmlFor='password-login'>Mật khẩu</label>
-                                <input id='password-login' type='password' ref={loginPasswordRef} className={cx('text-box')} required />
+                                <input
+                                    id='password-login'
+                                    type='password'
+                                    ref={loginPasswordRef}
+                                    className={cx('text-box')}
+                                    required
+                                />
                             </div>
                             <div className='d-flex align-items-center'>
                                 <input id='remember-user' type='checkbox' className='me-1' />
