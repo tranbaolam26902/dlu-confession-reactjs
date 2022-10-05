@@ -1,14 +1,46 @@
 .notification-item {
-    
+    display: flex;
+    padding: 8px 0;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 8px 0 0;
+    transition: all 0.1s ease-in-out;
+    border-radius: 16px;
+    position: relative;
+}
+
+.notification-item:hover {
+    background-color: var(--background);
+    .info-description{
+    color: var(--text-secondary-50);
+    font-weight: bold;
+}
 }
 
 .thumbnail-container {
     width: 80px;
     height: 80px;
+    margin: 0 16px;
 } 
 
 .thumbnail {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 16px;
+}
+
+.info {
+    flex-grow: 1;
+    text-align: left;
+    height: 80px;
+    .info-time {
+
+    }
+    .info-description {
+    }
+}
+
+.state {
+    margin: 0 32px 0 0;
 }

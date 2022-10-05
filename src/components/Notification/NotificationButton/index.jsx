@@ -18,12 +18,12 @@ function NotificationButton(props) {
         <Tippy
             interactive
             delay={[0, 700]}
-            placement='bottom'
+            placement='bottom-end'
             render={(attrs) => (
                 <PopoverWrapper>
                     <div className={cx('wrapper')} tabIndex={-1} {...attrs}>
-                        <div className={cx('header fs-5 d-flex flex-row justify-content-between align-items-center')}>
-                            <h3 className={cx('fw-bold')}>Notifications</h3>
+                        <div className={cx('header')}>
+                            <h2 className={cx('title')}>Notifications</h2>
                             <button className={cx('close-btn')}>
                                 <img src={icons.close} alt='close-btn' />
                             </button>
