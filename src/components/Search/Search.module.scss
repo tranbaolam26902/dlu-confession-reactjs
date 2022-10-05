@@ -28,6 +28,8 @@
     }
 }
 .search-result {
+    height: 100%;
+    overflow: scroll;
     padding: 0 12px;
     &-item {
         padding: 8px 16px;

@@ -6,15 +6,15 @@ const cx = classNames.bind(styles);
 
 function NotificationItem(props) {
     return (
-        <div className={cx('notification-item d-flex justify-content-between align-items-center')}>
+        <div className={cx('notification-item')}>
             <div className={cx('thumbnail-container')}>
                 <img src={images.post} alt='' className={cx('thumbnail')} />
             </div>
-            <div className={cx('info flex-grow-1 text-start')}>
-                <div className={cx('posting-time')}>{props.time}</div>
-                <div className={cx('description')}>{props.description}</div>
+            <div className={cx('info')}>
+                <div className={cx('info-time')}>{props.time}</div>
+                <h4 className={cx('info-description')}>{props.description}</h4>
             </div>
-            <span className=''>{props.id}</span>
+            <span className={cx('state')}>{props.id}</span>
         </div>
     );
 }
