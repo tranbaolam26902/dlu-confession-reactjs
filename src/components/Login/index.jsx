@@ -82,13 +82,7 @@ function Login() {
                 }
             });
     };
-
-    const handleClose = () => {
-        dispatch(actions.setShowLoginModal(false));
-        dispatch(actions.setIsLoginModal(true));
-        setErrorMessage('');
-    };
-    const handleSwitch = () => dispatch(actions.setIsLoginModal(!isLoginModal));
+    
     if (isLoginModal) {
         return (
             <Modal show={showLoginModal} onHide={handleClose} centered>

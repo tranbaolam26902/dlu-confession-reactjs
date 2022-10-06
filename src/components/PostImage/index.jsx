@@ -3,10 +3,14 @@ import classNames from 'classnames/bind';
 
 import styles from './PostImage.module.scss';
 
+import { useStore } from '../../store';
+
 const cx = classNames.bind(styles);
 
 function PostImage({ images, setShowPostModal }) {
-    const url = 'http://10.0.247.100:31234/image/post?id=';
+    const [states, dispatch] = useStore();
+    const { apiURL } = states;
+    const url = `${apiURL}image/post?id=`;
     switch (images.length) {
         case 0:
             return <></>;
