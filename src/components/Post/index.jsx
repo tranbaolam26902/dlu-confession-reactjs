@@ -29,10 +29,12 @@ function Post({ data }) {
             setScrollToComment(true);
         } else dispatch(actions.setShowLoginModal(true));
     };
-    
-    // For test
-    const imgList = [images.post, images.post, images.post, images.post, images.post, images.post];
-    
+
+    // Convert created time
+    const date = data.CreatedTime.split('-');
+    const day = date[2].split('T')[0];
+    const month = date[1];
+
     return (
         <>
             <div id={data.Id} className={cx('wrapper')}>
@@ -40,8 +42,8 @@ function Post({ data }) {
                     <div className='d-flex mb-3'>
                         <img src={images.avatar} alt='avatar' />
                         <div className='mx-3 w-100'>
-                            <h4 className='fw-bold'>Name</h4>
-                            <h5>{data.CreatedTime}</h5>
+                            <h4 className='fw-bold'>{data.NickName}</h4>
+                            <h5>{day + ' tháng ' + month}</h5>
                         </div>
                         <button>
                             <img src={icons.verticalOption} alt='icon-option' />
@@ -59,7 +61,7 @@ function Post({ data }) {
                         <div className={cx('content')} onClick={handleOpenPostModal}>
                             {data.Description}
                         </div>
-                        <PostImage images={imgList} setShowPostModal={setShowPostModal} />
+                        <PostImage images={data.Pictures} setShowPostModal={setShowPostModal} />
                     </div>
                     <div className='d-flex justify-content-between mt-3'>
                         <Vote voted={{ up, down }} action={{ setUp, setDown }}>

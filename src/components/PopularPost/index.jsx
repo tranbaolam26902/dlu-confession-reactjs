@@ -15,6 +15,11 @@ function PopularPost({ data }) {
     const [down, setDown] = useState(false);
     const [showPostModal, setShowPostModal] = useState(false);
 
+    // Convert created time
+    const date = data.CreatedTime.split('-');
+    const day = date[2].split('T')[0];
+    const month = date[1];
+
     return (
         <>
             <Stack gap={2} className={cx('wrapper')}>
@@ -24,8 +29,8 @@ function PopularPost({ data }) {
                     </Col>
                     <Col xs={10}>
                         <div className='ms-2'>
-                            <h5 className='fw-bold'>Tên dài ơi là dài thì nó sẽ như này</h5>
-                            <h6>{data.CreatedTime}</h6>
+                            <h5 className='fw-bold'>{data.NickName}</h5>
+                            <h6>{day + ' tháng ' + month}</h6>
                         </div>
                     </Col>
                 </Row>

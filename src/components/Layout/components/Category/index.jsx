@@ -1,15 +1,26 @@
+import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 
 import styles from './Category.module.scss';
 import icons from '../../../../assets/icons';
 
+import {useStore} from '../../../../store';
 import CategoryTag from '../../../CategoryTag';
 import Button from '../../../Button';
 
 const cx = classNames.bind(styles);
 
 function Category() {
-    const categories = ['Học tập', 'Điểm số', 'Xin in tư', 'Tìm đồ', 'Tìm trọ', 'Mua bán đồ cũ', 'Hoạt động Đoàn'];
+    const [categories, setCategories] = useState([]);
+    const [states, dispatch] = useStore();
+    const {apiURL} = states;
+    
+    useEffect(() => {
+        fetch(`${apiURL}api/category/index`)
+            .then((res) => res.json())
+            .then((data) => setCategories(data));
+    }, []);
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
@@ -18,8 +29,8 @@ function Category() {
             </div>
             <hr className='mb-3' />
             <div className={cx('categories')}>
-                {categories.map((category, index) => {
-                    return <CategoryTag key={index}>{category}</CategoryTag>;
+                {categories.map((category) => {
+                    return <CategoryTag key={category.Id}>{category.Name}</CategoryTag>;
                 })}
             </div>
             <hr className='mb-3' />

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { Modal, Stack } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
@@ -16,8 +16,8 @@ function Login() {
     const [states, dispatch] = useStore();
     const { showLoginModal, isLoginModal } = states;
     const { setToken } = useToken();
-    const loginUsernameRef = useRef();
-    const loginPasswordRef = useRef();
+    const { apiURL } = states;
+
     const [loginUsername, setLoginUsername] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -29,9 +29,7 @@ function Login() {
     const handleSwitch = () => dispatch(actions.setIsLoginModal(!isLoginModal));
     const handleLogin = (e) => {
         e.preventDefault();
-        setLoginUsername(loginUsernameRef.current.value);
-        setLoginPassword(loginPasswordRef.current.value);
-        fetch('http://10.0.247.100:31234/token', {
+        fetch(`${apiURL}token`, {
             method: 'POST',
             body: `grant_type=password&username=${loginUsername}&password=${loginPassword}`,
         })
@@ -44,6 +42,53 @@ function Login() {
                 }
             });
     };
+
+    const [signUpUsername, setSignUpUsername] = useState('');
+    const [signUpPassword, setSignUpPassword] = useState('');
+    const [signUpConfirmPassword, setSignUpConfirmPassword] = useState('');
+    const [signUpEmail, setSignUpEmail] = useState('');
+    const handleSignUp = (e) => {
+        e.preventDefault();
+        const data = {
+            UserName: signUpUsername,
+            Password: signUpPassword,
+            ConfirmPassword: signUpConfirmPassword,
+            Email: signUpEmail,
+        };
+        if (signUpPassword !== signUpConfirmPassword) {
+            setErrorMessage('Mật khẩu và mật khẩu xác thực không trùng khớp!');
+            return;
+        }
+        fetch(`${apiURL}api/Account/Register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.ModelState) {
+                    setErrorMessage(data.ModelState.Error[0]);
+                } else {
+                    fetch(`${apiURL}token`, {
+                        method: 'POST',
+                        body: `grant_type=password&username=${signUpUsername}&password=${signUpPassword}`,
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            setToken('bearer ' + data.access_token);
+                        });
+                }
+            });
+    };
+
+    const handleClose = () => {
+        dispatch(actions.setShowLoginModal(false));
+        dispatch(actions.setIsLoginModal(true));
+        setErrorMessage('');
+    };
+    const handleSwitch = () => dispatch(actions.setIsLoginModal(!isLoginModal));
     if (isLoginModal) {
         return (
             <Modal show={showLoginModal} onHide={handleClose} centered>
@@ -62,8 +107,8 @@ function Login() {
                                 <label htmlFor='username-login'>Tên đăng nhập</label>
                                 <input
                                     id='username-login'
-                                    ref={loginUsernameRef}
                                     className={cx('text-box')}
+                                    onChange={(e) => setLoginUsername(e.target.value)}
                                     autoFocus
                                     required
                                 />
@@ -73,8 +118,8 @@ function Login() {
                                 <input
                                     id='password-login'
                                     type='password'
-                                    ref={loginPasswordRef}
                                     className={cx('text-box')}
+                                    onChange={(e) => setLoginPassword(e.target.value)}
                                     required
                                 />
                             </div>
@@ -106,28 +151,51 @@ function Login() {
                 <button onClick={handleClose}>
                     <img src={icons.close} alt='icon-close' />
                 </button>
-                <div className='mt-3 mb-5 text-center'>
+                <div className='mt-3 mb-4 text-center'>
                     <img src={images.logoLarge} alt='logo' />
                     <h4 className='my-2 fw-bold'>ĐĂNG KÝ</h4>
                 </div>
                 {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                <form>
+                <form className='pt-4' onSubmit={handleSignUp}>
                     <Stack gap={2}>
                         <div className='d-flex flex-column'>
                             <label htmlFor='username-sign-up'>Tên đăng nhập</label>
-                            <input id='username-sign-up' className={cx('text-box')} required />
+                            <input
+                                id='username-sign-up'
+                                className={cx('text-box')}
+                                onChange={(e) => setSignUpUsername(e.target.value)}
+                                required
+                            />
                         </div>
                         <div className='d-flex flex-column'>
                             <label htmlFor='email'>Email</label>
-                            <input id='email' type='email' className={cx('text-box')} required />
+                            <input
+                                id='email'
+                                type='email'
+                                className={cx('text-box')}
+                                onChange={(e) => setSignUpEmail(e.target.value)}
+                                required
+                            />
                         </div>
                         <div className='d-flex flex-column'>
                             <label htmlFor='password-sign-up'>Mật khẩu</label>
-                            <input id='password-sign-up' type='password' className={cx('text-box')} required />
+                            <input
+                                id='password-sign-up'
+                                type='password'
+                                className={cx('text-box')}
+                                onChange={(e) => setSignUpPassword(e.target.value)}
+                                required
+                            />
                         </div>
                         <div className='d-flex flex-column mb-2'>
                             <label htmlFor='confirm-password'>Nhập lại mật khẩu</label>
-                            <input id='confirm-password' type='password' className={cx('text-box')} required />
+                            <input
+                                id='confirm-password'
+                                type='password'
+                                className={cx('text-box')}
+                                onChange={(e) => setSignUpConfirmPassword(e.target.value)}
+                                required
+                            />
                         </div>
                         <Button secondary fluid>
                             Đăng ký
