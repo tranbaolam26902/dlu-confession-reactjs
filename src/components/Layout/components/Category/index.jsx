@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 import styles from './Category.module.scss';
 import icons from '../../../../assets/icons';
 
-import {useStore} from '../../../../store';
+import { useStore } from '../../../../store';
 import CategoryTag from '../../../CategoryTag';
 import Button from '../../../Button';
 
@@ -13,10 +13,10 @@ const cx = classNames.bind(styles);
 function Category() {
     const [categories, setCategories] = useState([]);
     const [states, dispatch] = useStore();
-    const {apiURL} = states;
-    
+    const { apiURL } = states;
+
     useEffect(() => {
-        fetch(`${apiURL}api/category/index`)
+        fetch(`${apiURL}/api/category/index`)
             .then((res) => res.json())
             .then((data) => setCategories(data));
     }, []);

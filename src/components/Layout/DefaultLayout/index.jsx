@@ -22,9 +22,9 @@ function DefaultLayout({ children }) {
     const stickyTop = { top: 'calc(var(--header-height) + 32px)' };
     const viewPort = useViewPort();
     const isMobile = viewPort.width < 992;
-    
+
     useEffect(() => {
-        fetch(`${apiURL}api/post/index`)
+        fetch(`${apiURL}/api/post/index`)
             .then((res) => res.json())
             .then((data) => setPosts(data));
     }, []);

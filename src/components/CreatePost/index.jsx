@@ -37,14 +37,14 @@ function CreatePost() {
 
     const [categories, setCategories] = useState([]);
     useEffect(() => {
-        fetch(`${apiURL}api/category/index`)
+        fetch(`${apiURL}/api/category/index`)
             .then((response) => response.json())
             .then((data) => {
-                const tempCategories = [];
+                const selectedCategories = [];
                 data.map((category) => {
-                    tempCategories.push({ key: category.Id, label: category.Name });
+                    selectedCategories.push({ key: category.Id, label: category.Name });
                 });
-                setCategories(tempCategories);
+                setCategories(selectedCategories);
             });
     }, []);
 
@@ -52,7 +52,12 @@ function CreatePost() {
         setPostCategories(selected);
     };
 
-    let formData = new FormData();
+    let formData = {
+        Title: 'Genshin Impact',
+        Description: 'How to roll ayaka c6r5',
+        Actived: true,
+        SelectedCategories: ['43643945-eef6-41df-a050-8f3866f89132', 'ce20c7fc-c27d-4413-a46e-d0bca5313ac5'],
+    };
 
     const [postTitle, setPostTitle] = useState('');
     const [postContent, setPostContent] = useState('');
@@ -60,29 +65,33 @@ function CreatePost() {
     const [postCategories, setPostCategories] = useState([]);
     const [postImages, setPostImages] = useState([]);
 
-    formData.append('Title', postTitle);
-    formData.append('Description', postContent);
-    formData.append('PrivateMode', isPrivate);
-    formData.append('SelectedCategories', postCategories);
-    formData.append('Images', postImages);
+    formData.Title = postTitle;
+    formData.Description = postContent;
+    formData.PrivateMode = isPrivate;
+    formData.SelectedCategories = postCategories;
+    // formData.Images = postImages;
 
     const handlePost = (e) => {
         e.preventDefault();
-        // if (postCategories.length == 0) {
-        //     setErrorMessage('Chọn ít nhất 01 danh mục');
-        //     return;
-        // }
-        // if (postTitle == '') {
-        //     setErrorMessage('Nhập tiêu đề cho bài viết');
-        //     return;
-        // }
-        // fetch(`${apiURL}api/userpost/create`, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Authorization': localStorage.getItem('token'),
-        //     },
-        //     body: formData,
-        // });
+        if (postCategories.length == 0) {
+            setErrorMessage('Chọn ít nhất 01 danh mục');
+            return;
+        }
+        if (postTitle == '') {
+            setErrorMessage('Nhập tiêu đề cho bài viết');
+            return;
+        }
+        fetch(`${apiURL}/api/userpost/create`, {
+            method: 'POST',
+            headers: {
+                Host: '<calculated when request is sent>',
+                Authorization: localStorage.getItem('token'),
+            },
+            body: {
+                post: formData,
+            },
+        });
+        console.log(localStorage.getItem('token'));
         console.log(formData);
     };
 

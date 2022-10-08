@@ -30,10 +30,11 @@
 .search-result {
     height: 100%;
     overflow: scroll;
-    padding: 0 12px;
+    padding-left: 12px;
+    margin-bottom: -16px;
     &-item {
         padding: 8px 16px;
-    border-radius: 8px;
+        border-radius: 8px;
         cursor: pointer;
     }
     &-item:hover {

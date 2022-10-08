@@ -8,7 +8,7 @@ function Home() {
     const [posts, setPosts] = useState([]);
     const { apiURL } = states;
     useEffect(() => {
-        fetch(`${apiURL}api/post/index`)
+        fetch(`${apiURL}/api/post/index`)
             .then((res) => res.json())
             .then((data) => {
                 setPosts(data);

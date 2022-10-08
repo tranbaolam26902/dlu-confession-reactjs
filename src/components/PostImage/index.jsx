@@ -10,7 +10,7 @@ const cx = classNames.bind(styles);
 function PostImage({ images, setShowPostModal }) {
     const [states, dispatch] = useStore();
     const { apiURL } = states;
-    const url = `${apiURL}image/post?id=`;
+    const url = `${apiURL}/image/post?id=`;
     switch (images.length) {
         case 0:
             return <></>;
@@ -168,7 +168,12 @@ function PostImage({ images, setShowPostModal }) {
                             </div>
                         </Col>
                         <Col xs={7} className='position-relative'>
-                            <img role='button' src={url + images[3].Path} alt='post-image' className='w-100 rounded-3' />
+                            <img
+                                role='button'
+                                src={url + images[3].Path}
+                                alt='post-image'
+                                className='w-100 rounded-3'
+                            />
                             <h1 className={cx('remaining')} onClick={() => setShowPostModal(true)}>
                                 +{images.length - 4}
                             </h1>

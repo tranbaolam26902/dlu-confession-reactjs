@@ -29,7 +29,7 @@ function Login() {
     const handleSwitch = () => dispatch(actions.setIsLoginModal(!isLoginModal));
     const handleLogin = (e) => {
         e.preventDefault();
-        fetch(`${apiURL}token`, {
+        fetch(`${apiURL}/token`, {
             method: 'POST',
             body: `grant_type=password&username=${loginUsername}&password=${loginPassword}`,
         })
@@ -59,7 +59,7 @@ function Login() {
             setErrorMessage('Mật khẩu và mật khẩu xác thực không trùng khớp!');
             return;
         }
-        fetch(`${apiURL}api/Account/Register`, {
+        fetch(`${apiURL}/api/Account/Register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -70,19 +70,21 @@ function Login() {
             .then((data) => {
                 if (data.ModelState) {
                     setErrorMessage(data.ModelState.Error[0]);
-                } else {
-                    fetch(`${apiURL}token`, {
-                        method: 'POST',
-                        body: `grant_type=password&username=${signUpUsername}&password=${signUpPassword}`,
-                    })
-                        .then((response) => response.json())
-                        .then((data) => {
-                            setToken('bearer ' + data.access_token);
-                        });
+                    setSignUpUsername('');
+                    setSignUpPassword('');
+                    return;
                 }
             });
+        fetch(`${apiURL}/token`, {
+            method: 'POST',
+            body: `grant_type=password&username=${signUpUsername}&password=${signUpPassword}`,
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setToken('bearer ' + data.access_token);
+            });
     };
-    
+
     if (isLoginModal) {
         return (
             <Modal show={showLoginModal} onHide={handleClose} centered>

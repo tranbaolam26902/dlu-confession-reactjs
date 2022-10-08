@@ -1,7 +1,7 @@
 import { SET_SHOW_LOGIN_MODAL, SET_IS_LOGIN_MODAL, SET_SHOW_CREATE_POST_MODAL } from './constants';
 
 const initStates = {
-    apiURL: 'https://localhost:44332/',
+    apiURL: 'https://localhost:44332',
     showLoginModal: false,
     isLoginModal: true,
     showCreatePostModal: false,

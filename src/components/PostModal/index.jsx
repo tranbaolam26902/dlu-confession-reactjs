@@ -17,8 +17,8 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
     const [up, setUp] = useState(false); // Vote icon states
     const [down, setDown] = useState(false); // Vote icon states
     const commentRef = useRef();
-    const {apiURL} = states;
-    const imgURL = `${apiURL}image/post?id=`;
+    const { apiURL } = states;
+    const imgURL = `${apiURL}/image/post?id=`;
 
     const handleScroll = () => {
         if (scrollToComment) commentRef.current.scrollIntoView({ behavior: 'smooth' });
