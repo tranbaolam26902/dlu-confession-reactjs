@@ -21,6 +21,7 @@ const useStore = () => {
     return [states, dispatch];
 };
 
+// Hook for token
 const useToken = () => {
     const getToken = () => {
         const tokenString = localStorage.getItem('token');
