@@ -78,8 +78,8 @@ function UserActions() {
     let notification = 12;
     let notificationProps = {
         notification: notification,
-        data:notify,
-    }
+        data: notify,
+    };
     const [states, dispatch] = useStore();
     const { token, removeToken } = useToken();
     const viewPort = useViewPort();
@@ -116,7 +116,7 @@ function UserActions() {
                         <NotificationButton {...notificationProps} />
                         <Tippy
                             interactive
-                            delay={[0, 300]}
+                            delay={[0, 700]}
                             placement='bottom-end'
                             render={(attrs) => (
                                 <PopoverWrapper>
