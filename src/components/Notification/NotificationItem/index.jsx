@@ -11,10 +11,12 @@ function NotificationItem(props) {
                 <img src={images.post} alt='' className={cx('thumbnail')} />
             </div>
             <div className={cx('info')}>
-                <div className={cx('info-time')}>{props.time}</div>
+                <h5 className={cx('info-time')}>{props.time}</h5>
                 <h4 className={cx('info-description')}>{props.description}</h4>
             </div>
-            <span className={cx('state')}>{props.id}</span>
+            <span className={cx('id')}>
+                <p className={cx('state')}>{props.id}</p>
+            </span>
         </div>
     );
 }
