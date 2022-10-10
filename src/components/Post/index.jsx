@@ -91,7 +91,11 @@ function Post({ data }) {
                     </div>
                     <div className='mb-2'>
                         {data.Categories.map((category) => {
-                            return <CategoryTag key={category.Id}>{category.Name}</CategoryTag>;
+                            return (
+                                <CategoryTag key={category.Id} onClick={() => dispatch(actions.setFilter(category.Id))}>
+                                    {category.Name}
+                                </CategoryTag>
+                            );
                         })}
                     </div>
                     <div className='overflow-hidden'>
@@ -103,18 +107,14 @@ function Post({ data }) {
                         </div>
                         <PostImage images={data.Pictures} setShowPostModal={setShowPostModal} />
                     </div>
-                    <div className='d-flex justify-content-between mt-3'>
+                    <div className='d-flex justify-content-end mt-3'>
+                        <button className='me-4' onClick={handleComment}>
+                            <img src={icons.comment} alt='icon-comment' />
+                            <span className='ms-2'>2,1k</span>
+                        </button>
                         <Vote voted={{ up, down }} action={{ setUp, setDown }}>
                             {up ? data.Like + 1 : data.Like}
                         </Vote>
-                        <button onClick={handleComment}>
-                            <img src={icons.comment} alt='icon-comment' />
-                            <span className='ms-2'>Comments</span>
-                        </button>
-                        <button>
-                            <img src={icons.share} alt='icon-share' />
-                            <span className='ms-2'>Share</span>
-                        </button>
                     </div>
                 </div>
             </div>

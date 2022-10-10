@@ -73,14 +73,10 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
                             );
                         })}
                     </div>
-                    <div className='d-flex justify-content-between mt-3'>
+                    <div className='d-flex justify-content-end mt-3'>
                         <Vote voted={{ up, down }} action={{ setUp, setDown }}>
                             {up ? data.Like + 1 : data.Like}
                         </Vote>
-                        <button>
-                            <img src={icons.share} alt='icon-share' />
-                            <span className='ms-2'>Share</span>
-                        </button>
                     </div>
                     <div ref={commentRef}></div>
                 </div>

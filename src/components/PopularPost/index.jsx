@@ -2,6 +2,7 @@ import { useState } from 'react';
 import classNames from 'classnames/bind';
 import { Stack, Row, Col } from 'react-bootstrap';
 
+import { useStore, actions } from '../../store';
 import styles from './PopularPost.module.scss';
 import images from '../../assets/img';
 import CategoryTag from '../CategoryTag';
@@ -11,6 +12,7 @@ import PostModal from '../PostModal';
 const cx = classNames.bind(styles);
 
 function PopularPost({ data }) {
+    const [states, dispatch] = useStore();
     const [up, setUp] = useState(false);
     const [down, setDown] = useState(false);
     const [showPostModal, setShowPostModal] = useState(false);
@@ -37,7 +39,11 @@ function PopularPost({ data }) {
                 {data.Categories.length != 0 && (
                     <div className={cx('categories')}>
                         {data.Categories.map((category) => {
-                            return <CategoryTag key={category.Id}>{category.Name}</CategoryTag>;
+                            return (
+                                <CategoryTag key={category.Id} onClick={() => dispatch(actions.setFilter(category.Id))}>
+                                    {category.Name}
+                                </CategoryTag>
+                            );
                         })}
                     </div>
                 )}
@@ -50,11 +56,7 @@ function PopularPost({ data }) {
                     </Vote>
                 </div>
             </Stack>
-            <PostModal
-                showPostModal={showPostModal}
-                setShowPostModal={setShowPostModal}
-                data={data}
-            />
+            <PostModal showPostModal={showPostModal} setShowPostModal={setShowPostModal} data={data} />
         </>
     );
 }
