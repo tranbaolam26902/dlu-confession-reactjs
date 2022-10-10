@@ -19,9 +19,6 @@ function Category() {
             formData.append('id', filter);
             fetch(`${apiURL}/api/post/FindPostCategory`, {
                 method: 'POST',
-                // headers: {
-                //     Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
-                // },
                 body: formData,
             })
                 .then((res) => res.json())
