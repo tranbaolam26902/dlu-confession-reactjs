@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Modal, Stack } from 'react-bootstrap';
 import DropdownMultiSelect from 'react-multiselect-dropdown-bootstrap';
 import classNames from 'classnames/bind';
@@ -8,34 +8,32 @@ import styles from './CreatePost.module.scss';
 import icons from '../../assets/icons';
 
 import Button from '../Button';
-import { useEffect } from 'react';
 
 const cx = classNames.bind(styles);
 
 function CreatePost() {
+    // Global states
     const [states, dispatch] = useStore();
     const { showCreatePostModal } = states;
     const { apiURL } = states;
 
+    // States for create post
     const [errorMessage, setErrorMessage] = useState('');
-
-    const handleClose = () => {
-        dispatch(actions.setShowCreatePostModal(false));
-    };
-
-    const [uploadImages, setUploadImages] = useState([]);
-    const handleUploadImages = (e) => {
-        const currentUploadImages = [...uploadImages];
-        const targetFiles = e.target.files;
-        setPostImages(targetFiles);
-        const targetFilesObject = [...targetFiles];
-        targetFilesObject.map((file) => {
-            return currentUploadImages.push(URL.createObjectURL(file));
-        });
-        setUploadImages(currentUploadImages);
-    };
-
     const [categories, setCategories] = useState([]);
+    const [postTitle, setPostTitle] = useState('');
+    const [postContent, setPostContent] = useState('');
+    const [isPrivatePost, setIsPrivatePost] = useState(false);
+    const [postCategories, setPostCategories] = useState([]);
+    const [uploadImages, setUploadImages] = useState([]);
+    const [postImages, setPostImages] = useState([]);
+
+    const getPosts = () => {
+        fetch(`${apiURL}/api/post/index`)
+            .then((res) => res.json())
+            .then((data) => dispatch(actions.setPosts(data)));
+    };
+
+    // Get and set categories for dropdown categories menu
     useEffect(() => {
         fetch(`${apiURL}/api/category/index`)
             .then((response) => response.json())
@@ -48,31 +46,33 @@ function CreatePost() {
             });
     }, []);
 
-    const handleSelectCategories = (selected) => {
-        setPostCategories(selected);
+    const handleSelectCategories = (selected) => setPostCategories(selected);
+
+    // Upload post images and preview
+    const handleUploadImages = (e) => {
+        const currentUploadImages = [];
+        const targetFiles = e.target.files;
+        const targetFilesArray = [...postImages, ...targetFiles];
+        targetFilesArray.map((file) => {
+            currentUploadImages.push(URL.createObjectURL(file));
+        });
+        setUploadImages(currentUploadImages);
+        setPostImages(targetFilesArray);
     };
-
-    let formData = {
-        Title: 'Genshin Impact',
-        Description: 'How to roll ayaka c6r5',
-        Actived: true,
-        SelectedCategories: ['43643945-eef6-41df-a050-8f3866f89132', 'ce20c7fc-c27d-4413-a46e-d0bca5313ac5'],
-    };
-
-    const [postTitle, setPostTitle] = useState('');
-    const [postContent, setPostContent] = useState('');
-    const [isPrivate, setIsPrivate] = useState(false);
-    const [postCategories, setPostCategories] = useState([]);
-    const [postImages, setPostImages] = useState([]);
-
-    formData.Title = postTitle;
-    formData.Description = postContent;
-    formData.PrivateMode = isPrivate;
-    formData.SelectedCategories = postCategories;
-    // formData.Images = postImages;
 
     const handlePost = (e) => {
         e.preventDefault();
+        const postData = {
+            Title: postTitle,
+            Content: postContent,
+            SelectedCategories: postCategories,
+            PrivateMode: isPrivatePost,
+        };
+        const formData = new FormData();
+        formData.append('Post', JSON.stringify(postData));
+        postImages.map((image) => {
+            formData.append('File', image);
+        });
         if (postCategories.length == 0) {
             setErrorMessage('Chọn ít nhất 01 danh mục');
             return;
@@ -84,15 +84,24 @@ function CreatePost() {
         fetch(`${apiURL}/api/userpost/create`, {
             method: 'POST',
             headers: {
-                Host: '<calculated when request is sent>',
-                Authorization: localStorage.getItem('token'),
+                Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
             },
-            body: {
-                post: formData,
-            },
+            body: formData,
+        }).then((res) => {
+            getPosts();
+            handleClose();
         });
-        console.log(localStorage.getItem('token'));
-        console.log(formData);
+    };
+
+    const handleClose = () => {
+        setErrorMessage('');
+        setPostCategories([]);
+        setPostTitle('');
+        setPostContent('');
+        setUploadImages([]);
+        setPostImages([]);
+        setIsPrivatePost(false);
+        dispatch(actions.setShowCreatePostModal(false));
     };
 
     return (
@@ -173,7 +182,11 @@ function CreatePost() {
                                 {uploadImages.length >= 6 && (
                                     <div className={cx('image-preview-wrapper')}>
                                         <img src={uploadImages[5]} alt='post-image' className={cx('image-preview')} />
-                                        <h2 className={cx('upload-images-remaining')}>+{uploadImages.length - 6}</h2>
+                                        {uploadImages.length - 6 && (
+                                            <h2 className={cx('upload-images-remaining')}>
+                                                +{uploadImages.length - 6}
+                                            </h2>
+                                        )}
                                     </div>
                                 )}
                             </div>
@@ -187,7 +200,7 @@ function CreatePost() {
                                             id='private'
                                             type='checkbox'
                                             className='me-2'
-                                            onChange={() => setIsPrivate(!isPrivate)}
+                                            onChange={() => setIsPrivatePost(!isPrivatePost)}
                                         />
                                         <label htmlFor='private' className={cx('private')}>
                                             Đăng ở chế độ ẩn danh

@@ -1,11 +1,13 @@
 import { useState } from 'react';
+import Tippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
 
+import { useStore, actions } from '../../store';
 import styles from './Post.module.scss';
 import icons from '../../assets/icons';
 import images from '../../assets/img';
 
-import { useStore, actions } from '../../store';
+import { Wrapper as PopoverWrapper } from '../Popover';
 import CategoryTag from '../CategoryTag';
 import Vote from '../Vote';
 import PostModal from '../PostModal';
@@ -15,19 +17,45 @@ const cx = classNames.bind(styles);
 
 function Post({ data }) {
     const [states, dispatch] = useStore();
-    const { token } = states;
+    const { token, apiURL } = states;
 
     const [up, setUp] = useState(false); // Vote icon states
     const [down, setDown] = useState(false); // Vote icon states
     const [showPostModal, setShowPostModal] = useState(false);
     const [scrollToComment, setScrollToComment] = useState(false);
-    
-    const handleOpenPostModal = () => setShowPostModal(true);
+
+    const getPosts = () => {
+        fetch(`${apiURL}/api/post/index`)
+            .then((res) => res.json())
+            .then((data) => dispatch(actions.setPosts(data)));
+    };
+
+    const handleOpenPostModal = () => {
+        setShowPostModal(true);
+    };
+
     const handleComment = () => {
-        if (token != '') {
+        if (token !== '') {
             setShowPostModal(true);
             setScrollToComment(true);
         } else dispatch(actions.setShowLoginModal(true));
+    };
+
+    const handleDelete = () => {
+        if (window.confirm('Xác nhận xóa bài viết?')) {
+            const formData = new FormData();
+            formData.append('id', data.Id);
+            fetch(`${apiURL}/api/userpost/delete`, {
+                method: 'POST',
+                headers: {
+                    Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+                },
+                body: formData,
+            }).then((res) => {
+                getPosts();
+            });
+        } else {
+        }
     };
 
     // Convert created time
@@ -42,12 +70,24 @@ function Post({ data }) {
                     <div className='d-flex mb-3'>
                         <img src={images.avatar} alt='avatar' />
                         <div className='mx-3 w-100'>
-                            <h4 className='fw-bold'>{data.NickName}</h4>
+                            {data.PrivateMode && <h4 className='fw-bold'>Ẩn danh</h4>}
+                            {!data.PrivateMode && <h4 className='fw-bold'>{data.NickName}</h4>}
                             <h5>{day + ' tháng ' + month}</h5>
                         </div>
-                        <button>
+                        <Tippy
+                            interactive
+                            delay={[0, 300]}
+                            placement='bottom-end'
+                            render={(attrs) => (
+                                <PopoverWrapper>
+                                    <button className={cx('post-option')} onClick={handleDelete}>
+                                        Xóa bài viết
+                                    </button>
+                                </PopoverWrapper>
+                            )}
+                        >
                             <img src={icons.verticalOption} alt='icon-option' />
-                        </button>
+                        </Tippy>
                     </div>
                     <div className='mb-2'>
                         {data.Categories.map((category) => {
@@ -59,7 +99,7 @@ function Post({ data }) {
                             {data.Title}
                         </h3>
                         <div className={cx('content')} onClick={handleOpenPostModal}>
-                            {data.Description}
+                            {data.Content}
                         </div>
                         <PostImage images={data.Pictures} setShowPostModal={setShowPostModal} />
                     </div>

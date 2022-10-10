@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { Col, Container, Row, Stack } from 'react-bootstrap';
+import { useEffect } from 'react';
+import { Col, Container, Row } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
-import { useStore, useViewPort } from '../../../store';
+import { useStore, useViewPort, actions } from '../../../store';
 import styles from './DefaultLayout.module.scss';
 
 import Header from '../components/Header';
@@ -11,23 +11,23 @@ import Popular from '../components/Popular';
 import PopularPost from '../../PopularPost';
 import Login from '../../Login';
 import CreatePost from '../../CreatePost';
+import ButtonScrollToTop from '../../ButtonScrollToTop';
 
 const cx = classNames.bind(styles);
 
 function DefaultLayout({ children }) {
     const [states, dispatch] = useStore();
-    const [posts, setPosts] = useState([]);
-    const { apiURL } = states;
+    const { apiURL, posts } = states;
+    useEffect(() => {
+        fetch(`${apiURL}/api/post/index`)
+            .then((res) => res.json())
+            .then((data) => dispatch(actions.setPosts(data)));
+    }, []);
 
     const stickyTop = { top: 'calc(var(--header-height) + 32px)' };
     const viewPort = useViewPort();
     const isMobile = viewPort.width < 992;
 
-    useEffect(() => {
-        fetch(`${apiURL}/api/post/index`)
-            .then((res) => res.json())
-            .then((data) => setPosts(data));
-    }, []);
     return (
         <>
             <Header></Header>
@@ -51,6 +51,7 @@ function DefaultLayout({ children }) {
                                         return <PopularPost key={post.Id} data={post} />;
                                     })}
                                 </Popular>
+                                <ButtonScrollToTop />
                             </div>
                         </Col>
                     )}

@@ -1,19 +1,17 @@
 import { useEffect } from 'react';
-import { useState } from 'react';
+
+import { useStore, actions } from '../../store';
+
 import Post from '../../components/Post';
-import { useStore } from '../../store';
 
 function Home() {
     const [states, dispatch] = useStore();
-    const [posts, setPosts] = useState([]);
-    const { apiURL } = states;
+    const { apiURL, posts } = states;
     useEffect(() => {
         fetch(`${apiURL}/api/post/index`)
             .then((res) => res.json())
-            .then((data) => {
-                setPosts(data);
-            });
-    }, []);
+            .then((data) => dispatch(actions.setPosts(data)));
+    }, [posts]);
 
     return (
         <div>

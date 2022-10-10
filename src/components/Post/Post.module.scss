@@ -22,3 +22,9 @@
     margin-left: 8px;
     color: var(--text-secondary-50);
 }
+.post-option {
+    padding: 8px 16px;
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+}

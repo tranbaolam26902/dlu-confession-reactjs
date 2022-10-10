@@ -49,4 +49,25 @@ const useToken = () => {
     };
 };
 
-export { useViewPort, useStore, useToken };
+const useFilter = () => {
+    const getFilter = () => JSON.parse(localStorage.getItem('filter'));
+
+    const [filter, setFilter] = useState(getFilter());
+
+    const saveFilter = (filter) => {
+        localStorage.setItem('filter', JSON.stringify(filter));
+        setFilter(filter);
+    };
+
+    const removeFilter = () => {
+        localStorage.removeItem('filter');
+    };
+
+    return {
+        setFilter: saveFilter,
+        filter,
+        removeFilter,
+    };
+};
+
+export { useViewPort, useStore, useToken, useFilter };

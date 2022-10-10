@@ -49,6 +49,7 @@ function Login() {
     const [signUpEmail, setSignUpEmail] = useState('');
     const handleSignUp = (e) => {
         e.preventDefault();
+        let isValid = true;
         const data = {
             UserName: signUpUsername,
             Password: signUpPassword,
@@ -70,19 +71,20 @@ function Login() {
             .then((data) => {
                 if (data.ModelState) {
                     setErrorMessage(data.ModelState.Error[0]);
-                    setSignUpUsername('');
-                    setSignUpPassword('');
+                    isValid = false;
                     return;
                 }
             });
-        fetch(`${apiURL}/token`, {
-            method: 'POST',
-            body: `grant_type=password&username=${signUpUsername}&password=${signUpPassword}`,
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                setToken('bearer ' + data.access_token);
-            });
+        if (isValid) {
+            fetch(`${apiURL}/token`, {
+                method: 'POST',
+                body: `grant_type=password&username=${signUpUsername}&password=${signUpPassword}`,
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    setToken('bearer ' + data.access_token);
+                });
+        }
     };
 
     if (isLoginModal) {
@@ -140,76 +142,77 @@ function Login() {
                 </div>
             </Modal>
         );
+    } else {
+        return (
+            <Modal show={showLoginModal} onHide={handleClose} centered>
+                <div className={cx('wrapper')}>
+                    <button onClick={handleClose}>
+                        <img src={icons.close} alt='icon-close' />
+                    </button>
+                    <div className='mt-3 mb-4 text-center'>
+                        <img src={images.logoLarge} alt='logo' />
+                        <h4 className='my-2 fw-bold'>ĐĂNG KÝ</h4>
+                    </div>
+                    {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                    <form className='pt-4' onSubmit={handleSignUp}>
+                        <Stack gap={2}>
+                            <div className='d-flex flex-column'>
+                                <label htmlFor='username-sign-up'>Tên đăng nhập</label>
+                                <input
+                                    id='username-sign-up'
+                                    className={cx('text-box')}
+                                    onChange={(e) => setSignUpUsername(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className='d-flex flex-column'>
+                                <label htmlFor='email'>Email</label>
+                                <input
+                                    id='email'
+                                    type='email'
+                                    className={cx('text-box')}
+                                    onChange={(e) => setSignUpEmail(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className='d-flex flex-column'>
+                                <label htmlFor='password-sign-up'>Mật khẩu</label>
+                                <input
+                                    id='password-sign-up'
+                                    type='password'
+                                    className={cx('text-box')}
+                                    onChange={(e) => setSignUpPassword(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className='d-flex flex-column mb-2'>
+                                <label htmlFor='confirm-password'>Nhập lại mật khẩu</label>
+                                <input
+                                    id='confirm-password'
+                                    type='password'
+                                    className={cx('text-box')}
+                                    onChange={(e) => setSignUpConfirmPassword(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <Button secondary fluid>
+                                Đăng ký
+                            </Button>
+                        </Stack>
+                    </form>
+                    <div className='mt-3'>
+                        <hr />
+                        <h5 className='mt-3 text-center'>
+                            <span>Đã có tài khoản?</span>
+                            <button className={cx('switch')} onClick={handleSwitch}>
+                                Đăng nhập
+                            </button>
+                        </h5>
+                    </div>
+                </div>
+            </Modal>
+        );
     }
-    return (
-        <Modal show={showLoginModal} onHide={handleClose} centered>
-            <div className={cx('wrapper')}>
-                <button onClick={handleClose}>
-                    <img src={icons.close} alt='icon-close' />
-                </button>
-                <div className='mt-3 mb-4 text-center'>
-                    <img src={images.logoLarge} alt='logo' />
-                    <h4 className='my-2 fw-bold'>ĐĂNG KÝ</h4>
-                </div>
-                {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                <form className='pt-4' onSubmit={handleSignUp}>
-                    <Stack gap={2}>
-                        <div className='d-flex flex-column'>
-                            <label htmlFor='username-sign-up'>Tên đăng nhập</label>
-                            <input
-                                id='username-sign-up'
-                                className={cx('text-box')}
-                                onChange={(e) => setSignUpUsername(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className='d-flex flex-column'>
-                            <label htmlFor='email'>Email</label>
-                            <input
-                                id='email'
-                                type='email'
-                                className={cx('text-box')}
-                                onChange={(e) => setSignUpEmail(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className='d-flex flex-column'>
-                            <label htmlFor='password-sign-up'>Mật khẩu</label>
-                            <input
-                                id='password-sign-up'
-                                type='password'
-                                className={cx('text-box')}
-                                onChange={(e) => setSignUpPassword(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className='d-flex flex-column mb-2'>
-                            <label htmlFor='confirm-password'>Nhập lại mật khẩu</label>
-                            <input
-                                id='confirm-password'
-                                type='password'
-                                className={cx('text-box')}
-                                onChange={(e) => setSignUpConfirmPassword(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <Button secondary fluid>
-                            Đăng ký
-                        </Button>
-                    </Stack>
-                </form>
-                <div className='mt-3'>
-                    <hr />
-                    <h5 className='mt-3 text-center'>
-                        <span>Đã có tài khoản?</span>
-                        <button className={cx('switch')} onClick={handleSwitch}>
-                            Đăng nhập
-                        </button>
-                    </h5>
-                </div>
-            </div>
-        </Modal>
-    );
 }
 
 export default Login;

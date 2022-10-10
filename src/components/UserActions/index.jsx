@@ -116,7 +116,7 @@ function UserActions() {
                         <NotificationButton {...notificationProps} />
                         <Tippy
                             interactive
-                            delay={[0, 700]}
+                            delay={[0, 300]}
                             placement='bottom-end'
                             render={(attrs) => (
                                 <PopoverWrapper>

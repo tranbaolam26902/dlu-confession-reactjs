@@ -61,7 +61,7 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
                     </div>
                     <div>
                         <h3 className='mb-1 fw-bold'>{data.Title}</h3>
-                        <div className={cx('content')}>{data.Description}</div>
+                        <div className={cx('content')}>{data.Content}</div>
                         {data.Pictures.map((picture) => {
                             return (
                                 <img
