@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import classNames from 'classnames/bind';
+import { useEffect, useState } from 'react';
 import { Stack, Row, Col } from 'react-bootstrap';
+import classNames from 'classnames/bind';
 
 import { useStore, actions } from '../../store';
 import styles from './PopularPost.module.scss';
 import images from '../../assets/img';
+
 import CategoryTag from '../CategoryTag';
 import Vote from '../Vote';
 import PostModal from '../PostModal';
@@ -12,22 +13,32 @@ import PostModal from '../PostModal';
 const cx = classNames.bind(styles);
 
 function PopularPost({ data }) {
+    // Global states
     const [states, dispatch] = useStore();
-    const [up, setUp] = useState(false);
-    const [down, setDown] = useState(false);
+    const { apiURL } = states;
+
+    // Component's states
+    const [userAvatar, setUserAvatar] = useState(images.avatar);
     const [showPostModal, setShowPostModal] = useState(false);
+
+    // Variables
+    const imageURL = `${apiURL}/image/user?id=`;
 
     // Convert created time
     const date = data.CreatedTime.split('-');
     const day = date[2].split('T')[0];
     const month = date[1];
 
+    useEffect(() => {
+        if (data.Avatar) setUserAvatar(`${imageURL}${data.Avatar}`);
+    }, []);
+
     return (
         <>
             <Stack gap={2} className={cx('wrapper')}>
                 <Row className='gx-0'>
                     <Col xs={2}>
-                        <img src={images.avatar} alt='avatar' className='w-100' />
+                        <img src={userAvatar} alt='avatar' className='w-100' />
                     </Col>
                     <Col xs={10}>
                         <div className='ms-2'>
@@ -51,9 +62,9 @@ function PopularPost({ data }) {
                     <h5 className={cx('title')}>{data.Title}</h5>
                 </div>
                 <div className={cx('footer')}>
-                    <Vote voted={{ up, down }} action={{ setUp, setDown }}>
+                    {/* <Vote voted={{ up, down }} action={{ setUp, setDown }}>
                         {up ? data.Like + 1 : data.Like}
-                    </Vote>
+                    </Vote> */}
                 </div>
             </Stack>
             <PostModal showPostModal={showPostModal} setShowPostModal={setShowPostModal} data={data} />

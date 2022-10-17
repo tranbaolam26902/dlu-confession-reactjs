@@ -12,9 +12,12 @@ import UserActions from '../../../UserActions';
 const cx = classNames.bind(styles);
 
 function Header() {
+    // Global states
     const [states, dispatch] = useStore();
     const viewPort = useViewPort();
+
     const isMobile = viewPort.width <= 992;
+
     return (
         <div className={cx('wrapper')}>
             <Container fluid='md'>

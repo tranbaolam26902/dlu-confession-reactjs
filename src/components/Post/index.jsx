@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Tippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
 
@@ -16,19 +16,20 @@ import PostImage from '../PostImage';
 const cx = classNames.bind(styles);
 
 function Post({ data }) {
+    // Global states
     const [states, dispatch] = useStore();
     const { token, apiURL } = states;
 
-    const [up, setUp] = useState(false); // Vote icon states
-    const [down, setDown] = useState(false); // Vote icon states
+    // Component's states
+    const [like, setLike] = useState(data.Like);
+    const [userId, setUserId] = useState('');
+    const [userAvatar, setUserAvatar] = useState(images.avatar);
+    const [isVoted, setIsVoted] = useState();
     const [showPostModal, setShowPostModal] = useState(false);
     const [scrollToComment, setScrollToComment] = useState(false);
 
-    const getPosts = () => {
-        fetch(`${apiURL}/api/post/index`)
-            .then((res) => res.json())
-            .then((data) => dispatch(actions.setPosts(data)));
-    };
+    // Variables
+    const imageURL = `${apiURL}/image/user?id=`;
 
     const handleOpenPostModal = () => {
         setShowPostModal(true);
@@ -51,12 +52,35 @@ function Post({ data }) {
                     Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
                 },
                 body: formData,
-            }).then((res) => {
-                getPosts();
             });
-        } else {
         }
     };
+
+    useEffect(() => {
+        if (data.Avatar) setUserAvatar(`${imageURL}${data.Avatar}`);
+
+        fetch(`${apiURL}/api/useraccount/getinfo`, {
+            method: 'GET',
+            headers: {
+                Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+            },
+        })
+            .then((res) => res.json())
+            .then((responseData) => {
+                setUserId(responseData.Id);
+                console.log(data);
+                // if (data.PostLikes.length > 0) {
+                data.PostLikes.map((postLike) => {
+                    if (postLike.UserID == userId) {
+                        console.log(postLike.UserID);
+                        console.log(userId);
+                        setIsVoted(postLike.IsLike);
+                        console.log(isVoted);
+                    }
+                });
+                // }
+            });
+    }, []);
 
     // Convert created time
     const date = data.CreatedTime.split('-');
@@ -68,7 +92,9 @@ function Post({ data }) {
             <div id={data.Id} className={cx('wrapper')}>
                 <div className='d-flex flex-column'>
                     <div className='d-flex mb-3'>
-                        <img src={images.avatar} alt='avatar' />
+                        <div className={cx('avatar')}>
+                            <img src={userAvatar} alt='avatar' />
+                        </div>
                         <div className='mx-3 w-100'>
                             {data.PrivateMode && <h4 className='fw-bold'>Ẩn danh</h4>}
                             {!data.PrivateMode && <h4 className='fw-bold'>{data.NickName}</h4>}
@@ -112,9 +138,10 @@ function Post({ data }) {
                             <img src={icons.comment} alt='icon-comment' />
                             <span className='ms-2'>2,1k</span>
                         </button>
-                        <Vote voted={{ up, down }} action={{ setUp, setDown }}>
-                            {up ? data.Like + 1 : data.Like}
-                        </Vote>
+                        {/* <Vote postId={data.Id} voted={{ up, down }} action={{ setUp, setDown }} setVote={setVote}>
+                            {vote}
+                        </Vote> */}
+                        <Vote data={data} like={like} setLike={setLike} isVoted={isVoted} setIsVoted={setIsVoted} />
                     </div>
                 </div>
             </div>

@@ -1,6 +1,7 @@
-import classNames from "classnames/bind";
-import styles from "./Button.module.scss";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import classNames from 'classnames/bind';
+
+import styles from './Button.module.scss';
 
 const cx = classNames.bind(styles);
 
@@ -8,8 +9,16 @@ function Button({ to, href, secondary, outline, text, fluid, children, className
     let Component = 'button';
     const props = {
         onClick,
-        ...passProps
+        ...passProps,
     };
+    const classes = cx('wrapper', {
+        [className]: className,
+        secondary,
+        outline,
+        text,
+        fluid,
+    });
+
     if (href) {
         props.href = href;
         Component = 'a';
@@ -18,13 +27,7 @@ function Button({ to, href, secondary, outline, text, fluid, children, className
         props.to = to;
         Component = Link;
     }
-    const classes = cx('wrapper', {
-        [className]: className,
-        secondary,
-        outline,
-        text,
-        fluid
-    });
+
     return (
         <Component className={classes} {...props}>
             <span>{children}</span>

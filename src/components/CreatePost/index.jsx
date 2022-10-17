@@ -14,24 +14,17 @@ const cx = classNames.bind(styles);
 function CreatePost() {
     // Global states
     const [states, dispatch] = useStore();
-    const { showCreatePostModal } = states;
-    const { apiURL } = states;
+    const { showCreatePostModal, apiURL } = states;
 
     // States for create post
     const [errorMessage, setErrorMessage] = useState('');
-    const [categories, setCategories] = useState([]);
+    const [categories, setCategories] = useState([]); // Categories for dropdown input
     const [postTitle, setPostTitle] = useState('');
     const [postContent, setPostContent] = useState('');
     const [isPrivatePost, setIsPrivatePost] = useState(false);
-    const [postCategories, setPostCategories] = useState([]);
-    const [uploadImages, setUploadImages] = useState([]);
-    const [postImages, setPostImages] = useState([]);
-
-    const getPosts = () => {
-        fetch(`${apiURL}/api/post/index`)
-            .then((res) => res.json())
-            .then((data) => dispatch(actions.setPosts(data)));
-    };
+    const [postCategories, setPostCategories] = useState([]); // POST to API
+    const [uploadImages, setUploadImages] = useState([]); // Preview Images
+    const [postImages, setPostImages] = useState([]); // POST to API
 
     // Get and set categories for dropdown categories menu
     useEffect(() => {
@@ -48,7 +41,7 @@ function CreatePost() {
 
     const handleSelectCategories = (selected) => setPostCategories(selected);
 
-    // Upload post images and preview
+    // Upload images and preview
     const handleUploadImages = (e) => {
         const currentUploadImages = [];
         const targetFiles = e.target.files;
@@ -62,17 +55,6 @@ function CreatePost() {
 
     const handlePost = (e) => {
         e.preventDefault();
-        const postData = {
-            Title: postTitle,
-            Content: postContent,
-            SelectedCategories: postCategories,
-            PrivateMode: isPrivatePost,
-        };
-        const formData = new FormData();
-        formData.append('Post', JSON.stringify(postData));
-        postImages.map((image) => {
-            formData.append('File', image);
-        });
         if (postCategories.length == 0) {
             setErrorMessage('Chọn ít nhất 01 danh mục');
             return;
@@ -81,6 +63,18 @@ function CreatePost() {
             setErrorMessage('Nhập tiêu đề cho bài viết');
             return;
         }
+
+        const formData = new FormData();
+        const postData = {
+            Title: postTitle,
+            Content: postContent,
+            SelectedCategories: postCategories,
+            PrivateMode: isPrivatePost,
+        };
+        formData.append('Post', JSON.stringify(postData));
+        postImages.map((image) => {
+            formData.append('File', image);
+        });
         fetch(`${apiURL}/api/userpost/create`, {
             method: 'POST',
             headers: {
@@ -88,9 +82,13 @@ function CreatePost() {
             },
             body: formData,
         }).then((res) => {
-            getPosts();
             handleClose();
         });
+    };
+
+    const handleRemoveUploadImages = () => {
+        setPostImages([]);
+        setUploadImages([]);
     };
 
     const handleClose = () => {
@@ -165,7 +163,7 @@ function CreatePost() {
                                     <span>Thêm hình ảnh</span>
                                 </label>
                                 {uploadImages.length != 0 && (
-                                    <button onClick={() => setUploadImages([])}>
+                                    <button onClick={handleRemoveUploadImages}>
                                         <u>Xóa tất cả</u>
                                     </button>
                                 )}

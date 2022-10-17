@@ -8,27 +8,41 @@ import icons from '../../assets/icons';
 import images from '../../assets/img';
 
 import Button from '../Button';
-import ErrorMessage from './ErrorMessage';
 
 const cx = classNames.bind(styles);
 
 function Login() {
+    // Global states
     const [states, dispatch] = useStore();
-    const { showLoginModal, isLoginModal } = states;
+    const { showLoginModal, isLoginModal, apiURL } = states;
     const { setToken } = useToken();
-    const { apiURL } = states;
 
+    // Component's states
+    const [errorMessage, setErrorMessage] = useState('');
     const [loginUsername, setLoginUsername] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
-    const handleClose = () => {
-        dispatch(actions.setShowLoginModal(false));
-        dispatch(actions.setIsLoginModal(true));
+    const [signUpUsername, setSignUpUsername] = useState('');
+    const [signUpPassword, setSignUpPassword] = useState('');
+    const [signUpConfirmPassword, setSignUpConfirmPassword] = useState('');
+    const [signUpEmail, setSignUpEmail] = useState('');
+
+    const handleSwitch = () => {
         setErrorMessage('');
+        setLoginUsername('');
+        setLoginPassword('');
+        setSignUpUsername('');
+        setSignUpPassword('');
+        setSignUpConfirmPassword('');
+        setSignUpEmail('');
+        dispatch(actions.setIsLoginModal(!isLoginModal));
     };
-    const handleSwitch = () => dispatch(actions.setIsLoginModal(!isLoginModal));
+
     const handleLogin = (e) => {
         e.preventDefault();
+        if (loginUsername == '' || loginPassword == '') {
+            setErrorMessage('Vui lòng nhập đầy đủ thông tin tài khoản!');
+            return;
+        }
         fetch(`${apiURL}/token`, {
             method: 'POST',
             body: `grant_type=password&username=${loginUsername}&password=${loginPassword}`,
@@ -43,23 +57,22 @@ function Login() {
             });
     };
 
-    const [signUpUsername, setSignUpUsername] = useState('');
-    const [signUpPassword, setSignUpPassword] = useState('');
-    const [signUpConfirmPassword, setSignUpConfirmPassword] = useState('');
-    const [signUpEmail, setSignUpEmail] = useState('');
     const handleSignUp = (e) => {
         e.preventDefault();
-        let isValid = true;
+        if (signUpUsername == '' || signUpPassword == '' || signUpConfirmPassword == '' || signUpEmail == '') {
+            setErrorMessage('Vui lòng nhập đầy đủ thông tin tài khoản!');
+            return;
+        }
+        if (signUpPassword !== signUpConfirmPassword) {
+            setErrorMessage('Mật khẩu và mật khẩu xác thực không trùng khớp!');
+            return;
+        }
         const data = {
             UserName: signUpUsername,
             Password: signUpPassword,
             ConfirmPassword: signUpConfirmPassword,
             Email: signUpEmail,
         };
-        if (signUpPassword !== signUpConfirmPassword) {
-            setErrorMessage('Mật khẩu và mật khẩu xác thực không trùng khớp!');
-            return;
-        }
         fetch(`${apiURL}/api/Account/Register`, {
             method: 'POST',
             headers: {
@@ -71,20 +84,29 @@ function Login() {
             .then((data) => {
                 if (data.ModelState) {
                     setErrorMessage(data.ModelState.Error[0]);
-                    isValid = false;
                     return;
                 }
+                fetch(`${apiURL}/token`, {
+                    method: 'POST',
+                    body: `grant_type=password&username=${signUpUsername}&password=${signUpPassword}`,
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        setToken('bearer ' + data.access_token);
+                    });
             });
-        if (isValid) {
-            fetch(`${apiURL}/token`, {
-                method: 'POST',
-                body: `grant_type=password&username=${signUpUsername}&password=${signUpPassword}`,
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    setToken('bearer ' + data.access_token);
-                });
-        }
+    };
+
+    const handleClose = () => {
+        setErrorMessage('');
+        setLoginUsername('');
+        setLoginPassword('');
+        setSignUpUsername('');
+        setSignUpPassword('');
+        setSignUpConfirmPassword('');
+        setSignUpEmail('');
+        dispatch(actions.setShowLoginModal(false));
+        dispatch(actions.setIsLoginModal(true));
     };
 
     if (isLoginModal) {
@@ -98,7 +120,7 @@ function Login() {
                         <img src={images.logoLarge} alt='logo' />
                         <h4 className='my-2 fw-bold'>ĐĂNG NHẬP</h4>
                     </div>
-                    {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                    {errorMessage && <div className='text-center text-danger'>{errorMessage}</div>}
                     <form className='pt-4' onSubmit={handleLogin}>
                         <Stack gap={2}>
                             <div className='d-flex flex-column'>
@@ -106,6 +128,7 @@ function Login() {
                                 <input
                                     id='username-login'
                                     className={cx('text-box')}
+                                    value={loginUsername}
                                     onChange={(e) => setLoginUsername(e.target.value)}
                                     autoFocus
                                     required
@@ -117,6 +140,7 @@ function Login() {
                                     id='password-login'
                                     type='password'
                                     className={cx('text-box')}
+                                    value={loginPassword}
                                     onChange={(e) => setLoginPassword(e.target.value)}
                                     required
                                 />
@@ -153,7 +177,7 @@ function Login() {
                         <img src={images.logoLarge} alt='logo' />
                         <h4 className='my-2 fw-bold'>ĐĂNG KÝ</h4>
                     </div>
-                    {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                    {errorMessage && <div className='text-center text-danger'>{errorMessage}</div>}
                     <form className='pt-4' onSubmit={handleSignUp}>
                         <Stack gap={2}>
                             <div className='d-flex flex-column'>
@@ -161,6 +185,7 @@ function Login() {
                                 <input
                                     id='username-sign-up'
                                     className={cx('text-box')}
+                                    value={signUpUsername}
                                     onChange={(e) => setSignUpUsername(e.target.value)}
                                     required
                                 />
@@ -171,6 +196,7 @@ function Login() {
                                     id='email'
                                     type='email'
                                     className={cx('text-box')}
+                                    value={signUpEmail}
                                     onChange={(e) => setSignUpEmail(e.target.value)}
                                     required
                                 />
@@ -181,6 +207,7 @@ function Login() {
                                     id='password-sign-up'
                                     type='password'
                                     className={cx('text-box')}
+                                    value={signUpPassword}
                                     onChange={(e) => setSignUpPassword(e.target.value)}
                                     required
                                 />
@@ -191,6 +218,7 @@ function Login() {
                                     id='confirm-password'
                                     type='password'
                                     className={cx('text-box')}
+                                    value={signUpConfirmPassword}
                                     onChange={(e) => setSignUpConfirmPassword(e.target.value)}
                                     required
                                 />

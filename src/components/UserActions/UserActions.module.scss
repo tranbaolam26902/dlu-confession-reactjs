@@ -10,3 +10,18 @@
         background-color: rgba(0, 0, 0, 0.05);
     }
 }
+.avatar {
+    overflow: hidden;
+    position: relative;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 16px;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
+    img {
+        position: absolute;
+        left: 50%;
+        height: 100%;
+        transform: translateX(-50%);
+    }
+}

@@ -16,17 +16,20 @@ import ButtonScrollToTop from '../../ButtonScrollToTop';
 const cx = classNames.bind(styles);
 
 function DefaultLayout({ children }) {
+    // Global states
     const [states, dispatch] = useStore();
     const { apiURL, posts } = states;
+
+    // Component's states
+    const stickyTop = { top: 'calc(var(--header-height) + 32px)' };
+    const viewPort = useViewPort();
+    const isMobile = viewPort.width < 992;
+
     useEffect(() => {
         fetch(`${apiURL}/api/post/index`)
             .then((res) => res.json())
             .then((data) => dispatch(actions.setPosts(data)));
-    }, []);
-
-    const stickyTop = { top: 'calc(var(--header-height) + 32px)' };
-    const viewPort = useViewPort();
-    const isMobile = viewPort.width < 992;
+    }, [posts]);
 
     return (
         <>

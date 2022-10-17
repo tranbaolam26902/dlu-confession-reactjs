@@ -12,12 +12,19 @@ import Button from '../../../Button';
 const cx = classNames.bind(styles);
 
 function Category() {
+    // Global states
     const [states, dispatch] = useStore();
-    const { apiURL, categories } = states;
+    const { apiURL, categories, roles } = states;
+
+    // Component's states
     const [showCreateCategoryModal, setShowCreateCategoryModal] = useState(false);
     const [categoryName, setCategoryName] = useState('');
     const [categoryDescription, setCategoryDescription] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+
+    useEffect(() => {
+        getCategories();
+    }, [categories]);
 
     const getCategories = () => {
         fetch(`${apiURL}/api/category/index`)
@@ -27,6 +34,7 @@ function Category() {
             });
     };
 
+    // Remove accents for alias
     const removeAccents = (str) =>
         str
             .normalize('NFD')
@@ -35,22 +43,19 @@ function Category() {
             .replace(/Đ/g, 'D');
     const getAlias = (name) => removeAccents(name).split(' ').join('-');
 
-    useEffect(() => {
-        getCategories();
-    }, [categories]);
-
-    const handleCreate = () => {
+    const handleCreate = (e) => {
+        e.preventDefault();
+        if (categoryName === '') {
+            setErrorMessage('Nhập tên danh mục!');
+            return;
+        }
         const data = {
             Name: categoryName,
             Alias: getAlias(categoryName),
             Description: categoryDescription,
             Active: true,
         };
-        if (categoryName === '') {
-            setErrorMessage('Nhập tên danh mục!');
-            return;
-        }
-        fetch(`${apiURL}/api/category/create`, {
+        fetch(`${apiURL}/api/admcategory/create`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -58,7 +63,6 @@ function Category() {
             },
             body: JSON.stringify(data),
         }).then((res) => {
-            getCategories();
             handleClose();
         });
     };
@@ -88,9 +92,11 @@ function Category() {
                     })}
                 </div>
                 <hr className='mb-3' />
-                <Button outline fluid onClick={() => setShowCreateCategoryModal(true)}>
-                    Tạo danh mục
-                </Button>
+                {roles.includes('Manager') && (
+                    <Button outline fluid onClick={() => setShowCreateCategoryModal(true)}>
+                        Tạo danh mục
+                    </Button>
+                )}
             </div>
 
             <Modal show={showCreateCategoryModal} onHide={handleClose} centered>
@@ -102,27 +108,27 @@ function Category() {
                         </button>
                     </div>
                     <hr className='my-0' />
-                    <Stack gap={3} className='pt-3'>
-                        <div className='text-danger text-center'>{errorMessage}</div>
-                        <input
-                            className={cx('text-box')}
-                            placeholder='Tên danh mục *'
-                            onChange={(e) => setCategoryName(e.target.value)}
-                        />
-                        <textarea
-                            className={cx('text-area')}
-                            placeholder='Mô tả'
-                            onChange={(e) => setCategoryDescription(e.target.value)}
-                        />
-                        <div className='text-end'>
-                            <Button text onClick={handleClose}>
-                                Hủy
-                            </Button>
-                            <Button secondary onClick={handleCreate}>
-                                Tạo
-                            </Button>
-                        </div>
-                    </Stack>
+                    <form onSubmit={handleCreate}>
+                        <Stack gap={3} className='pt-3'>
+                            <div className='text-danger text-center'>{errorMessage}</div>
+                            <input
+                                className={cx('text-box')}
+                                placeholder='Tên danh mục *'
+                                onChange={(e) => setCategoryName(e.target.value)}
+                            />
+                            <textarea
+                                className={cx('text-area')}
+                                placeholder='Mô tả'
+                                onChange={(e) => setCategoryDescription(e.target.value)}
+                            />
+                            <div className='text-end'>
+                                <Button text onClick={handleClose}>
+                                    Hủy
+                                </Button>
+                                <Button secondary>Tạo</Button>
+                            </div>
+                        </Stack>
+                    </form>
                 </div>
             </Modal>
         </>

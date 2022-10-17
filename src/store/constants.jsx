@@ -4,3 +4,4 @@ export const SET_SHOW_CREATE_POST_MODAL = 'set_show_create_post_modal';
 export const SET_POSTS = 'set_posts';
 export const SET_CATEGORIES = 'set_categories';
 export const SET_FILTER = 'set_filter';
+export const SET_ROLES = 'set_roles';

@@ -5,6 +5,7 @@ import {
     SET_POSTS,
     SET_CATEGORIES,
     SET_FILTER,
+    SET_ROLES,
 } from './constants';
 
 const initStates = {
@@ -15,6 +16,7 @@ const initStates = {
     posts: [],
     categories: [],
     filter: '',
+    roles: [],
 };
 
 function reducer(state, action) {
@@ -48,6 +50,11 @@ function reducer(state, action) {
             return {
                 ...state,
                 filter: action.payload,
+            };
+        case SET_ROLES:
+            return {
+                ...state,
+                roles: action.payload,
             };
         default:
             throw new Error('Error');

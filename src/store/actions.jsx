@@ -5,6 +5,7 @@ import {
     SET_POSTS,
     SET_CATEGORIES,
     SET_FILTER,
+    SET_ROLES,
 } from './constants';
 
 export const setShowLoginModal = (payload) => ({
@@ -34,5 +35,10 @@ export const setCategories = (payload) => ({
 
 export const setFilter = (payload) => ({
     type: SET_FILTER,
+    payload,
+});
+
+export const setRoles = (payload) => ({
+    type: SET_ROLES,
     payload,
 });

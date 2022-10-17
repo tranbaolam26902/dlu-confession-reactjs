@@ -1,28 +1,35 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Modal } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
+import { useStore } from '../../store';
 import styles from './PostModal.module.scss';
 import icons from '../../assets/icons';
 import images from '../../assets/img';
 
 import CategoryTag from '../CategoryTag';
 import Vote from '../Vote';
-import { useStore } from '../../store';
 
 const cx = classNames.bind(styles);
 
 function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScrollToComment, data }) {
+    // Global states
     const [states, dispatch] = useStore();
+    const { apiURL } = states;
+
+    // Component's states
     const [up, setUp] = useState(false); // Vote icon states
     const [down, setDown] = useState(false); // Vote icon states
+    const [userAvatar, setUserAvatar] = useState(images.avatar);
+
+    // Variables
+    const imageURL = `${apiURL}/image/post?id=`;
     const commentRef = useRef();
-    const { apiURL } = states;
-    const imgURL = `${apiURL}/image/post?id=`;
 
     const handleScroll = () => {
         if (scrollToComment) commentRef.current.scrollIntoView({ behavior: 'smooth' });
     };
+
     const handleClose = () => {
         setShowPostModal(false);
         setScrollToComment(false);
@@ -32,6 +39,10 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
     const date = data.CreatedTime.split('-');
     const day = date[2].split('T')[0];
     const month = date[1];
+
+    useEffect(() => {
+        if (data.Avatar) setUserAvatar(`${imageURL}${data.Avatar}`);
+    }, []);
 
     return (
         <Modal show={showPostModal} size='lg' onHide={handleClose} centered onEntering={handleScroll}>
@@ -45,7 +56,9 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
                 <hr className='mb-3' />
                 <div className='d-flex flex-column'>
                     <div className='d-flex mb-3'>
-                        <img src={images.avatar} alt='avatar' />
+                        <div className={cx('avatar')}>
+                            <img src={userAvatar} alt='avatar' />
+                        </div>
                         <div className='mx-3 w-100'>
                             <h4 className='fw-bold'>{data.NickName}</h4>
                             <h5>{day + ' tháng ' + month}</h5>
@@ -65,7 +78,7 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
                         {data.Pictures.map((picture) => {
                             return (
                                 <img
-                                    src={imgURL + picture.Path}
+                                    src={imageURL + picture.Path}
                                     alt='post-image'
                                     key={picture.Id}
                                     className={cx('images')}
@@ -74,9 +87,9 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
                         })}
                     </div>
                     <div className='d-flex justify-content-end mt-3'>
-                        <Vote voted={{ up, down }} action={{ setUp, setDown }}>
+                        {/* <Vote voted={{ up, down }} action={{ setUp, setDown }}>
                             {up ? data.Like + 1 : data.Like}
-                        </Vote>
+                        </Vote> */}
                     </div>
                     <div ref={commentRef}></div>
                 </div>

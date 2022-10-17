@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 
 import styles from './ButtonScrollToTop.module.scss';
@@ -22,7 +22,9 @@ function ButtonScrollToTop() {
         });
     };
 
-    window.addEventListener('scroll', handleShowButton);
+    useEffect(() => {
+        window.addEventListener('scroll', handleShowButton);
+    }, []);
 
     return (
         <>
