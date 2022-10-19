@@ -18,13 +18,12 @@ const cx = classNames.bind(styles);
 function Post({ data }) {
     // Global states
     const [states, dispatch] = useStore();
-    const { token, apiURL } = states;
+    const { token, apiURL, userId } = states;
 
     // Component's states
     const [like, setLike] = useState(data.Like);
-    const [userId, setUserId] = useState('');
     const [userAvatar, setUserAvatar] = useState(images.avatar);
-    const [isVoted, setIsVoted] = useState();
+    const [isVoted, setIsVoted] = useState(false);
     const [showPostModal, setShowPostModal] = useState(false);
     const [scrollToComment, setScrollToComment] = useState(false);
 
@@ -57,30 +56,17 @@ function Post({ data }) {
     };
 
     useEffect(() => {
-        if (data.Avatar) setUserAvatar(`${imageURL}${data.Avatar}`);
+        let mounted = true;
 
-        fetch(`${apiURL}/api/useraccount/getinfo`, {
-            method: 'GET',
-            headers: {
-                Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
-            },
-        })
-            .then((res) => res.json())
-            .then((responseData) => {
-                setUserId(responseData.Id);
-                console.log(data);
-                // if (data.PostLikes.length > 0) {
-                data.PostLikes.map((postLike) => {
-                    if (postLike.UserID == userId) {
-                        console.log(postLike.UserID);
-                        console.log(userId);
-                        setIsVoted(postLike.IsLike);
-                        console.log(isVoted);
-                    }
-                });
-                // }
-            });
-    }, []);
+        if (data.Avatar) setUserAvatar(`${imageURL}${data.Avatar}`);
+        data.PostLikes.map((postLike) => {
+            if (postLike.UserID == userId && mounted) {
+                setIsVoted(postLike.IsLiked);
+            }
+        });
+
+        return () => (mounted = false);
+    }, [like, isVoted]);
 
     // Convert created time
     const date = data.CreatedTime.split('-');
@@ -138,9 +124,6 @@ function Post({ data }) {
                             <img src={icons.comment} alt='icon-comment' />
                             <span className='ms-2'>2,1k</span>
                         </button>
-                        {/* <Vote postId={data.Id} voted={{ up, down }} action={{ setUp, setDown }} setVote={setVote}>
-                            {vote}
-                        </Vote> */}
                         <Vote data={data} like={like} setLike={setLike} isVoted={isVoted} setIsVoted={setIsVoted} />
                     </div>
                 </div>

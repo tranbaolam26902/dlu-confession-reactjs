@@ -14,6 +14,8 @@ function Category() {
     const [currentCategory, setCurrentCategory] = useState('');
 
     useEffect(() => {
+        let mounted = true;
+
         if (filter !== '') {
             const formData = new FormData();
             formData.append('id', filter);
@@ -23,12 +25,16 @@ function Category() {
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    dispatch(actions.setPosts(data));
-                    categories.map((category) => {
-                        if (category.Id == filter) setCurrentCategory(category.Name);
-                    });
+                    if (mounted) {
+                        dispatch(actions.setPosts(data));
+                        categories.map((category) => {
+                            if (category.Id == filter) setCurrentCategory(category.Name);
+                        });
+                    }
                 });
         }
+
+        return () => (mounted = false);
     }, [filter]);
 
     return (

@@ -23,16 +23,16 @@ function Category() {
     const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
-        getCategories();
-    }, [categories]);
+        let mounted = true;
 
-    const getCategories = () => {
         fetch(`${apiURL}/api/category/index`)
             .then((res) => res.json())
             .then((data) => {
-                dispatch(actions.setCategories(data));
+                if (mounted) dispatch(actions.setCategories(data));
             });
-    };
+
+        return () => (mounted = false);
+    }, [categories]);
 
     // Remove accents for alias
     const removeAccents = (str) =>

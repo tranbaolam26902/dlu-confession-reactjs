@@ -28,6 +28,8 @@ function CreatePost() {
 
     // Get and set categories for dropdown categories menu
     useEffect(() => {
+        let mounted = true;
+
         fetch(`${apiURL}/api/category/index`)
             .then((response) => response.json())
             .then((data) => {
@@ -35,8 +37,10 @@ function CreatePost() {
                 data.map((category) => {
                     selectedCategories.push({ key: category.Id, label: category.Name });
                 });
-                setCategories(selectedCategories);
+                if (mounted) setCategories(selectedCategories);
             });
+
+        return () => (mounted = false);
     }, []);
 
     const handleSelectCategories = (selected) => setPostCategories(selected);

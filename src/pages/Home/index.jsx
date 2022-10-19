@@ -8,9 +8,27 @@ function Home() {
     const [states, dispatch] = useStore();
     const { apiURL, posts } = states;
     useEffect(() => {
+        let mounted = true;
+
         fetch(`${apiURL}/api/post/index`)
             .then((res) => res.json())
-            .then((data) => dispatch(actions.setPosts(data)));
+            .then((data) => {
+                dispatch(actions.setPosts(data));
+                if (localStorage.getItem('token')) {
+                    fetch(`${apiURL}/api/useraccount/getinfo`, {
+                        method: 'GET',
+                        headers: {
+                            Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+                        },
+                    })
+                        .then((res) => res.json())
+                        .then((responseData) => {
+                            if (mounted) dispatch(actions.setUserId(responseData.Id));
+                        });
+                }
+            });
+
+        return () => (mounted = false);
     }, [posts]);
 
     return (

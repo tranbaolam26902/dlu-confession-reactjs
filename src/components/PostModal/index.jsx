@@ -41,7 +41,11 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
     const month = date[1];
 
     useEffect(() => {
+        let mounted = true;
+
         if (data.Avatar) setUserAvatar(`${imageURL}${data.Avatar}`);
+
+        return () => (mounted = false);
     }, []);
 
     return (

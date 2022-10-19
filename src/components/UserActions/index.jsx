@@ -105,6 +105,8 @@ function UserActions() {
     };
 
     useEffect(() => {
+        let mounted = true;
+
         if (localStorage.getItem('token'))
             fetch(`${apiURL}/api/useraccount/getinfo`, {
                 method: 'GET',
@@ -114,9 +116,13 @@ function UserActions() {
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    if (data.RoleTemps) dispatch(actions.setRoles(data.RoleTemps));
-                    if (data.UserProfile.Avatar) setUserAvatar(`${imageURL}${data.UserProfile.Avatar}`);
+                    if (mounted) {
+                        if (data.RoleTemps) dispatch(actions.setRoles(data.RoleTemps));
+                        if (data.UserProfile.Avatar) setUserAvatar(`${imageURL}${data.UserProfile.Avatar}`);
+                    }
                 });
+
+        return () => (mounted = false);
     }, []);
 
     if (isMobile) {

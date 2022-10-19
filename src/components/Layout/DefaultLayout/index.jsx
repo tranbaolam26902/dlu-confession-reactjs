@@ -26,9 +26,15 @@ function DefaultLayout({ children }) {
     const isMobile = viewPort.width < 992;
 
     useEffect(() => {
+        let mounted = true;
+
         fetch(`${apiURL}/api/post/index`)
             .then((res) => res.json())
-            .then((data) => dispatch(actions.setPosts(data)));
+            .then((data) => {
+                if (mounted) dispatch(actions.setPosts(data));
+            });
+
+        return () => (mounted = false);
     }, [posts]);
 
     return (

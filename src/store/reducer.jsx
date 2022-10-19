@@ -6,10 +6,11 @@ import {
     SET_CATEGORIES,
     SET_FILTER,
     SET_ROLES,
+    SET_USER_ID,
 } from './constants';
 
 const initStates = {
-    apiURL: 'https://localhost:44332',
+    apiURL: 'http://10.0.101.68:31234',
     showLoginModal: false,
     isLoginModal: true,
     showCreatePostModal: false,
@@ -17,6 +18,7 @@ const initStates = {
     categories: [],
     filter: '',
     roles: [],
+    userId: '',
 };
 
 function reducer(state, action) {
@@ -55,6 +57,11 @@ function reducer(state, action) {
             return {
                 ...state,
                 roles: action.payload,
+            };
+        case SET_USER_ID:
+            return {
+                ...state,
+                userId: action.payload,
             };
         default:
             throw new Error('Error');

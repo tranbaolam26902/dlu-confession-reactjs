@@ -6,6 +6,7 @@ import {
     SET_CATEGORIES,
     SET_FILTER,
     SET_ROLES,
+    SET_USER_ID,
 } from './constants';
 
 export const setShowLoginModal = (payload) => ({
@@ -40,5 +41,10 @@ export const setFilter = (payload) => ({
 
 export const setRoles = (payload) => ({
     type: SET_ROLES,
+    payload,
+});
+
+export const setUserId = (payload) => ({
+    type: SET_USER_ID,
     payload,
 });
