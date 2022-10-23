@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import { useStore, actions } from '../../store';
 import styles from './Category.module.scss';
+import icons from '../../assets/icons';
 
 import Post from '../../components/Post';
 
@@ -35,12 +37,18 @@ function Category() {
         }
 
         return () => (mounted = false);
-    }, [posts]);
+    }, [posts, filter]);
 
     return (
         <>
             <div className={cx('header')}>
-                Bài viết thuộc danh mục: <span className={cx('category')}>{currentCategory}</span>
+                <div>
+                    <span>Bài viết thuộc danh mục: </span>
+                    <span className={cx('category')}>{currentCategory}</span>
+                </div>
+                <Link to='/' onClick={() => dispatch(actions.setFilter(''))}>
+                    <img src={icons.closeSmall} alt='btn-delete-filter' />
+                </Link>
             </div>
             <div>
                 {posts.map((post) => {
