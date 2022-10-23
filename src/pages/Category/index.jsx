@@ -35,7 +35,7 @@ function Category() {
         }
 
         return () => (mounted = false);
-    }, [filter]);
+    }, [posts]);
 
     return (
         <>
