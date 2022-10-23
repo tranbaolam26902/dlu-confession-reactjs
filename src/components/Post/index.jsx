@@ -12,17 +12,18 @@ import CategoryTag from '../CategoryTag';
 import Vote from '../Vote';
 import PostModal from '../PostModal';
 import PostImage from '../PostImage';
+import Avatar from '../Avatar';
 
 const cx = classNames.bind(styles);
 
-function Post({ data }) {
+function Post({ data, userId }) {
     // Global states
     const [states, dispatch] = useStore();
-    const { token, apiURL, userId } = states;
+    const { token, apiURL } = states;
 
     // Component's states
-    const [like, setLike] = useState(data.Like);
     const [userAvatar, setUserAvatar] = useState(images.avatar);
+    const [like, setLike] = useState(data.Like);
     const [isVoted, setIsVoted] = useState(false);
     const [showPostModal, setShowPostModal] = useState(false);
     const [scrollToComment, setScrollToComment] = useState(false);
@@ -58,14 +59,16 @@ function Post({ data }) {
     useEffect(() => {
         let mounted = true;
 
-        if (data.Avatar) setUserAvatar(`${imageURL}${data.Avatar}`);
+        if (data.Avatar && mounted) setUserAvatar(`${imageURL}${data.Avatar}`);
         data.PostLikes.map((postLike) => {
-            if (postLike.UserID == userId && mounted) {
+            if (postLike.UserID === userId && mounted) {
                 setIsVoted(postLike.IsLiked);
             }
+            return null;
         });
 
         return () => (mounted = false);
+        // eslint-disable-next-line
     }, [like, isVoted]);
 
     // Convert created time
@@ -78,9 +81,7 @@ function Post({ data }) {
             <div id={data.Id} className={cx('wrapper')}>
                 <div className='d-flex flex-column'>
                     <div className='d-flex mb-3'>
-                        <div className={cx('avatar')}>
-                            <img src={userAvatar} alt='avatar' />
-                        </div>
+                        <Avatar avatar={userAvatar} />
                         <div className='mx-3 w-100'>
                             {data.PrivateMode && <h4 className='fw-bold'>Ẩn danh</h4>}
                             {!data.PrivateMode && <h4 className='fw-bold'>{data.NickName}</h4>}
@@ -122,7 +123,7 @@ function Post({ data }) {
                     <div className='d-flex justify-content-end mt-3'>
                         <button className='me-4' onClick={handleComment}>
                             <img src={icons.comment} alt='icon-comment' />
-                            <span className='ms-2'>2,1k</span>
+                            <span className='ms-2'>{data.Comments.length}</span>
                         </button>
                         <Vote data={data} like={like} setLike={setLike} isVoted={isVoted} setIsVoted={setIsVoted} />
                     </div>

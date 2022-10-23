@@ -1,0 +1,15 @@
+import classNames from 'classnames/bind';
+
+import styles from './Avatar.module.scss';
+
+const cx = classNames.bind(styles);
+
+function Avatar({ avatar }) {
+    return (
+        <div className={cx('avatar')}>
+            <img src={avatar} alt='avatar' />
+        </div>
+    );
+}
+
+export default Avatar;

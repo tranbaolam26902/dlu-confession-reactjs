@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useStore, actions } from '../../store';
 
@@ -7,6 +7,9 @@ import Post from '../../components/Post';
 function Home() {
     const [states, dispatch] = useStore();
     const { apiURL, posts } = states;
+
+    const [userId, setUserId] = useState();
+
     useEffect(() => {
         let mounted = true;
 
@@ -23,7 +26,7 @@ function Home() {
                     })
                         .then((res) => res.json())
                         .then((responseData) => {
-                            if (mounted) dispatch(actions.setUserId(responseData.Id));
+                            if (mounted) setUserId(responseData.Id);
                         });
                 }
             });
@@ -34,7 +37,7 @@ function Home() {
     return (
         <div>
             {posts.map((post) => {
-                if (post.Active) return <Post data={post} key={post.Id} />;
+                if (post.Active) return <Post data={post} userId={userId} key={post.Id} />;
             })}
         </div>
     );

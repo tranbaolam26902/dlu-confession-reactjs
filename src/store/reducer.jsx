@@ -10,7 +10,7 @@ import {
 } from './constants';
 
 const initStates = {
-    apiURL: 'http://10.0.101.68:31234',
+    apiURL: 'https://localhost:44332',
     showLoginModal: false,
     isLoginModal: true,
     showCreatePostModal: false,

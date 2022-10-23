@@ -1,36 +1,61 @@
 .wrapper {
     display: flex;
-    margin: 16px 0 32px;
-    .avatar {
-        display: inline-block;
-        width: 40px;
-        height: 40px;
-        border-radius: 16px;
-        object-fit: cover;
+    margin-top: 16px;
+    &:last-child {
+        position: relative;
     }
-    .divider {
-        content: "";    
+    &:last-child::before {
+        content: '';
         position: absolute;
-        top: 56px;
+        left: -40px;
+        top: 20px;
         bottom: 0;
-        left: 18px;
-        width: 4px;
-        background-color: var(--red);
-        border-radius: 16px;
+        width: 40px;
+        background-color: var(--primary);
     }
-    .info {
-        margin-bottom: 16px;
-        color: var(--text-secondary-50);
-        h5 {
-            font-weight: bold;
-        }
+}
+.side {
+    flex: 0 0 40px;
+    position: relative;
+    margin-right: 16px;
+}
+.main {
+    flex: 1;
+}
+.divider {
+    position: absolute;
+    top: 48px;
+    left: 18px;
+    bottom: 0;
+    width: 4px;
+    background-color: var(--background);
+    border-radius: 16px;
+}
+.match-parent {
+    position: absolute;
+    top: 16px;
+    left: -34px;
+    width: 24px;
+    height: 4px;
+    background-color: var(--background);
+    border-radius: 16px;
+}
+.content {
+    display: inline-block;
+    margin-bottom: 4px;
+    padding: 8px 16px;
+    background-color: var(--background);
+    border-radius: 16px;
+}
+.actions {
+    display: flex;
+    align-items: center;
+    margin-left: 16px;
+    button {
+        font-size: 14px;
+        font-weight: bold;
     }
-    .content {
-        padding: 8px 16px;
-        background-color: var(--background);
-        border-radius: 16px;
-    }
-    .action {
-        color: var(--text-secondary-50);
+    * + * {
+        margin-left: 16px;
     }
 }

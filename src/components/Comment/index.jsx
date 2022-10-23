@@ -1,37 +1,60 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
-import images from '../../assets/img';
-import Vote from '../Vote';
 
+import { useStore } from '../../store';
 import styles from './Comment.module.scss';
-import { Stack } from 'react-bootstrap';
+import images from '../../assets/img';
+
+import Avatar from '../Avatar';
 
 const cx = classNames.bind(styles);
 
 function Comment({ data }) {
-    const [up, setUp] = useState(false);
-    const [down, setDown] = useState(false);
+    // Global states
+    const [states, dispatch] = useStore();
+    const { apiURL } = states;
+
+    // Component's states
+    const [userAvatar, setUserAvatar] = useState(images.avatar);
+
+    // Variables
+    const imageURL = `${apiURL}/image/user?id=`;
+
+    // Convert datetime
+    const date = data.PostTime.split('-');
+    const day = date[2].split('T')[0];
+    const month = date[1];
+
+    useEffect(() => {
+        let mounted = true;
+
+        if (mounted && data.Avatar) setUserAvatar(`${imageURL}${data.Avatar}`);
+
+        return () => (mounted = false);
+        // eslint-disable-next-line
+    }, []);
 
     return (
         <div className={cx('wrapper')}>
-            <div className='position-relative me-3'>
-                <img src={images.post} alt='user-avatar' className={cx('avatar')} />
-                <div className={cx('divider')}></div>
+            <div className={cx('side')}>
+                <Avatar avatar={userAvatar} />
+                {!data.ParentId && data.ChildComments.length !== 0 && <div className={cx('divider')}></div>}
+                {data.ParentId && <div className={cx('match-parent')}></div>}
             </div>
-            <div>
-                <div className={cx('info')}>
-                    <h5>Name</h5>
-                    <h6>{data.CreatedTime}</h6>
+            <div className={cx('main')}>
+                <div className={cx('content')}>
+                    <h5 className='fw-bold'>{data.NickName}</h5>
+                    {data.Content}
                 </div>
-                <div className={cx('body')}>
-                    <h5 className={cx('content')}>{data.Description}</h5>
-                    <Stack gap={3} direction='horizontal'>
-                        <Vote voted={{ up, down }} action={{ setUp, setDown }}>
-                            {up ? data.Like + 1 : data.Like}
-                        </Vote>
-                        <button className={cx('action')}>Phản hồi</button>
-                        <button className={cx('action')}>Báo cáo</button>
-                    </Stack>
+                <div className={cx('actions')}>
+                    <button>Phản hồi</button>
+                    <button>Báo cáo</button>
+                    <h6>{day + ' tháng ' + month}</h6>
+                </div>
+                <div>
+                    {data.ChildComments.map((childComment) => {
+                        return <Comment data={childComment} key={childComment.Id} />;
+                    })}
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 
 import { useStore, actions, useToken } from '../../store';
@@ -36,28 +36,28 @@ function Vote({ data, like, setLike, isVoted, setIsVoted }) {
         }
     };
 
-    const handleVoteDown = () => {
-        if (token) {
-            if (isVoted) {
-                const formData = new FormData();
-                formData.append('id', data.Id);
-                fetch(`${apiURL}/api/userpost/like`, {
-                    method: 'POST',
-                    headers: {
-                        Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
-                    },
-                    body: formData,
-                })
-                    .then((res) => res.json())
-                    .then((data) => {
-                        setLike(data.Like);
-                        setIsVoted(data.PostLikes.IsLiked);
-                    });
-            }
-        } else {
-            dispatch(actions.setShowLoginModal(true));
-        }
-    };
+    // const handleVoteDown = () => {
+    //     if (token) {
+    //         if (isVoted) {
+    //             const formData = new FormData();
+    //             formData.append('id', data.Id);
+    //             fetch(`${apiURL}/api/userpost/like`, {
+    //                 method: 'POST',
+    //                 headers: {
+    //                     Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+    //                 },
+    //                 body: formData,
+    //             })
+    //                 .then((res) => res.json())
+    //                 .then((data) => {
+    //                     setLike(data.Like);
+    //                     setIsVoted(data.PostLikes.IsLiked);
+    //                 });
+    //         }
+    //     } else {
+    //         dispatch(actions.setShowLoginModal(true));
+    //     }
+    // };
 
     // useEffect(() => {}, [isVoted]);
     // console.log(isVoted);
