@@ -1,26 +1,42 @@
 import { useEffect } from 'react';
-import { useState } from 'react';
+
+import { useStore, actions } from '../../store';
+
 import Post from '../../components/Post';
 
 function Home() {
-
-    const [posts, setPosts] = useState([]);
-
+    const [states, dispatch] = useStore();
+    const { apiURL, posts , userId} = states;
+    
     useEffect(() => {
-        fetch('https://localhost:44332/api/post/index')
+        let mounted = true;
+
+        fetch(`${apiURL}/api/post/index`)
             .then((res) => res.json())
-            .then(
-                (result) => {
-                    setPosts(result);
+            .then((data) => {
+                dispatch(actions.setPosts(data));
+                if (localStorage.getItem('token')) {
+                    fetch(`${apiURL}/api/useraccount/getinfo`, {
+                        method: 'GET',
+                        headers: {
+                            Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+                        },
+                    })
+                        .then((res) => res.json())
+                        .then((responseData) => {
+                        
+                            if (mounted) {
+                                dispatch(actions.setUserId(responseData.Id));
+                            }
+                        });
                 }
-            );
+            });
+        return () => (mounted = false);
     }, []);
-
-
     return (
         <div>
             {posts.map((post) => {
-                return <Post data={post} key={post.Id} />;
+                if (post.Active) return <Post data={post} key={post.Id} />;
             })}
         </div>
     );

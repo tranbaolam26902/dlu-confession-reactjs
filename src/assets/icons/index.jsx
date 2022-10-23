@@ -16,6 +16,7 @@ const icons = {
     add: require('./add.svg').default,
     galleryAdd: require('./gallery-add.svg').default,
     arrowDown: require('./arrow-down.svg').default,
+    arrowUp: require('./arrow-up.svg').default,
 };
 
 export default icons;

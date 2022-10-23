@@ -1,31 +1,27 @@
 .user-actions {
     padding: 0 12px;
 }
-.notification {
-    position: relative;
-    display: inline-block;
-    &::before {
-        content: attr(data);
-        position: absolute;
-        top: -2px;
-        right: -2px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 18px;
-        height: 18px;
-        font-size: 1rem;
-        font-weight: bold;
-        color: var(--white);
-        border-radius: 50%;
-        background-color: var(--red);
-    }
-}
+
 .btn-logout {
     padding: 8px 16px;
     color: var(--red);
     border-radius: 8px;
     &:hover {
         background-color: rgba(0, 0, 0, 0.05);
+    }
+}
+.avatar {
+    overflow: hidden;
+    position: relative;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 16px;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
+    img {
+        position: absolute;
+        left: 50%;
+        height: 100%;
+        transform: translateX(-50%);
     }
 }

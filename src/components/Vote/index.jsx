@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 
 import { useStore, actions, useToken } from '../../store';
@@ -7,55 +7,90 @@ import icons from '../../assets/icons';
 
 const cx = classNames.bind(styles);
 
-function Vote({ voted, action, children }) {
+function Vote({ data, like, setLike, isVoted, setIsVoted }) {
+    // Global states
     const [states, dispatch] = useStore();
     const { token } = useToken();
-    const [voteUpIcon, setVoteUpIcon] = useState(icons.voteUp);
-    const [voteDownIcon, setVoteDownIcon] = useState(icons.voteDown);
+    const { apiURL, userId } = states;
+
+    // useEffect(() => {}, [isVoted, like]);
     const handleVoteUp = () => {
         if (token) {
-            if (!voted.up) {
-                setVoteUpIcon(icons.voteUpTrue);
-                if (voted.down) {
-                    action.setDown(!voted.down);
-                    setVoteDownIcon(icons.voteDown);
-                }
-            } else {
-                setVoteUpIcon(icons.voteUp);
-            }
-            action.setUp(!voted.up);
-        } else {
-            dispatch(actions.setShowLoginModal(true));
-        }
-    };
-    const handleVoteDown = () => {
-        if (token) {
-            if (!voted.down) {
-                setVoteDownIcon(icons.voteDownTrue);
-                if (voted.up) {
-                    action.setUp(!voted.up);
-                    setVoteUpIcon(icons.voteUp);
-                }
-            } else {
-                setVoteDownIcon(icons.voteDown);
-            }
-            action.setDown(!voted.down);
+            
+            const formData = new FormData();
+            formData.append('id', data.Id);
+            fetch(`${apiURL}/api/userpost/like`, {
+                method: 'POST',
+                headers: {
+                    Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+                },
+                body: formData,
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    setLike(data.Like);
+                    if (data.PostLikes.length > 0) {
+                        data.PostLikes.map((postLike) => {
+                            if (postLike.UserID == userId) {
+                                setIsVoted(postLike.IsLiked);
+                            }
+                            else {
+                                setIsVoted(false);
+                            }
+                        });
+                    }
+                    else {
+                        setIsVoted(false);
+                    }
+                    
+                    
+                });
         } else {
             dispatch(actions.setShowLoginModal(true));
         }
     };
 
+    const handleVoteDown = () => {
+        if (token) {
+            if (isVoted) {
+                const formData = new FormData();
+                formData.append('id', data.Id);
+                fetch(`${apiURL}/api/userpost/like`, {
+                    method: 'POST',
+                    headers: {
+                        Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+                    },
+                    body: formData,
+                })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        setLike(data.Like);
+                        setIsVoted(data.PostLikes.IsLiked);
+                    });
+            }
+        } else {
+            dispatch(actions.setShowLoginModal(true));
+        }
+    };
+    
+    // useEffect(() => {
+    //     console.log(isVoted + " 4");
+
+    // }, [isVoted, post]);
     return (
         <div className={cx('wrapper')}>
             <button onClick={handleVoteUp}>
-                <img src={voteUpIcon} alt='icon-vote-up' />
+                
+                {isVoted && <img src={icons.voteUpTrue} alt='icon-vote-up' />}
+                {!isVoted && <img src={icons.voteUp} alt='icon-vote-up' />}
             </button>
-            <span className={cx('vote', { 'vote-up': voted.up, 'vote-down': voted.down })}>{children}</span>
-            <button onClick={handleVoteDown}>
-                <img src={voteDownIcon} alt='icon-vote-down' />
-            </button>
+            <span className={cx('vote')}>{like}</span>
+            {/* <button onClick={handleVoteDown}>
+                <img src={icons.voteDown} alt='icon-vote-down' />
+            </button> */}
         </div>
     );
+    
 }
 
 export default Vote;

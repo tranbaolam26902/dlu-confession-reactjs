@@ -22,6 +22,9 @@
         position: relative;
         flex: 1;
         // Button contains all items selected
+        & > div > div {
+            padding-bottom: 16px !important;
+        }
         & > div > button {
             position: relative;
             z-index: 1;

@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Tippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
 
+import { useStore, actions } from '../../store';
 import styles from './Post.module.scss';
 import icons from '../../assets/icons';
 import images from '../../assets/img';
 
-import { useStore, actions } from '../../store';
+import { Wrapper as PopoverWrapper } from '../Popover';
 import CategoryTag from '../CategoryTag';
 import Vote from '../Vote';
 import PostModal from '../PostModal';
@@ -14,44 +16,103 @@ import PostImage from '../PostImage';
 const cx = classNames.bind(styles);
 
 function Post({ data }) {
+    // Global states
     const [states, dispatch] = useStore();
-    const { token } = states;
+    const { token, apiURL, userId } = states;
 
-    const [up, setUp] = useState(false); // Vote icon states
-    const [down, setDown] = useState(false); // Vote icon states
+    // Component's states
+    const [like, setLike] = useState(data.Like);
+    const [userAvatar, setUserAvatar] = useState(images.avatar);
+    const [isVoted, setIsVoted] = useState(false);
     const [showPostModal, setShowPostModal] = useState(false);
     const [scrollToComment, setScrollToComment] = useState(false);
-    
-    const handleOpenPostModal = () => setShowPostModal(true);
+
+    // Variables
+    const imageURL = `${apiURL}/image/user?id=`;
+
+    const handleOpenPostModal = () => {
+        setShowPostModal(true);
+    };
+
     const handleComment = () => {
-        if (token != '') {
+        if (token !== '') {
             setShowPostModal(true);
             setScrollToComment(true);
         } else dispatch(actions.setShowLoginModal(true));
     };
-    
-    // For test
-    // const imgList = [images.post, images.post, images.post, images.post, images.post, images.post];
-    const imgList = data.Pictures;
 
-    
+    const handleDelete = () => {
+        if (window.confirm('Xác nhận xóa bài viết?')) {
+            const formData = new FormData();
+            formData.append('id', data.Id);
+            fetch(`${apiURL}/api/userpost/delete`, {
+                method: 'POST',
+                headers: {
+                    Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+                },
+                body: formData,
+            });
+        }
+    };
+    useEffect(() => {
+        let mounted = true;
+        if (data.Avatar) setUserAvatar(`${imageURL}${data.Avatar}`);
+        if (data.PostLikes.length > 0) {
+            data.PostLikes.map((postLike) => {
+                // console.log(postLike.UserID == userId);
+                if (postLike.UserID == userId) {
+                    setIsVoted(postLike.IsLiked);
+                } else {
+                    setIsVoted(false);
+                }
+            });
+        } else {
+            setIsVoted(false);
+        }
+
+        return () => (mounted = false);
+    }, [userId]);
+
+    // Convert created time
+    const date = data.CreatedTime.split('-');
+    const day = date[2].split('T')[0];
+    const month = date[1];
+
     return (
         <>
             <div id={data.Id} className={cx('wrapper')}>
                 <div className='d-flex flex-column'>
                     <div className='d-flex mb-3'>
-                        <img src={images.avatar} alt='avatar' />
-                        <div className='mx-3 w-100'>
-                            <h4 className='fw-bold'>Name</h4>
-                            <h5>{data.CreatedTime}</h5>
+                        <div className={cx('avatar')}>
+                            <img src={userAvatar} alt='avatar' />
                         </div>
-                        <button>
+                        <div className='mx-3 w-100'>
+                            {data.PrivateMode && <h4 className='fw-bold'>Ẩn danh</h4>}
+                            {!data.PrivateMode && <h4 className='fw-bold'>{data.NickName}</h4>}
+                            <h5>{day + ' tháng ' + month}</h5>
+                        </div>
+                        <Tippy
+                            interactive
+                            delay={[0, 300]}
+                            placement='bottom-end'
+                            render={(attrs) => (
+                                <PopoverWrapper>
+                                    <button className={cx('post-option')} onClick={handleDelete}>
+                                        Xóa bài viết
+                                    </button>
+                                </PopoverWrapper>
+                            )}
+                        >
                             <img src={icons.verticalOption} alt='icon-option' />
-                        </button>
+                        </Tippy>
                     </div>
                     <div className='mb-2'>
                         {data.Categories.map((category) => {
-                            return <CategoryTag key={category.Id}>{category.Name}</CategoryTag>;
+                            return (
+                                <CategoryTag key={category.Id} onClick={() => dispatch(actions.setFilter(category.Id))}>
+                                    {category.Name}
+                                </CategoryTag>
+                            );
                         })}
                     </div>
                     <div className='overflow-hidden'>
@@ -59,22 +120,23 @@ function Post({ data }) {
                             {data.Title}
                         </h3>
                         <div className={cx('content')} onClick={handleOpenPostModal}>
-                            {data.Description}
+                            {data.Content}
                         </div>
-                        <PostImage images={imgList} setShowPostModal={setShowPostModal} />
+                        <PostImage images={data.Pictures} setShowPostModal={setShowPostModal} />
                     </div>
-                    <div className='d-flex justify-content-between mt-3'>
-                        <Vote voted={{ up, down }} action={{ setUp, setDown }}>
-                            {up ? data.Like + 1 : data.Like}
-                        </Vote>
-                        <button onClick={handleComment}>
+                    <div className='d-flex justify-content-end mt-3'>
+                        <button className='me-4' onClick={handleComment}>
                             <img src={icons.comment} alt='icon-comment' />
-                            <span className='ms-2'>Comments</span>
+                            <span className='ms-2'>2,1k</span>
                         </button>
-                        <button>
-                            <img src={icons.share} alt='icon-share' />
-                            <span className='ms-2'>Share</span>
-                        </button>
+                        <Vote
+                            data={data}
+                            userId={userId}
+                            like={like}
+                            setLike={setLike}
+                            isVoted={isVoted}
+                            setIsVoted={setIsVoted}
+                        />
                     </div>
                 </div>
             </div>

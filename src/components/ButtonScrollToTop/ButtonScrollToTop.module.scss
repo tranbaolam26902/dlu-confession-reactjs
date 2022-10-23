@@ -1,0 +1,12 @@
+.wrapper {
+    position: fixed;
+    bottom: 48px;
+    padding: 8px;
+    background-color: var(--primary);
+    border: 2px solid var(--secondary);
+    border-radius: 999px;
+    transition: all ease 0.2s;
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.001);
+    }
+}
