@@ -46,4 +46,11 @@
             border-color: var(--text-secondary-80);
         }
     }
+    .not-logged-in {
+        button {
+            color: var(--secondary);
+            font-weight: bold;
+        }
+        text-align: center;
+    }
 }

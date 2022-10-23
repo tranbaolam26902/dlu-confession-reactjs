@@ -6,6 +6,7 @@ import styles from './Comment.module.scss';
 import images from '../../assets/img';
 
 import Avatar from '../Avatar';
+import ReplyComment from '../ReplyComment';
 
 const cx = classNames.bind(styles);
 
@@ -16,9 +17,14 @@ function Comment({ data }) {
 
     // Component's states
     const [userAvatar, setUserAvatar] = useState(images.avatar);
+    const [showReply, setShowReply] = useState(false);
 
     // Variables
     const imageURL = `${apiURL}/image/user?id=`;
+
+    const handleReply = () => {
+        setShowReply(true);
+    };
 
     // Convert datetime
     const date = data.PostTime.split('-');
@@ -38,16 +44,16 @@ function Comment({ data }) {
         <div className={cx('wrapper')}>
             <div className={cx('side')}>
                 <Avatar avatar={userAvatar} />
-                {!data.ParentId && data.ChildComments.length !== 0 && <div className={cx('divider')}></div>}
+                {data.ChildComments.length !== 0 && <div className={cx('divider')}></div>}
                 {data.ParentId && <div className={cx('match-parent')}></div>}
             </div>
             <div className={cx('main')}>
                 <div className={cx('content')}>
                     <h5 className='fw-bold'>{data.NickName}</h5>
-                    {data.Content}
+                    <span>{data.Content}</span>
                 </div>
                 <div className={cx('actions')}>
-                    <button>Phản hồi</button>
+                    <button onClick={handleReply}>Phản hồi</button>
                     <button>Báo cáo</button>
                     <h6>{day + ' tháng ' + month}</h6>
                 </div>
@@ -56,6 +62,7 @@ function Comment({ data }) {
                         return <Comment data={childComment} key={childComment.Id} />;
                     })}
                 </div>
+                {showReply && <ReplyComment data={data} setShowReply={setShowReply} />}
             </div>
         </div>
     );

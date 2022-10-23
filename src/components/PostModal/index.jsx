@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Modal } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
-import { useStore } from '../../store';
+import { useStore, actions } from '../../store';
 import styles from './PostModal.module.scss';
 import icons from '../../assets/icons';
 import images from '../../assets/img';
@@ -19,20 +19,20 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
     // Global states
     // eslint-disable-next-line
     const [states, dispatch] = useStore();
-    const { apiURL, userAvatar } = states;
-
-    // Component's states
-    const [like, setLike] = useState(data.Like);
-    const [isVoted, setIsVoted] = useState(false);
-    const [comment, setComment] = useState('');
-    const [inputRows, setInputRows] = useState(2);
+    const { apiURL, userAvatar, token } = states;
 
     // Variables
     const imageURL = `${apiURL}/image/post?id=`;
     const commentRef = useRef();
     const LINE_HEIGHT = 24;
-    const INIT_HEIGHT = 64;
-    const INIT_ROWS = 2;
+    const INIT_HEIGHT = 40;
+    const INIT_ROWS = 1;
+
+    // Component's states
+    const [like, setLike] = useState(data.Like);
+    const [isVoted, setIsVoted] = useState(false);
+    const [comment, setComment] = useState('');
+    const [inputRows, setInputRows] = useState(INIT_ROWS);
 
     useEffect(() => {}, [data.Comments]);
 
@@ -140,21 +140,32 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
                         <div className='text-center fw-bold'>Bình luận</div>
                         <hr />
                         <div className='mt-3'>
-                            <div className='d-flex'>
-                                <Avatar avatar={userAvatar} />
-                                <textarea
-                                    className={cx('comment')}
-                                    placeholder='Viết bình luận...'
-                                    onChange={handleCommentInput}
-                                    value={comment}
-                                    rows={inputRows}
-                                />
-                            </div>
+                            {token !== '' && (
+                                <div className='d-flex'>
+                                    <Avatar avatar={userAvatar} />
+                                    <textarea
+                                        className={cx('comment')}
+                                        placeholder='Viết bình luận...'
+                                        onChange={handleCommentInput}
+                                        value={comment}
+                                        rows={inputRows}
+                                    />
+                                </div>
+                            )}
+                            {token === '' && (
+                                <h5 className={cx('not-logged-in')}>
+                                    Vui lòng{' '}
+                                    <button onClick={() => dispatch(actions.setShowLoginModal(true))}>Đăng nhập</button>{' '}
+                                    để bình luận về bài viết!
+                                </h5>
+                            )}
                             <div className='d-flex justify-content-between align-items-end my-3'>
                                 <h5 className='fw-bold'>Tất cả bình luận</h5>
-                                <Button secondary onClick={handleSend}>
-                                    Gửi
-                                </Button>
+                                {token !== '' && (
+                                    <Button secondary onClick={handleSend}>
+                                        Gửi
+                                    </Button>
+                                )}
                             </div>
                             <hr />
                             <div>
