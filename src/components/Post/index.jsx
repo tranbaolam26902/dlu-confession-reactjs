@@ -27,9 +27,23 @@ function Post({ data, userId }) {
     const [isVoted, setIsVoted] = useState(false);
     const [showPostModal, setShowPostModal] = useState(false);
     const [scrollToComment, setScrollToComment] = useState(false);
+    const [totalComments, setTotalComments] = useState(0);
 
     // Variables
     const imageURL = `${apiURL}/image/user?id=`;
+
+    const countComments = () => {
+        let count = 0;
+        data.Comments.map((comment) => {
+            if (comment.ChildComments) {
+                comment.ChildComments.map((childComment) => {
+                    count -= -1;
+                });
+            }
+            count -= -1;
+        });
+        setTotalComments(count);
+    };
 
     const handleOpenPostModal = () => {
         setShowPostModal(true);
@@ -57,6 +71,7 @@ function Post({ data, userId }) {
     };
     useEffect(() => {
         let mounted = true;
+        if (mounted) countComments();
         if (data.Avatar) setUserAvatar(`${imageURL}${data.Avatar}`);
         if (data.PostLikes.length > 0) {
             data.PostLikes.map((postLike) => {
@@ -125,7 +140,7 @@ function Post({ data, userId }) {
                     <div className='d-flex justify-content-end mt-3'>
                         <button className='me-4' onClick={handleComment}>
                             <img src={icons.comment} alt='icon-comment' />
-                            <span className='ms-2'>{data.Comments.length}</span>
+                            <span className='ms-2'>{totalComments}</span>
                         </button>
                         <Vote
                             data={data}
@@ -144,6 +159,7 @@ function Post({ data, userId }) {
                 scrollToComment={scrollToComment}
                 setScrollToComment={setScrollToComment}
                 data={data}
+                totalComments={totalComments}
             />
         </>
     );
