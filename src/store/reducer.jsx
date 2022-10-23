@@ -7,6 +7,7 @@ import {
     SET_FILTER,
     SET_ROLES,
     SET_USER_ID,
+    SET_USER_AVATAR,
 } from './constants';
 
 const initStates = {
@@ -19,6 +20,7 @@ const initStates = {
     filter: '',
     roles: [],
     userId: '',
+    userAvatar: '',
 };
 
 function reducer(state, action) {
@@ -62,6 +64,11 @@ function reducer(state, action) {
             return {
                 ...state,
                 userId: action.payload,
+            };
+        case SET_USER_AVATAR:
+            return {
+                ...state,
+                userAvatar: action.payload,
             };
         default:
             throw new Error('Error');

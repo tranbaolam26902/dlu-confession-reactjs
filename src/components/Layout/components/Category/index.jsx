@@ -92,7 +92,7 @@ function Category() {
                     })}
                 </div>
                 <hr className='mb-3' />
-                {roles.includes('Manager') && (
+                {roles && roles.includes('Manager') && (
                     <Button outline fluid onClick={() => setShowCreateCategoryModal(true)}>
                         Tạo danh mục
                     </Button>

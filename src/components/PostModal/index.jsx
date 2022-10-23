@@ -27,7 +27,7 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
     const [isVoted, setIsVoted] = useState(false);
     const [comment, setComment] = useState('');
     const [inputRows, setInputRows] = useState(2);
-    const [postComments, setPostComments] = useState([]);
+    // const [postComments, setPostComments] = useState([]);
 
     // Variables
     const imageURL = `${apiURL}/image/post?id=`;
@@ -37,16 +37,14 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
     const INIT_ROWS = 2;
 
     useEffect(() => {
-        let mounted = true;
-
-        if (mounted) {
-            if (data.Avatar) setUserAvatar(`${apiURL}/image/user?id=${data.Avatar}`);
-            if (data.Comments.length) setPostComments(data.Comments);
-        }
-
-        return () => (mounted = false);
+        // let mounted = true;
+        // if (mounted) {
+        //     if (data.Avatar) setUserAvatar(`${apiURL}/image/user?id=${data.Avatar}`);
+        //     if (data.Comments.length) setPostComments(data.Comments);
+        // }
+        // return () => (mounted = false);
         // eslint-disable-next-line
-    }, [postComments]);
+    }, [data.Comments]);
 
     const handleCommentInput = (e) => {
         if (e.target.value === '') {
@@ -156,7 +154,7 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
                                 <Avatar avatar={userAvatar} />
                                 <textarea
                                     className={cx('comment')}
-                                    placeholder='...'
+                                    placeholder='Viết bình luận...'
                                     onChange={handleCommentInput}
                                     value={comment}
                                     rows={inputRows}
@@ -170,7 +168,7 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
                             </div>
                             <hr />
                             <div>
-                                {postComments.map((comment) => {
+                                {data.Comments.map((comment) => {
                                     return <Comment data={comment} key={comment.Id} />;
                                 })}
                                 {!data.Comments.length && (

@@ -1,14 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { useStore, actions } from '../../store';
 
 import Post from '../../components/Post';
 
 function Home() {
+    // Global states
     const [states, dispatch] = useStore();
-    const { apiURL, posts } = states;
+    const { apiURL, posts, userId } = states;
 
-    const [userId, setUserId] = useState();
+    // Variables
+    const imageURL = `${apiURL}/image/user?id=`;
 
     useEffect(() => {
         let mounted = true;
@@ -25,15 +27,18 @@ function Home() {
                         },
                     })
                         .then((res) => res.json())
-                        .then((responseData) => {
-                            if (mounted) setUserId(responseData.Id);
+                        .then((data) => {
+                            if (mounted) {
+                                dispatch(actions.setUserId(data.Id));
+                                dispatch(actions.setRoles(data.RoleTemps));
+                                if (data.UserProfile.Avatar)
+                                    dispatch(actions.setUserAvatar(`${imageURL}${data.UserProfile.Avatar}`));
+                            }
                         });
                 }
             });
-
         return () => (mounted = false);
-    }, [posts]);
-
+    }, []);
     return (
         <div>
             {posts.map((post) => {

@@ -84,12 +84,8 @@ function UserActions() {
     // Global states
     const [states, dispatch] = useStore();
     const { token, removeToken } = useToken();
-    const { apiURL, roles } = states;
+    const { apiURL, userAvatar } = states;
     const viewPort = useViewPort();
-
-    // Component's states
-    const [userAvatar, setUserAvatar] = useState(images.avatar);
-    const imageURL = `${apiURL}/image/user?id=`;
 
     // Variables
     const isMobile = viewPort.width < 992;
@@ -103,27 +99,6 @@ function UserActions() {
         dispatch(actions.setIsLoginModal(false));
         dispatch(actions.setShowLoginModal(true));
     };
-
-    useEffect(() => {
-        let mounted = true;
-
-        if (localStorage.getItem('token'))
-            fetch(`${apiURL}/api/useraccount/getinfo`, {
-                method: 'GET',
-                headers: {
-                    Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
-                },
-            })
-                .then((res) => res.json())
-                .then((data) => {
-                    if (mounted) {
-                        if (data.RoleTemps) dispatch(actions.setRoles(data.RoleTemps));
-                        if (data.UserProfile.Avatar) setUserAvatar(`${imageURL}${data.UserProfile.Avatar}`);
-                    }
-                });
-
-        return () => (mounted = false);
-    }, []);
 
     if (isMobile) {
         return <img src={icons.user} alt='logo' />;
@@ -163,7 +138,7 @@ function UserActions() {
                                 )}
                             >
                                 <div className={cx('avatar')}>
-                                    <img src={userAvatar} alt='user-avatar' className={cx('image')} />
+                                    <img src={userAvatar} alt='user-avatar' loading='lazy' className={cx('image')} />
                                 </div>
                             </Tippy>
                         </div>

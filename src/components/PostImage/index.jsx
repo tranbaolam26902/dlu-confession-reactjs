@@ -23,6 +23,7 @@ function PostImage({ images, setShowPostModal }) {
                     role='button'
                     src={imageURL + images[0].Path}
                     alt='post'
+                    loading='lazy'
                     className='w-100 rounded-3'
                     onClick={() => setShowPostModal(true)}
                 />
@@ -35,6 +36,7 @@ function PostImage({ images, setShowPostModal }) {
                             role='button'
                             src={imageURL + images[0].Path}
                             alt='post'
+                            loading='lazy'
                             className='w-100 rounded-3'
                             onClick={() => setShowPostModal(true)}
                         />
@@ -45,6 +47,7 @@ function PostImage({ images, setShowPostModal }) {
                                 role='button'
                                 src={imageURL + images[1].Path}
                                 alt='post'
+                                loading='lazy'
                                 className={cx('smaller')}
                                 onClick={() => setShowPostModal(true)}
                             />
@@ -59,6 +62,7 @@ function PostImage({ images, setShowPostModal }) {
                         role='button'
                         src={imageURL + images[0].Path}
                         alt='post'
+                        loading='lazy'
                         className='mb-3 w-100 rounded-3'
                         onClick={() => setShowPostModal(true)}
                     />
@@ -67,6 +71,7 @@ function PostImage({ images, setShowPostModal }) {
                             role='button'
                             src={imageURL + images[1].Path}
                             alt='post'
+                            loading='lazy'
                             className='w-100 rounded-3'
                             onClick={() => setShowPostModal(true)}
                         />
@@ -77,6 +82,7 @@ function PostImage({ images, setShowPostModal }) {
                                 role='button'
                                 src={imageURL + images[2].Path}
                                 alt='post'
+                                loading='lazy'
                                 className={cx('smaller')}
                                 onClick={() => setShowPostModal(true)}
                             />
@@ -93,6 +99,7 @@ function PostImage({ images, setShowPostModal }) {
                                 role='button'
                                 src={imageURL + images[0].Path}
                                 alt='post'
+                                loading='lazy'
                                 className='w-100 rounded-3'
                                 onClick={() => setShowPostModal(true)}
                             />
@@ -103,6 +110,7 @@ function PostImage({ images, setShowPostModal }) {
                                     role='button'
                                     src={imageURL + images[1].Path}
                                     alt='post'
+                                    loading='lazy'
                                     className={cx('smaller')}
                                     onClick={() => setShowPostModal(true)}
                                 />
@@ -116,6 +124,7 @@ function PostImage({ images, setShowPostModal }) {
                                     role='button'
                                     src={imageURL + images[2].Path}
                                     alt='post'
+                                    loading='lazy'
                                     className={cx('smaller')}
                                     onClick={() => setShowPostModal(true)}
                                 />
@@ -126,6 +135,7 @@ function PostImage({ images, setShowPostModal }) {
                                 role='button'
                                 src={imageURL + images[3].Path}
                                 alt='post'
+                                loading='lazy'
                                 className='w-100 rounded-3'
                                 onClick={() => setShowPostModal(true)}
                             />
@@ -142,6 +152,7 @@ function PostImage({ images, setShowPostModal }) {
                                 role='button'
                                 src={imageURL + images[0].Path}
                                 alt='post'
+                                loading='lazy'
                                 className='w-100 rounded-3'
                                 onClick={() => setShowPostModal(true)}
                             />
@@ -152,6 +163,7 @@ function PostImage({ images, setShowPostModal }) {
                                     role='button'
                                     src={imageURL + images[1].Path}
                                     alt='post'
+                                    loading='lazy'
                                     className={cx('smaller')}
                                     onClick={() => setShowPostModal(true)}
                                 />
@@ -165,13 +177,20 @@ function PostImage({ images, setShowPostModal }) {
                                     role='button'
                                     src={imageURL + images[2].Path}
                                     alt='post'
+                                    loading='lazy'
                                     className={cx('smaller')}
                                     onClick={() => setShowPostModal(true)}
                                 />
                             </div>
                         </Col>
                         <Col xs={7} className='position-relative'>
-                            <img role='button' src={imageURL + images[3].Path} alt='post' className='w-100 rounded-3' />
+                            <img
+                                role='button'
+                                src={imageURL + images[3].Path}
+                                alt='post'
+                                loading='lazy'
+                                className='w-100 rounded-3'
+                            />
                             <h1 className={cx('remaining')} onClick={() => setShowPostModal(true)}>
                                 +{images.length - 4}
                             </h1>

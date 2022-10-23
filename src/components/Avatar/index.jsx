@@ -7,7 +7,7 @@ const cx = classNames.bind(styles);
 function Avatar({ avatar }) {
     return (
         <div className={cx('avatar')}>
-            <img src={avatar} alt='avatar' />
+            <img src={avatar} alt='avatar' loadinng='lazy' />
         </div>
     );
 }

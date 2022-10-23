@@ -55,21 +55,23 @@ function Post({ data, userId }) {
             });
         }
     };
-
     useEffect(() => {
         let mounted = true;
-
-        if (data.Avatar && mounted) setUserAvatar(`${imageURL}${data.Avatar}`);
-        data.PostLikes.map((postLike) => {
-            if (postLike.UserID === userId && mounted) {
-                setIsVoted(postLike.IsLiked);
-            }
-            return null;
-        });
+        if (data.Avatar) setUserAvatar(`${imageURL}${data.Avatar}`);
+        if (data.PostLikes.length > 0) {
+            data.PostLikes.map((postLike) => {
+                if (postLike.UserID == userId && mounted) {
+                    setIsVoted(postLike.IsLiked);
+                } else {
+                    setIsVoted(false);
+                }
+            });
+        } else {
+            setIsVoted(false);
+        }
 
         return () => (mounted = false);
-        // eslint-disable-next-line
-    }, [like, isVoted]);
+    }, [userId]);
 
     // Convert created time
     const date = data.CreatedTime.split('-');
@@ -125,7 +127,14 @@ function Post({ data, userId }) {
                             <img src={icons.comment} alt='icon-comment' />
                             <span className='ms-2'>{data.Comments.length}</span>
                         </button>
-                        <Vote data={data} like={like} setLike={setLike} isVoted={isVoted} setIsVoted={setIsVoted} />
+                        <Vote
+                            data={data}
+                            userId={userId}
+                            like={like}
+                            setLike={setLike}
+                            isVoted={isVoted}
+                            setIsVoted={setIsVoted}
+                        />
                     </div>
                 </div>
             </div>
