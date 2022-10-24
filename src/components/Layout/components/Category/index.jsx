@@ -21,6 +21,8 @@ function Category() {
     const [categoryName, setCategoryName] = useState('');
     const [categoryDescription, setCategoryDescription] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [isEditing, setIsEditing] = useState(false);
+    const [editingText, setEditingText] = useState('Chỉnh sửa');
 
     useEffect(() => {
         let mounted = true;
@@ -74,18 +76,36 @@ function Category() {
         setShowCreateCategoryModal(false);
     };
 
+    const handleEdit = () => {
+        setIsEditing(!isEditing);
+        if (!isEditing) setEditingText('Xong');
+        else setEditingText('Chỉnh sửa');
+    };
+
     return (
         <>
             <div className={cx('wrapper')}>
-                <div className={cx('header')}>
-                    <img src={icons.category} alt='category-icon' />
-                    <h5 className={cx('title')}>Danh mục</h5>
+                <div className='d-flex align-items-center justify-content-between'>
+                    <div className='d-flex align-items-center'>
+                        <img src={icons.category} alt='category-icon' />
+                        <h5 className={cx('title')}>Danh mục</h5>
+                    </div>
+                    {roles && roles.includes('Manager') && (
+                        <h6 className='fw-bold' role='button' onClick={handleEdit}>
+                            {editingText}
+                        </h6>
+                    )}
                 </div>
                 <hr className='mb-3' />
                 <div className={cx('categories')}>
                     {categories.map((category) => {
                         return (
-                            <CategoryTag key={category.Id} onClick={() => dispatch(actions.setFilter(category.Id))}>
+                            <CategoryTag
+                                key={category.Id}
+                                id={category.Id}
+                                onClick={() => dispatch(actions.setFilter(category.Id))}
+                                isEditing={isEditing}
+                            >
                                 {category.Name}
                             </CategoryTag>
                         );

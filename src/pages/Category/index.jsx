@@ -11,8 +11,12 @@ import Post from '../../components/Post';
 const cx = classNames.bind(styles);
 
 function Category() {
+    // Global states
     const [states, dispatch] = useStore();
-    const { apiURL, posts, categories, filter } = states;
+    const { apiURL, categories, filter } = states;
+
+    // Component's states
+    const [posts, setPosts] = useState([]);
     const [currentCategory, setCurrentCategory] = useState('');
 
     useEffect(() => {
@@ -28,7 +32,7 @@ function Category() {
                 .then((res) => res.json())
                 .then((data) => {
                     if (mounted) {
-                        dispatch(actions.setPosts(data));
+                        setPosts(data);
                         categories.map((category) => {
                             if (category.Id == filter) setCurrentCategory(category.Name);
                         });
@@ -37,7 +41,7 @@ function Category() {
         }
 
         return () => (mounted = false);
-    }, [posts, filter]);
+    }, [posts]);
 
     return (
         <>

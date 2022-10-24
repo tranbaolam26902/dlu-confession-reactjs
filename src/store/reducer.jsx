@@ -11,7 +11,7 @@ import {
 } from './constants';
 
 const initStates = {
-    apiURL: 'https://localhost:44332',
+    apiURL: 'http://192.168.1.52:31234',
     showLoginModal: false,
     isLoginModal: true,
     showCreatePostModal: false,

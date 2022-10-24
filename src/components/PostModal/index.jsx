@@ -15,7 +15,7 @@ import Avatar from '../Avatar';
 
 const cx = classNames.bind(styles);
 
-function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScrollToComment, data, totalComments }) {
+function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScrollToComment, data }) {
     // Global states
     // eslint-disable-next-line
     const [states, dispatch] = useStore();
@@ -127,10 +127,10 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
                             );
                         })}
                     </div>
-                    <div className='d-flex justify-content-end mt-3'>
+                    <div className='d-flex justify-content-end align-items-center mt-3'>
                         <div className='me-4'>
                             <img src={icons.comment} alt='icon-comment' />
-                            <span className='ms-2'>{totalComments}</span>
+                            <span className='ms-2'>{data.TotalCmt}</span>
                         </div>
                         <Vote data={data} like={like} setLike={setLike} isVoted={isVoted} setIsVoted={setIsVoted} />
                     </div>

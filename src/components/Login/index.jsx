@@ -24,6 +24,7 @@ function Login() {
     const [signUpUsername, setSignUpUsername] = useState('');
     const [signUpPassword, setSignUpPassword] = useState('');
     const [signUpConfirmPassword, setSignUpConfirmPassword] = useState('');
+    const [signUpNickname, setSignUpNickname] = useState('');
     const [signUpEmail, setSignUpEmail] = useState('');
 
     const handleSwitch = () => {
@@ -33,6 +34,7 @@ function Login() {
         setSignUpUsername('');
         setSignUpPassword('');
         setSignUpConfirmPassword('');
+        setSignUpNickname('');
         setSignUpEmail('');
         dispatch(actions.setIsLoginModal(!isLoginModal));
     };
@@ -72,6 +74,7 @@ function Login() {
             Password: signUpPassword,
             ConfirmPassword: signUpConfirmPassword,
             Email: signUpEmail,
+            NickName: signUpNickname,
         };
         fetch(`${apiURL}/api/Account/Register`, {
             method: 'POST',
@@ -104,6 +107,7 @@ function Login() {
         setSignUpUsername('');
         setSignUpPassword('');
         setSignUpConfirmPassword('');
+        setSignUpNickname('');
         setSignUpEmail('');
         dispatch(actions.setShowLoginModal(false));
         dispatch(actions.setIsLoginModal(true));
@@ -181,7 +185,7 @@ function Login() {
                     <form className='pt-4' onSubmit={handleSignUp}>
                         <Stack gap={2}>
                             <div className='d-flex flex-column'>
-                                <label htmlFor='username-sign-up'>Tên đăng nhập</label>
+                                <label htmlFor='username-sign-up'>Tên đăng nhập *</label>
                                 <input
                                     id='username-sign-up'
                                     className={cx('text-box')}
@@ -191,7 +195,7 @@ function Login() {
                                 />
                             </div>
                             <div className='d-flex flex-column'>
-                                <label htmlFor='email'>Email</label>
+                                <label htmlFor='email'>Email *</label>
                                 <input
                                     id='email'
                                     type='email'
@@ -202,7 +206,16 @@ function Login() {
                                 />
                             </div>
                             <div className='d-flex flex-column'>
-                                <label htmlFor='password-sign-up'>Mật khẩu</label>
+                                <label htmlFor='email'>Tên hiển thị</label>
+                                <input
+                                    id='nickname'
+                                    className={cx('text-box')}
+                                    value={signUpNickname}
+                                    onChange={(e) => setSignUpNickname(e.target.value)}
+                                />
+                            </div>
+                            <div className='d-flex flex-column'>
+                                <label htmlFor='password-sign-up'>Mật khẩu *</label>
                                 <input
                                     id='password-sign-up'
                                     type='password'
@@ -213,7 +226,7 @@ function Login() {
                                 />
                             </div>
                             <div className='d-flex flex-column mb-2'>
-                                <label htmlFor='confirm-password'>Nhập lại mật khẩu</label>
+                                <label htmlFor='confirm-password'>Nhập lại mật khẩu *</label>
                                 <input
                                     id='confirm-password'
                                     type='password'

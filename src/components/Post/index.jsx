@@ -16,10 +16,10 @@ import Avatar from '../Avatar';
 
 const cx = classNames.bind(styles);
 
-function Post({ data, userId }) {
+function Post({ data }) {
     // Global states
     const [states, dispatch] = useStore();
-    const { token, apiURL } = states;
+    const { token, apiURL, roles, userId } = states;
 
     // Component's states
     const [userAvatar, setUserAvatar] = useState(images.avatar);
@@ -27,23 +27,9 @@ function Post({ data, userId }) {
     const [isVoted, setIsVoted] = useState(false);
     const [showPostModal, setShowPostModal] = useState(false);
     const [scrollToComment, setScrollToComment] = useState(false);
-    const [totalComments, setTotalComments] = useState(0);
 
     // Variables
     const imageURL = `${apiURL}/image/user?id=`;
-
-    const countComments = () => {
-        let count = 0;
-        data.Comments.map((comment) => {
-            if (comment.ChildComments) {
-                comment.ChildComments.map((childComment) => {
-                    count -= -1;
-                });
-            }
-            count -= -1;
-        });
-        setTotalComments(count);
-    };
 
     const handleOpenPostModal = () => {
         setShowPostModal(true);
@@ -71,7 +57,6 @@ function Post({ data, userId }) {
     };
     useEffect(() => {
         let mounted = true;
-        if (mounted) countComments();
         if (data.Avatar) setUserAvatar(`${imageURL}${data.Avatar}`);
         if (data.PostLikes.length > 0) {
             data.PostLikes.map((postLike) => {
@@ -110,9 +95,20 @@ function Post({ data, userId }) {
                             placement='bottom-end'
                             render={(attrs) => (
                                 <PopoverWrapper>
-                                    <button className={cx('post-option')} onClick={handleDelete}>
-                                        Xóa bài viết
-                                    </button>
+                                    <div className='d-flex flex-column'>
+                                        <button className={cx('post-option')}>Báo cáo</button>
+                                        {(userId === data.PostHistories[0].AccountId || roles.includes('Manager')) && (
+                                            <>
+                                                <button className={cx('post-option')}>Chỉnh sửa</button>
+                                                <button
+                                                    className={cx('post-option', { isDelete: true })}
+                                                    onClick={handleDelete}
+                                                >
+                                                    Xóa
+                                                </button>
+                                            </>
+                                        )}
+                                    </div>
                                 </PopoverWrapper>
                             )}
                         >
@@ -140,7 +136,7 @@ function Post({ data, userId }) {
                     <div className='d-flex justify-content-end mt-3'>
                         <button className='me-4' onClick={handleComment}>
                             <img src={icons.comment} alt='icon-comment' />
-                            <span className='ms-2'>{totalComments}</span>
+                            <span className='ms-2'>{data.TotalCmt}</span>
                         </button>
                         <Vote
                             data={data}
@@ -159,7 +155,6 @@ function Post({ data, userId }) {
                 scrollToComment={scrollToComment}
                 setScrollToComment={setScrollToComment}
                 data={data}
-                totalComments={totalComments}
             />
         </>
     );
