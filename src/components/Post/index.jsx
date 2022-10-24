@@ -96,17 +96,19 @@ function Post({ data }) {
                             render={(attrs) => (
                                 <PopoverWrapper>
                                     <div className='d-flex flex-column'>
-                                        <button className={cx('post-option')}>Báo cáo</button>
-                                        {(userId === data.PostHistories[0].AccountId || roles.includes('Manager')) && (
-                                            <>
-                                                <button className={cx('post-option')}>Chỉnh sửa</button>
-                                                <button
-                                                    className={cx('post-option', { isDelete: true })}
-                                                    onClick={handleDelete}
-                                                >
-                                                    Xóa
-                                                </button>
-                                            </>
+                                        {!roles.includes('Manager') && (
+                                            <button className={cx('post-option')}>Báo cáo</button>
+                                        )}
+                                        {userId === data.PostHistories[0].AccountId && (
+                                            <button className={cx('post-option')}>Chỉnh sửa</button>
+                                        )}
+                                        {(roles.includes('Manager') || userId === data.PostHistories[0].AccountId) && (
+                                            <button
+                                                className={cx('post-option', { isDelete: true })}
+                                                onClick={handleDelete}
+                                            >
+                                                Xóa
+                                            </button>
                                         )}
                                     </div>
                                 </PopoverWrapper>
