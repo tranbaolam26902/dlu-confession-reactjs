@@ -56,8 +56,8 @@ function Post({ data }) {
         }
     };
     useEffect(() => {
-        console.log(userId);
         let mounted = true;
+
         if (data.Avatar) setUserAvatar(`${imageURL}${data.Avatar}`);
         if (data.PostLikes.length > 0) {
             data.PostLikes.map((postLike) => {
@@ -95,20 +95,22 @@ function Post({ data }) {
                             render={(attrs) => (
                                 <PopoverWrapper>
                                     <div className='d-flex flex-column'>
-                                        {!roles.includes('Manager') && (
+                                        {roles && !roles.includes('Manager') && (
                                             <button className={cx('post-option')}>Báo cáo</button>
                                         )}
                                         {userId === data.PostHistories[0].AccountId && (
                                             <button className={cx('post-option')}>Chỉnh sửa</button>
                                         )}
-                                        {(roles.includes('Manager') || userId === data.PostHistories[0].AccountId) && (
-                                            <button
-                                                className={cx('post-option', { isDelete: true })}
-                                                onClick={handleDelete}
-                                            >
-                                                Xóa
-                                            </button>
-                                        )}
+                                        {roles &&
+                                            (roles.includes('Manager') ||
+                                                userId === data.PostHistories[0].AccountId) && (
+                                                <button
+                                                    className={cx('post-option', { isDelete: true })}
+                                                    onClick={handleDelete}
+                                                >
+                                                    Xóa
+                                                </button>
+                                            )}
                                     </div>
                                 </PopoverWrapper>
                             )}
