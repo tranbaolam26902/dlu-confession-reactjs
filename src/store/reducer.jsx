@@ -11,7 +11,7 @@ import {
 } from './constants';
 
 const initStates = {
-    apiURL: 'https://fe63-14-167-231-69.ngrok.io/',
+    apiURL: 'https://fe63-14-167-231-69.ngrok.io',
     showLoginModal: false,
     isLoginModal: true,
     showCreatePostModal: false,
