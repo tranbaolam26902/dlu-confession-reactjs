@@ -70,6 +70,7 @@ function Post({ data, userId }) {
         }
     };
     useEffect(() => {
+        console.log(userId);
         let mounted = true;
         if (mounted) countComments();
         if (data.Avatar) setUserAvatar(`${imageURL}${data.Avatar}`);
@@ -77,8 +78,6 @@ function Post({ data, userId }) {
             data.PostLikes.map((postLike) => {
                 if (postLike.UserID == userId && mounted) {
                     setIsVoted(postLike.IsLiked);
-                } else {
-                    setIsVoted(false);
                 }
             });
         } else {

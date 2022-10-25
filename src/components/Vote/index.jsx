@@ -11,7 +11,7 @@ function Vote({ data, like, setLike, isVoted, setIsVoted }) {
     const [states, dispatch] = useStore();
     const { apiURL, userId } = states;
     const { token } = useToken();
-
+    
     const handleVoteUp = () => {
         if (token) {
             const formData = new FormData();
@@ -27,20 +27,34 @@ function Vote({ data, like, setLike, isVoted, setIsVoted }) {
                 .then((data) => {
                     setLike(data.Like);
                     if (data.PostLikes.length > 0) {
-                        data.PostLikes.map((postLike) => {
-                            if (postLike.UserID === userId) {
-                                setIsVoted(postLike.IsLiked);
+                        // data.PostLikes.map((postLike) => {
+                        //     console.log(isVoted + ' 3');
+                        //     isVoted = false;
+                        //     if (postLike.UserID == userId) {
+                        //         isVoted = postLike.IsLiked;
+                        //         console.log(isVoted + ' 2');
+                        //         return;
+                        //     } 
+
+                        // });
+                        for (let  i = 0; i < data.PostLikes.length; i++) {
+                            if  (data.PostLikes[i].UserID == userId) {
+                                setIsVoted(data.PostLikes[i].IsLiked);
+                                break;
                             } else {
-                                setIsVoted(false);
+                                setIsVoted(false)
                             }
-                        });
+                        }
+
                     } else {
-                        setIsVoted(false);
+                        setIsVoted(false)
                     }
                 });
+                
         } else {
             dispatch(actions.setShowLoginModal(true));
         }
+        
     };
 
     return (
