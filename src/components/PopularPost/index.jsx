@@ -9,6 +9,7 @@ import images from '../../assets/img';
 import CategoryTag from '../CategoryTag';
 import Vote from '../Vote';
 import PostModal from '../PostModal';
+import Avatar from '../Avatar';
 
 const cx = classNames.bind(styles);
 
@@ -18,8 +19,9 @@ function PopularPost({ data }) {
     const { apiURL } = states;
 
     // Component's states
-    const [userAvatar, setUserAvatar] = useState(images.avatar);
+    const [postAvatar, setPostAvatar] = useState(images.avatar);
     const [showPostModal, setShowPostModal] = useState(false);
+    const [scrollToComment, setScrollToComment] = useState(false);
 
     // Variables
     const imageURL = `${apiURL}/image/user?id=`;
@@ -30,7 +32,7 @@ function PopularPost({ data }) {
     const month = date[1];
 
     useEffect(() => {
-        if (data.Avatar) setUserAvatar(`${imageURL}${data.Avatar}`);
+        if (data.Avatar) setPostAvatar(`${imageURL}${data.Avatar}`);
     }, []);
 
     return (
@@ -38,7 +40,7 @@ function PopularPost({ data }) {
             <Stack gap={2} className={cx('wrapper')}>
                 <Row className='gx-0'>
                     <Col xs={2}>
-                        <img src={userAvatar} alt='avatar' className='w-100' />
+                        <Avatar avatar={postAvatar} />
                     </Col>
                     <Col xs={10}>
                         <div className='ms-2'>
@@ -62,12 +64,21 @@ function PopularPost({ data }) {
                     <h5 className={cx('title')}>{data.Title}</h5>
                 </div>
                 <div className={cx('footer')}>
-                    {/* <Vote voted={{ up, down }} action={{ setUp, setDown }}>
-                        {up ? data.Like + 1 : data.Like}
-                    </Vote> */}
+                    <span className='me-1'>{data.Like}</span>
+                    <span>lượt bình chọn</span>
+                    <span className={cx('mx-1')}>/</span>
+                    <span className='me-1'>{data.TotalCmt}</span>
+                    <span>bình luận</span>
                 </div>
             </Stack>
-            <PostModal showPostModal={showPostModal} setShowPostModal={setShowPostModal} data={data} />
+
+            <PostModal
+                showPostModal={showPostModal}
+                setShowPostModal={setShowPostModal}
+                scrollToComment={scrollToComment}
+                setScrollToComment={setScrollToComment}
+                data={data}
+            />
         </>
     );
 }

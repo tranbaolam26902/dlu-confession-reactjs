@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 import { useStore, actions } from '../../store';
+import images from '../../assets/img';
 
 import Post from '../../components/Post';
 
@@ -33,6 +34,7 @@ function Home() {
                                 dispatch(actions.setRoles(data.RoleTemps));
                                 if (data.UserProfile.Avatar)
                                     dispatch(actions.setUserAvatar(`${imageURL}${data.UserProfile.Avatar}`));
+                                else dispatch(actions.setUserAvatar(`${images.avatar}`));
                             }
                         });
                 }
@@ -42,7 +44,7 @@ function Home() {
     return (
         <div>
             {posts.map((post) => {
-                if (post.Active) return <Post data={post} userId={userId} key={post.Id} />;
+                if (post.Active) return <Post data={post} key={post.Id} />;
             })}
         </div>
     );

@@ -41,7 +41,7 @@ function CreatePost() {
             });
 
         return () => (mounted = false);
-    }, []);
+    }, [states.categories]);
 
     const handleSelectCategories = (selected) => setPostCategories(selected);
 

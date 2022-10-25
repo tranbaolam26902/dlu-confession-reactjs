@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
@@ -24,6 +24,7 @@ function DefaultLayout({ children }) {
     const stickyTop = { top: 'calc(var(--header-height) + 32px)' };
     const viewPort = useViewPort();
     const isMobile = viewPort.width < 992;
+    const [popularPosts, setPopularPosts] = useState([]);
 
     useEffect(() => {
         let mounted = true;
@@ -36,6 +37,18 @@ function DefaultLayout({ children }) {
 
         return () => (mounted = false);
     }, [posts]);
+
+    useEffect(() => {
+        let mounted = true;
+
+        fetch(`${apiURL}/api/post/hotpost`)
+            .then((res) => res.json())
+            .then((data) => {
+                setPopularPosts(data);
+            });
+
+        return () => (mounted = false);
+    }, [popularPosts]);
 
     return (
         <>
@@ -56,7 +69,7 @@ function DefaultLayout({ children }) {
                         <Col lg={3} className={cx('reset-z-index')}>
                             <div className='sticky-top' style={stickyTop}>
                                 <Popular>
-                                    {posts.map((post) => {
+                                    {popularPosts.map((post) => {
                                         return <PopularPost key={post.Id} data={post} />;
                                     })}
                                 </Popular>

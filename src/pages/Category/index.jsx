@@ -1,16 +1,22 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import { useStore, actions } from '../../store';
 import styles from './Category.module.scss';
+import icons from '../../assets/icons';
 
 import Post from '../../components/Post';
 
 const cx = classNames.bind(styles);
 
 function Category() {
+    // Global states
     const [states, dispatch] = useStore();
-    const { apiURL, posts, categories, filter } = states;
+    const { apiURL, categories, filter } = states;
+
+    // Component's states
+    const [posts, setPosts] = useState([]);
     const [currentCategory, setCurrentCategory] = useState('');
 
     useEffect(() => {
@@ -26,7 +32,7 @@ function Category() {
                 .then((res) => res.json())
                 .then((data) => {
                     if (mounted) {
-                        dispatch(actions.setPosts(data));
+                        setPosts(data);
                         categories.map((category) => {
                             if (category.Id == filter) setCurrentCategory(category.Name);
                         });
@@ -35,12 +41,18 @@ function Category() {
         }
 
         return () => (mounted = false);
-    }, [filter]);
+    }, [posts]);
 
     return (
         <>
             <div className={cx('header')}>
-                Bài viết thuộc danh mục: <span className={cx('category')}>{currentCategory}</span>
+                <div>
+                    <span>Bài viết thuộc danh mục: </span>
+                    <span className={cx('category')}>{currentCategory}</span>
+                </div>
+                <Link to='/' onClick={() => dispatch(actions.setFilter(''))}>
+                    <img src={icons.closeSmall} alt='btn-delete-filter' />
+                </Link>
             </div>
             <div>
                 {posts.map((post) => {
