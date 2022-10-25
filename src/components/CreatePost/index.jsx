@@ -41,7 +41,7 @@ function CreatePost() {
             });
 
         return () => (mounted = false);
-    }, [states.categories]);
+    }, [categories]);
 
     const handleSelectCategories = (selected) => setPostCategories(selected);
 
@@ -52,6 +52,7 @@ function CreatePost() {
         const targetFilesArray = [...postImages, ...targetFiles];
         targetFilesArray.map((file) => {
             currentUploadImages.push(URL.createObjectURL(file));
+            console.log(URL.createObjectURL(file));
         });
         setUploadImages(currentUploadImages);
         setPostImages(targetFilesArray);
