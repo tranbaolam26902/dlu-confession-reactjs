@@ -15,26 +15,39 @@ import Avatar from '../Avatar';
 
 const cx = classNames.bind(styles);
 
-function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScrollToComment, data }) {
+function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScrollToComment, data, like, setLike }) {
     // Global states
     // eslint-disable-next-line
     const [states, dispatch] = useStore();
-    const { apiURL, userAvatar, token } = states;
+    const { apiURL, userAvatar, token, userId, avatarURL, imageURL } = states;
 
     // Variables
-    const imageURL = `${apiURL}/image/post?id=`;
     const commentRef = useRef();
     const LINE_HEIGHT = 24;
     const INIT_HEIGHT = 40;
     const INIT_ROWS = 1;
 
     // Component's states
-    const [like, setLike] = useState(data.Like);
+    // const [like, setLike] = useState(data.Like);
     const [isVoted, setIsVoted] = useState(false);
     const [comment, setComment] = useState('');
     const [inputRows, setInputRows] = useState(INIT_ROWS);
 
-    useEffect(() => {}, [data.Comments]);
+    useEffect(() => {
+        let mounted = true;
+
+        if (data.PostLikes.length > 0) {
+            data.PostLikes.map((postLike) => {
+                if (postLike.UserID == userId && mounted) {
+                    setIsVoted(postLike.IsLiked);
+                }
+            });
+        } else {
+            setIsVoted(false);
+        }
+
+        return () => (mounted = false);
+    }, [data.Comments]);
 
     const handleCommentInput = (e) => {
         if (e.target.value === '') {
@@ -99,7 +112,7 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
                 <hr className='mb-3' />
                 <div className='d-flex flex-column'>
                     <div className='d-flex mb-3'>
-                        <Avatar avatar={`${apiURL}/image/user?id=${data.Avatar}`} />
+                        <Avatar avatar={`${avatarURL}${data.Avatar}`} />
                         <div className='mx-3 w-100'>
                             <h4 className='fw-bold'>{data.NickName}</h4>
                             <h5>{day + ' tháng ' + month}</h5>
@@ -132,7 +145,14 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
                             <img src={icons.comment} alt='icon-comment' />
                             <span className='ms-2'>{data.TotalCmt}</span>
                         </div>
-                        <Vote data={data} like={like} setLike={setLike} isVoted={isVoted} setIsVoted={setIsVoted} />
+                        <Vote
+                            data={data}
+                            userId={userId}
+                            like={like}
+                            setLike={setLike}
+                            isVoted={isVoted}
+                            setIsVoted={setIsVoted}
+                        />
                     </div>
                     <div>
                         <div ref={commentRef}></div>

@@ -1,17 +1,13 @@
 import { useEffect } from 'react';
 
 import { useStore, actions } from '../../store';
-import images from '../../assets/img';
 
 import Post from '../../components/Post';
 
 function Home() {
     // Global states
     const [states, dispatch] = useStore();
-    const { apiURL, posts, userId } = states;
-
-    // Variables
-    const imageURL = `${apiURL}/image/user?id=`;
+    const { apiURL, posts, avatarURL } = states;
 
     useEffect(() => {
         let mounted = true;
@@ -32,15 +28,14 @@ function Home() {
                             if (mounted) {
                                 dispatch(actions.setUserId(data.Id));
                                 dispatch(actions.setRoles(data.RoleTemps));
-                                if (data.UserProfile.Avatar)
-                                    dispatch(actions.setUserAvatar(`${imageURL}${data.UserProfile.Avatar}`));
-                                else dispatch(actions.setUserAvatar(`${images.avatar}`));
+                                dispatch(actions.setUserAvatar(`${avatarURL}${data.UserProfile.Avatar}`));
                             }
                         });
                 }
             });
         return () => (mounted = false);
     }, []);
+
     return (
         <div>
             {posts.map((post) => {

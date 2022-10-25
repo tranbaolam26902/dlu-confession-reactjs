@@ -14,9 +14,10 @@ const cx = classNames.bind(styles);
 function CreatePost() {
     // Global states
     const [states, dispatch] = useStore();
-    const { showCreatePostModal, apiURL } = states;
+    const { showCreatePostModal, apiURL, postData, imageURL } = states;
 
     // States for create post
+    const [isEditing, setIsEditing] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [categories, setCategories] = useState([]); // Categories for dropdown input
     const [postTitle, setPostTitle] = useState('');
@@ -40,10 +41,22 @@ function CreatePost() {
                 if (mounted) setCategories(selectedCategories);
             });
 
-        return () => (mounted = false);
-    }, [categories]);
+        if (postData.Id) {
+            if (mounted) {
+                setIsEditing(true);
+                setPostCategories(postData.Categories.map((category) => category.Id));
+                setPostTitle(postData.Title);
+                if (postData.Content) setPostContent(postData.Content);
+                setUploadImages(postData.Pictures.map((picture) => `${imageURL}${picture.Path}`));
+            }
+        }
 
-    const handleSelectCategories = (selected) => setPostCategories(selected);
+        return () => (mounted = false);
+    }, [postData]);
+
+    const handleSelectCategories = (selected) => {
+        setPostCategories(selected);
+    };
 
     // Upload images and preview
     const handleUploadImages = (e) => {
@@ -52,7 +65,6 @@ function CreatePost() {
         const targetFilesArray = [...postImages, ...targetFiles];
         targetFilesArray.map((file) => {
             currentUploadImages.push(URL.createObjectURL(file));
-            console.log(URL.createObjectURL(file));
         });
         setUploadImages(currentUploadImages);
         setPostImages(targetFilesArray);
@@ -60,7 +72,7 @@ function CreatePost() {
 
     const handlePost = (e) => {
         e.preventDefault();
-        if (postCategories.length == 0) {
+        if (postCategories.length == 0 && !isEditing) {
             setErrorMessage('Chọn ít nhất 01 danh mục');
             return;
         }
@@ -70,25 +82,39 @@ function CreatePost() {
         }
 
         const formData = new FormData();
-        const postData = {
+        const createPostData = {
             Title: postTitle,
             Content: postContent,
             SelectedCategories: postCategories,
             PrivateMode: isPrivatePost,
         };
-        formData.append('Post', JSON.stringify(postData));
-        postImages.map((image) => {
-            formData.append('File', image);
-        });
-        fetch(`${apiURL}/api/userpost/create`, {
-            method: 'POST',
-            headers: {
-                Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
-            },
-            body: formData,
-        }).then((res) => {
-            handleClose();
-        });
+        if (isEditing) createPostData.Id = postData.Id;
+        formData.append('Post', JSON.stringify(createPostData));
+        if (postImages.length !== 0)
+            postImages.map((image) => {
+                formData.append('File', image);
+            });
+
+        if (isEditing)
+            fetch(`${apiURL}/api/userpost/edit`, {
+                method: 'POST',
+                headers: {
+                    Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+                },
+                body: formData,
+            }).then((res) => {
+                handleClose();
+            });
+        else
+            fetch(`${apiURL}/api/userpost/create`, {
+                method: 'POST',
+                headers: {
+                    Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+                },
+                body: formData,
+            }).then((res) => {
+                handleClose();
+            });
     };
 
     const handleRemoveUploadImages = () => {
@@ -104,6 +130,8 @@ function CreatePost() {
         setUploadImages([]);
         setPostImages([]);
         setIsPrivatePost(false);
+        setIsEditing(false);
+        dispatch(actions.setPostData({}));
         dispatch(actions.setShowCreatePostModal(false));
     };
 
@@ -113,7 +141,8 @@ function CreatePost() {
                 <div className={cx('wrapper')}>
                     {/* Start: Header */}
                     <div className={cx('header')}>
-                        <h3 className={cx('title')}>Tạo bài viết</h3>
+                        {!isEditing && <h3 className={cx('title')}>Tạo bài viết</h3>}
+                        {isEditing && <h3 className={cx('title')}>Chỉnh sửa bài viết</h3>}
                         <button className={cx('close')} onClick={handleClose}>
                             <img src={icons.close} alt='icon-close' />
                         </button>
@@ -126,24 +155,31 @@ function CreatePost() {
                         <Stack gap={3} className='mt-3'>
                             <div className='text-danger text-center'>{errorMessage}</div>
                             {/* Start: Select categories section */}
-                            <div className='d-flex align-items-center justify-content-between'>
-                                <div className='me-2'>Danh mục:</div>
-                                <div className={cx('select-categories')}>
-                                    <DropdownMultiSelect
-                                        options={categories}
-                                        name='categories'
-                                        placeholder='Chọn danh mục *'
-                                        handleOnChange={handleSelectCategories}
-                                    />
-                                    <img src={icons.arrowDown} alt='icon-arrow-down' className={cx('dropdown-icon')} />
+                            {!isEditing && (
+                                <div className='d-flex align-items-center justify-content-between'>
+                                    <div className='me-2'>Danh mục:</div>
+                                    <div className={cx('select-categories')}>
+                                        <DropdownMultiSelect
+                                            options={categories}
+                                            name='categories'
+                                            placeholder='Chọn danh mục *'
+                                            handleOnChange={handleSelectCategories}
+                                        />
+                                        <img
+                                            src={icons.arrowDown}
+                                            alt='icon-arrow-down'
+                                            className={cx('dropdown-icon')}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                             {/* End: Select categories section */}
 
                             {/* Start: Title section */}
                             <input
                                 className={cx('text-box')}
                                 placeholder='Tiêu đề *'
+                                value={postTitle}
                                 onChange={(e) => setPostTitle(e.target.value)}
                             />
                             {/* End: Title section */}
@@ -152,6 +188,7 @@ function CreatePost() {
                             <textarea
                                 className={cx('text-area')}
                                 placeholder='Nội dung...'
+                                value={postContent}
                                 onChange={(e) => setPostContent(e.target.value)}
                             />
                             {/* End: Content section */}
@@ -215,7 +252,8 @@ function CreatePost() {
                                     <Button text onClick={handleClose}>
                                         Hủy
                                     </Button>
-                                    <Button secondary>Đăng</Button>
+                                    {!isEditing && <Button secondary>Đăng</Button>}
+                                    {isEditing && <Button secondary>Sửa</Button>}
                                 </div>
                             </div>
                             {/* End: Actions section */}

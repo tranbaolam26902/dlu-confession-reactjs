@@ -83,8 +83,8 @@ function UserActions() {
 
     // Global states
     const [states, dispatch] = useStore();
+    const { userAvatar } = states;
     const { token, removeToken } = useToken();
-    const { apiURL, userAvatar } = states;
     const viewPort = useViewPort();
 
     // Variables

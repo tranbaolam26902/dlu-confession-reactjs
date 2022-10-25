@@ -16,31 +16,23 @@ const cx = classNames.bind(styles);
 function PopularPost({ data }) {
     // Global states
     const [states, dispatch] = useStore();
-    const { apiURL } = states;
+    const { avatarURL } = states;
 
     // Component's states
-    const [postAvatar, setPostAvatar] = useState(images.avatar);
     const [showPostModal, setShowPostModal] = useState(false);
     const [scrollToComment, setScrollToComment] = useState(false);
-
-    // Variables
-    const imageURL = `${apiURL}/image/user?id=`;
 
     // Convert created time
     const date = data.CreatedTime.split('-');
     const day = date[2].split('T')[0];
     const month = date[1];
 
-    useEffect(() => {
-        if (data.Avatar) setPostAvatar(`${imageURL}${data.Avatar}`);
-    }, []);
-
     return (
         <>
             <Stack gap={2} className={cx('wrapper')}>
                 <Row className='gx-0'>
                     <Col xs={2}>
-                        <Avatar avatar={postAvatar} />
+                        <Avatar avatar={`${avatarURL}${data.Avatar}`} />
                     </Col>
                     <Col xs={10}>
                         <div className='ms-2'>

@@ -8,6 +8,7 @@ import {
     SET_ROLES,
     SET_USER_ID,
     SET_USER_AVATAR,
+    SET_POST_DATA,
 } from './constants';
 
 export const setShowLoginModal = (payload) => ({
@@ -52,5 +53,10 @@ export const setUserId = (payload) => ({
 
 export const setUserAvatar = (payload) => ({
     type: SET_USER_AVATAR,
+    payload,
+});
+
+export const setPostData = (payload) => ({
+    type: SET_POST_DATA,
     payload,
 });

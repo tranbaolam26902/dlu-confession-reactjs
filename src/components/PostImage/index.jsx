@@ -9,10 +9,7 @@ const cx = classNames.bind(styles);
 function PostImage({ images, setShowPostModal }) {
     // Global states
     const [states, dispatch] = useStore();
-    const { apiURL } = states;
-
-    // Variables
-    const imageURL = `${apiURL}/image/post?id=`;
+    const { apiURL, imageURL } = states;
 
     switch (images.length) {
         case 0:

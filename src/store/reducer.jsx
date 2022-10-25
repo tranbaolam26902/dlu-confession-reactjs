@@ -8,10 +8,15 @@ import {
     SET_ROLES,
     SET_USER_ID,
     SET_USER_AVATAR,
+    SET_POST_DATA,
 } from './constants';
 
+const apiURL = 'https://fe63-14-167-231-69.ngrok.io';
+
 const initStates = {
-    apiURL: 'https://fe63-14-167-231-69.ngrok.io',
+    apiURL: apiURL,
+    imageURL: `${apiURL}/image/post?id=`,
+    avatarURL: `${apiURL}/image/user?id=`,
     showLoginModal: false,
     isLoginModal: true,
     showCreatePostModal: false,
@@ -21,6 +26,7 @@ const initStates = {
     roles: [],
     userId: '',
     userAvatar: '',
+    postData: {},
 };
 
 function reducer(state, action) {
@@ -69,6 +75,11 @@ function reducer(state, action) {
             return {
                 ...state,
                 userAvatar: action.payload,
+            };
+        case SET_POST_DATA:
+            return {
+                ...state,
+                postData: action.payload,
             };
         default:
             throw new Error('Error');

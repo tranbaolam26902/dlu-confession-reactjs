@@ -7,3 +7,4 @@ export const SET_FILTER = 'set_filter';
 export const SET_ROLES = 'set_roles';
 export const SET_USER_ID = 'set_user_id';
 export const SET_USER_AVATAR = 'set_user_avatar';
+export const SET_POST_DATA = 'set_post_data';
