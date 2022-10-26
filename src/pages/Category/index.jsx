@@ -58,6 +58,11 @@ function Category() {
                 {posts.map((post) => {
                     if (post.Active) return <Post data={post} key={post.Id} />;
                 })}
+                {posts.length === 0 && (
+                    <h5 className='text-center'>
+                        <i>Chưa có bài viết nào thuộc danh mục này</i>
+                    </h5>
+                )}
             </div>
         </>
     );
