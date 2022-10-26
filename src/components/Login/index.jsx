@@ -150,8 +150,8 @@ function Login() {
                                 />
                             </div>
                             <div className='d-flex align-items-center'>
-                                <input id='remember-user' type='checkbox' className='me-1' />
-                                <label htmlFor='remember-user'>Lưu tài khoản</label>
+                                {/* <input id='remember-user' type='checkbox' className='me-1' />
+                                <label htmlFor='remember-user'>Lưu tài khoản</label> */}
                             </div>
                             <Button secondary fluid>
                                 Đăng nhập
