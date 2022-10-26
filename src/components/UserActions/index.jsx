@@ -138,7 +138,14 @@ function UserActions() {
                                 )}
                             >
                                 <div className={cx('avatar')}>
-                                    <img src={userAvatar} alt='user-avatar' loading='lazy' className={cx('image')} />
+                                    {userAvatar && (
+                                        <img
+                                            src={userAvatar}
+                                            alt='user-avatar'
+                                            loading='lazy'
+                                            className={cx('image')}
+                                        />
+                                    )}
                                 </div>
                             </Tippy>
                         </div>
