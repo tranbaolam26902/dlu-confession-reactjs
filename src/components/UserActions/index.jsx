@@ -10,82 +10,35 @@ import images from '../../assets/img';
 
 import { Wrapper as PopoverWrapper } from '../Popover';
 import Button from '../Button';
-import NotificationButton from '../Notification/NotificationButton';
+import Notification from '../Notification';
 
 const cx = classNames.bind(styles);
-
-const notify = [
-    {
-        id: 0,
-        imgUrl: 'avatar.png',
-        time: '12 minutes ago',
-        description:
-            'Many look up to me as the Shirasagi Himegimi and as the daughter of the Kamisato Clan. But the object of their respect has everything to do with my position, and nothing at all to do with me, Ayaka. It makes me think that... maybe, there is only one person I know who is truly able to get close to me',
-        state: true,
-    },
-    {
-        id: 1,
-        imgUrl: 'avatar.png',
-        time: '12 minutes ago',
-        description: "I'm a social vegan. I avoid meet",
-    },
-    {
-        id: 2,
-        imgUrl: 'avatar.png',
-        time: '12 minutes ago',
-        description: "Mirrors don't lie. And lucky for you they don't laugh",
-        state: true,
-    },
-    {
-        id: 3,
-        imgUrl: 'avatar.png',
-        time: '12 minutes ago',
-        description: "Mirrors don't lie. And lucky for you they don't laugh",
-        state: true,
-    },
-    {
-        id: 4,
-        imgUrl: 'avatar.png',
-        time: '12 minutes ago',
-        description: "Mirrors don't lie. And lucky for you they don't laugh",
-        state: true,
-    },
-    {
-        id: 5,
-        imgUrl: 'avatar.png',
-        time: '12 minutes ago',
-        description: "Mirrors don't lie. And lucky for you they don't laugh",
-        state: true,
-    },
-    {
-        id: 6,
-        imgUrl: 'avatar.png',
-        time: '12 minutes ago',
-        description: "Mirrors don't lie. And lucky for you they don't laugh",
-        state: true,
-    },
-    {
-        id: 7,
-        imgUrl: 'avatar.png',
-        time: '12 minutes ago',
-        description: "Mirrors don't lie. And lucky for you they don't laugh",
-        state: true,
-    },
-];
 
 function UserActions() {
     //Test notification
     let notification = 12;
-    let notificationProps = {
-        notification: notification,
-        data: notify,
-    };
 
     // Global states
     const [states, dispatch] = useStore();
-    const { userAvatar } = states;
+    const { apiURL, userAvatar } = states;
     const { token, removeToken } = useToken();
     const viewPort = useViewPort();
+
+    // Component's states
+    const [notifications, setNotifications] = useState([]);
+
+    useEffect(() => {
+        fetch(`${apiURL}/api/UserNotifi/index`, {
+            headers: {
+                Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+            },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                setNotifications(data);
+            });
+    }, []);
 
     // Variables
     const isMobile = viewPort.width < 992;
@@ -113,7 +66,6 @@ function UserActions() {
                         <Button secondary onClick={handleLogin}>
                             Đăng nhập
                         </Button>
-                        {/* <NotificationButton {...notificationProps} /> */}
                     </>
                 )}
                 {token && (
@@ -122,32 +74,55 @@ function UserActions() {
                             <Button secondary onClick={() => dispatch(actions.setShowCreatePostModal(true))}>
                                 Tạo bài viết
                             </Button>
-                            <NotificationButton {...notificationProps} />
-                            <Tippy
-                                interactive
-                                delay={[0, 300]}
-                                placement='bottom-end'
-                                render={(attrs) => (
-                                    <PopoverWrapper>
-                                        <div className={cx('user-actions')}>
-                                            <button className={cx('btn-logout')} onClick={removeToken}>
-                                                Logout
-                                            </button>
-                                        </div>
-                                    </PopoverWrapper>
-                                )}
-                            >
-                                <div className={cx('avatar')}>
-                                    {userAvatar && (
-                                        <img
-                                            src={userAvatar}
-                                            alt='user-avatar'
-                                            loading='lazy'
-                                            className={cx('image')}
-                                        />
+                            <div className='d-flex align-items-center position-relative'>
+                                <Tippy
+                                    interactive
+                                    delay={[0, 300]}
+                                    placement='bottom-end'
+                                    render={(attrs) => (
+                                        <PopoverWrapper>
+                                            <div className='px-4' tabIndex={-1}>
+                                                <h3 className={cx('header')}>Thông báo</h3>
+                                                <hr />
+                                                {notifications.map((notification) => {
+                                                    return <Notification data={notification} key={notification.Id} />;
+                                                })}
+                                            </div>
+                                        </PopoverWrapper>
                                     )}
-                                </div>
-                            </Tippy>
+                                >
+                                    <div data={12} className={cx({ notification: true })}>
+                                        <img src={icons.notification} alt='icon-notification' className='mx-3' />
+                                    </div>
+                                </Tippy>
+                            </div>
+                            <div>
+                                <Tippy
+                                    interactive
+                                    delay={[0, 300]}
+                                    placement='bottom-end'
+                                    render={(attrs) => (
+                                        <PopoverWrapper>
+                                            <div className={cx('user-actions')}>
+                                                <button className={cx('btn-logout')} onClick={removeToken}>
+                                                    Logout
+                                                </button>
+                                            </div>
+                                        </PopoverWrapper>
+                                    )}
+                                >
+                                    <div className={cx('avatar')}>
+                                        {userAvatar && (
+                                            <img
+                                                src={userAvatar}
+                                                alt='user-avatar'
+                                                loading='lazy'
+                                                className={cx('image')}
+                                            />
+                                        )}
+                                    </div>
+                                </Tippy>
+                            </div>
                         </div>
                     </>
                 )}
