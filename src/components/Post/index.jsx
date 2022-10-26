@@ -5,6 +5,7 @@ import classNames from 'classnames/bind';
 import { useStore, actions } from '../../store';
 import styles from './Post.module.scss';
 import icons from '../../assets/icons';
+import images from '../../assets/img';
 
 import { Wrapper as PopoverWrapper } from '../Popover';
 import CategoryTag from '../CategoryTag';
@@ -91,7 +92,8 @@ function Post({ data }) {
             <div id={data.Id} className={cx('wrapper')}>
                 <div className='d-flex flex-column'>
                     <div className='d-flex mb-3'>
-                        <Avatar avatar={`${avatarURL}${data.Avatar}`} />
+                        {data.PrivateMode && <Avatar avatar={images.avatar} />}
+                        {!data.PrivateMode && <Avatar avatar={`${avatarURL}${data.Avatar}`} />}
                         <div className='mx-3 w-100'>
                             {data.PrivateMode && <h4 className='fw-bold'>Ẩn danh</h4>}
                             {!data.PrivateMode && <h4 className='fw-bold'>{data.NickName}</h4>}
