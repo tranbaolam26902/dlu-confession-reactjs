@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 function PostImage({ images, setShowPostModal }) {
     // Global states
     const [states, dispatch] = useStore();
-    const { apiURL, imageURL } = states;
+    const { imageURL } = states;
 
     switch (images.length) {
         case 0:
@@ -21,7 +21,7 @@ function PostImage({ images, setShowPostModal }) {
                     src={imageURL + images[0].Path}
                     alt='post'
                     loading='lazy'
-                    className='w-100 rounded-3'
+                    className='w-100 rounded-3 shadow-lg'
                     onClick={() => setShowPostModal(true)}
                 />
             );
@@ -34,7 +34,7 @@ function PostImage({ images, setShowPostModal }) {
                             src={imageURL + images[0].Path}
                             alt='post'
                             loading='lazy'
-                            className='w-100 rounded-3'
+                            className='w-100 rounded-3 shadow-lg'
                             onClick={() => setShowPostModal(true)}
                         />
                     </Col>
@@ -60,7 +60,7 @@ function PostImage({ images, setShowPostModal }) {
                         src={imageURL + images[0].Path}
                         alt='post'
                         loading='lazy'
-                        className='mb-3 w-100 rounded-3'
+                        className='mb-3 w-100 rounded-3 shadow-lg'
                         onClick={() => setShowPostModal(true)}
                     />
                     <Col xs={7}>
@@ -69,7 +69,7 @@ function PostImage({ images, setShowPostModal }) {
                             src={imageURL + images[1].Path}
                             alt='post'
                             loading='lazy'
-                            className='w-100 rounded-3'
+                            className='w-100 rounded-3 shadow-lg'
                             onClick={() => setShowPostModal(true)}
                         />
                     </Col>
@@ -97,7 +97,7 @@ function PostImage({ images, setShowPostModal }) {
                                 src={imageURL + images[0].Path}
                                 alt='post'
                                 loading='lazy'
-                                className='w-100 rounded-3'
+                                className='w-100 rounded-3 shadow-lg'
                                 onClick={() => setShowPostModal(true)}
                             />
                         </Col>
@@ -133,7 +133,7 @@ function PostImage({ images, setShowPostModal }) {
                                 src={imageURL + images[3].Path}
                                 alt='post'
                                 loading='lazy'
-                                className='w-100 rounded-3'
+                                className='w-100 rounded-3 shadow-lg'
                                 onClick={() => setShowPostModal(true)}
                             />
                         </Col>

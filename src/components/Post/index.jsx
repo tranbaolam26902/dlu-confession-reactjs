@@ -138,7 +138,7 @@ function Post({ data }) {
                             );
                         })}
                     </div>
-                    <div className='overflow-hidden'>
+                    <div>
                         <h3 className='mb-1 fw-bold' role='button' onClick={handleOpenPostModal}>
                             {data.Title}
                         </h3>
