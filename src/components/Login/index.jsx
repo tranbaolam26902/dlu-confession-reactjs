@@ -214,7 +214,7 @@ function Login() {
                                     onChange={(e) => setSignUpNickname(e.target.value)}
                                 />
                             </div>
-                            <div className='d-flex flex-column'>
+                            <div className='d-flex flex-column position-relative'>
                                 <label htmlFor='password-sign-up'>Mật khẩu *</label>
                                 <input
                                     id='password-sign-up'
@@ -224,6 +224,9 @@ function Login() {
                                     onChange={(e) => setSignUpPassword(e.target.value)}
                                     required
                                 />
+                                <div className={cx('password-hint')}>
+                                    Mật khẩu phải có ít nhất 01 chữ cái thường, 01 chữ số và tối thiểu 06 ký tự
+                                </div>
                             </div>
                             <div className='d-flex flex-column mb-2'>
                                 <label htmlFor='confirm-password'>Nhập lại mật khẩu *</label>

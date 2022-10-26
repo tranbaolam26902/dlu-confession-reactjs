@@ -26,4 +26,21 @@
             border-color: var(--text-secondary-80);
         }
     }
+    input[type='password']:focus + .password-hint {
+        display: inline-block;
+    }
+    .password-hint {
+        display: none;
+        position: absolute;
+        top: 8px;
+        left: calc(100% + 8px);
+        padding: 16px;
+        width: 320px;
+        font-size: 1.4rem;
+        font-style: italic;
+        text-align: left;
+        background-color: var(--primary);
+        border-radius: 16px;
+        box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.25);
+    }
 }
