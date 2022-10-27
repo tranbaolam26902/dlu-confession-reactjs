@@ -22,6 +22,7 @@ function UserActions() {
 
     // Component's states
     const [notifications, setNotifications] = useState([]);
+    const [isNewNotification, setIsNewNotification] = useState(false);
 
     // Variables
     const isMobile = viewPort.width < 992;
@@ -37,12 +38,23 @@ function UserActions() {
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    if (mounted) setNotifications(data);
+                    if (mounted) {
+                        setNotifications(data);
+                        setIsNewNotification(countNewNotifications() > 0);
+                    }
                 });
         }
 
         return () => (mounted = false);
-    }, []);
+    }, [notifications]);
+
+    const countNewNotifications = () => {
+        let count = 0;
+        notifications.map((notification) => {
+            if (notification.IsRead == false) count -= -1;
+        });
+        return count;
+    };
 
     const handleLogin = () => {
         dispatch(actions.setIsLoginModal(true));
@@ -52,6 +64,16 @@ function UserActions() {
     const handleSignUp = () => {
         dispatch(actions.setIsLoginModal(false));
         dispatch(actions.setShowLoginModal(true));
+    };
+
+    const handleReadAll = () => {
+        fetch(`${apiURL}/api/UserNotifi/ReadAll`, {
+            headers: {
+                Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+            },
+        })
+            .then((res) => res.json())
+            .then((data) => setNotifications(data));
     };
 
     if (isMobile) {
@@ -81,27 +103,35 @@ function UserActions() {
                                     delay={[0, 300]}
                                     placement='bottom-end'
                                     render={(attrs) => (
-                                        <PopoverWrapper>
-                                            <div className='px-4' tabIndex={-1}>
-                                                <h3 className={cx('header')}>Thông báo</h3>
-                                                <hr />
-                                                {notifications.length == 0 && (
-                                                    <div className={cx('empty-notifications')}>
-                                                        Không có thông báo nào gần đây!
+                                        <div className='mt-2'>
+                                            <PopoverWrapper>
+                                                <div className='px-4' tabIndex={-1}>
+                                                    <div className='d-flex align-items-center justify-content-between'>
+                                                        <h3 className={cx('header')}>Thông báo</h3>
+                                                        <h5 className={cx('read-all')} onClick={handleReadAll}>
+                                                            Đánh dấu tất cả là đã đọc
+                                                        </h5>
                                                     </div>
-                                                )}
-                                                {notifications.map((notification) => {
-                                                    return <Notification data={notification} key={notification.Id} />;
-                                                })}
-                                            </div>
-                                        </PopoverWrapper>
+                                                    <hr />
+                                                    {notifications.length == 0 && (
+                                                        <div className={cx('empty-notifications')}>
+                                                            Không có thông báo nào gần đây!
+                                                        </div>
+                                                    )}
+                                                    {notifications.map((notification) => {
+                                                        return (
+                                                            <Notification data={notification} key={notification.Id} />
+                                                        );
+                                                    })}
+                                                </div>
+                                            </PopoverWrapper>
+                                        </div>
                                     )}
                                 >
                                     <div
-                                        data={notifications.map((notification) => !notification.IsRead).length}
+                                        data={countNewNotifications()}
                                         className={cx({
-                                            notification:
-                                                notifications.map((notification) => !notification.IsRead).length != 0,
+                                            notification: isNewNotification,
                                         })}
                                     >
                                         <img src={icons.notification} alt='icon-notification' className='mx-3' />
@@ -114,13 +144,15 @@ function UserActions() {
                                     delay={[0, 300]}
                                     placement='bottom-end'
                                     render={(attrs) => (
-                                        <PopoverWrapper>
-                                            <div className={cx('user-actions')}>
-                                                <button className={cx('btn-logout')} onClick={removeToken}>
-                                                    Logout
-                                                </button>
-                                            </div>
-                                        </PopoverWrapper>
+                                        <div style={{ marginTop: '2px' }}>
+                                            <PopoverWrapper>
+                                                <div className={cx('user-actions')}>
+                                                    <button className={cx('btn-logout')} onClick={removeToken}>
+                                                        Logout
+                                                    </button>
+                                                </div>
+                                            </PopoverWrapper>
+                                        </div>
                                     )}
                                 >
                                     <div className={cx('avatar')}>
