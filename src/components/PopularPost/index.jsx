@@ -1,14 +1,10 @@
-import { useEffect, useState } from 'react';
 import { Stack, Row, Col } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
 import { useStore, actions } from '../../store';
 import styles from './PopularPost.module.scss';
-import images from '../../assets/img';
 
 import CategoryTag from '../CategoryTag';
-import Vote from '../Vote';
-import PostModal from '../PostModal';
 import Avatar from '../Avatar';
 
 const cx = classNames.bind(styles);
@@ -18,14 +14,15 @@ function PopularPost({ data }) {
     const [states, dispatch] = useStore();
     const { avatarURL } = states;
 
-    // Component's states
-    const [showPostModal, setShowPostModal] = useState(false);
-    const [scrollToComment, setScrollToComment] = useState(false);
-
     // Convert created time
     const date = data.CreatedTime.split('-');
     const day = date[2].split('T')[0];
     const month = date[1];
+
+    const handleOpenPostModal = () => {
+        dispatch(actions.setPostData(data));
+        dispatch(actions.setShowPostModal(true));
+    };
 
     return (
         <>
@@ -52,7 +49,7 @@ function PopularPost({ data }) {
                         })}
                     </div>
                 )}
-                <div className={cx('body')} onClick={() => setShowPostModal(true)}>
+                <div className={cx('body')} onClick={handleOpenPostModal}>
                     <h5 className={cx('title')}>{data.Title}</h5>
                 </div>
                 <div className={cx('footer')}>
@@ -63,14 +60,6 @@ function PopularPost({ data }) {
                     <span>bình luận</span>
                 </div>
             </Stack>
-
-            <PostModal
-                showPostModal={showPostModal}
-                setShowPostModal={setShowPostModal}
-                scrollToComment={scrollToComment}
-                setScrollToComment={setScrollToComment}
-                data={data}
-            />
         </>
     );
 }
