@@ -15,11 +15,11 @@ import Avatar from '../Avatar';
 
 const cx = classNames.bind(styles);
 
-function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScrollToComment, data, like, setLike }) {
+function PostModal() {
     // Global states
     // eslint-disable-next-line
     const [states, dispatch] = useStore();
-    const { apiURL, userAvatar, token, userId, avatarURL, imageURL } = states;
+    const { apiURL, userAvatar, token, userId, avatarURL, imageURL, postData, showPostModal, scrollToComment } = states;
 
     // Variables
     const commentRef = useRef();
@@ -36,8 +36,8 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
     useEffect(() => {
         let mounted = true;
 
-        if (data.PostLikes.length > 0) {
-            data.PostLikes.map((postLike) => {
+        if (postData.PostLikes.length > 0) {
+            postData.PostLikes.map((postLike) => {
                 if (postLike.UserID == userId && mounted) {
                     setIsVoted(postLike.IsLiked);
                 }
@@ -47,7 +47,7 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
         }
 
         return () => (mounted = false);
-    }, [data.Comments]);
+    }, [postData.Commentss]);
 
     const handleCommentInput = (e) => {
         if (e.target.value === '') {
@@ -66,7 +66,7 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
             const formData = new FormData();
             const commentData = {
                 Content: comment,
-                PostId: data.Id,
+                PostId: postData.Id,
                 ParentId: '',
                 LevelComment: 1,
             };
@@ -91,20 +91,20 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
 
     const handleClose = () => {
         setComment('');
-        setShowPostModal(false);
-        setScrollToComment(false);
+        dispatch(actions.setShowPostModal(false));
+        dispatch(actions.setScrollToComment(false));
     };
 
     // Convert created time
-    const date = data.CreatedTime.split('-');
+    const date = postData.CreatedTime.split('-');
     const day = date[2].split('T')[0];
     const month = date[1];
 
     return (
         <Modal show={showPostModal} size='lg' onHide={handleClose} centered onEntering={handleScroll}>
-            <div id={data.Id} className={cx('wrapper')}>
+            <div id={postData.Id} className={cx('wrapper')}>
                 <div className={cx('header')}>
-                    <h3 className={cx('title')}>Bài viết của {data.NickName}</h3>
+                    <h3 className={cx('title')}>Bài viết của {postData.NickName}</h3>
                     <button className={cx('close')} onClick={handleClose}>
                         <img src={icons.close} alt='icon-close' />
                     </button>
@@ -112,9 +112,9 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
                 <hr className='mb-3' />
                 <div className='d-flex flex-column'>
                     <div className='d-flex mb-3'>
-                        <Avatar avatar={`${avatarURL}${data.Avatar}`} />
+                        <Avatar avatar={`${avatarURL}${postData.Avatar}`} />
                         <div className='mx-3 w-100'>
-                            <h4 className='fw-bold'>{data.NickName}</h4>
+                            <h4 className='fw-bold'>{postData.NickName}</h4>
                             <h5>{day + ' tháng ' + month}</h5>
                         </div>
                         <button>
@@ -122,14 +122,14 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
                         </button>
                     </div>
                     <div className='mb-2'>
-                        {data.Categories.map((category) => {
+                        {postData.Categories.map((category) => {
                             return <CategoryTag key={category.Id}>{category.Name}</CategoryTag>;
                         })}
                     </div>
                     <div>
-                        <h3 className='mb-1 fw-bold'>{data.Title}</h3>
-                        <div className={cx('content')}>{data.Content}</div>
-                        {data.Pictures.map((picture) => {
+                        <h3 className='mb-1 fw-bold'>{postData.Title}</h3>
+                        <div className={cx('content')}>{postData.Content}</div>
+                        {postData.Pictures.map((picture) => {
                             return (
                                 <img
                                     src={imageURL + picture.Path}
@@ -143,16 +143,16 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
                     <div className='d-flex justify-content-end align-items-center mt-3'>
                         <div className='me-4'>
                             <img src={icons.comment} alt='icon-comment' />
-                            <span className='ms-2'>{data.TotalCmt}</span>
+                            <span className='ms-2'>{postData.TotalCmt}</span>
                         </div>
-                        <Vote
-                            data={data}
+                        {/* <Vote
+                            data={postData}
                             userId={userId}
                             like={like}
                             setLike={setLike}
                             isVoted={isVoted}
                             setIsVoted={setIsVoted}
-                        />
+                        /> */}
                     </div>
                     <div>
                         <div ref={commentRef}></div>
@@ -189,10 +189,10 @@ function PostModal({ showPostModal, setShowPostModal, scrollToComment, setScroll
                             </div>
                             <hr />
                             <div>
-                                {data.Comments.map((comment) => {
+                                {postData.Comments.map((comment) => {
                                     return <Comment data={comment} key={comment.Id} />;
                                 })}
-                                {!data.Comments.length && (
+                                {!postData.Comments.length && (
                                     <h5 className='text-center'>
                                         <i>Hãy là người đầu tiên bình luận về bài viết này</i>
                                     </h5>
