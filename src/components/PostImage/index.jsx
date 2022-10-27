@@ -1,12 +1,12 @@
 import { Col, Row } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
-import { useStore } from '../../store';
+import { useStore, actions } from '../../store';
 import styles from './PostImage.module.scss';
 
 const cx = classNames.bind(styles);
 
-function PostImage({ images, setShowPostModal }) {
+function PostImage({ images, onClick }) {
     // Global states
     const [states, dispatch] = useStore();
     const { imageURL } = states;
@@ -22,7 +22,7 @@ function PostImage({ images, setShowPostModal }) {
                     alt='post'
                     loading='lazy'
                     className='w-100 rounded-3 shadow-lg'
-                    onClick={() => setShowPostModal(true)}
+                    onClick={onClick}
                 />
             );
         case 2:
@@ -35,7 +35,7 @@ function PostImage({ images, setShowPostModal }) {
                             alt='post'
                             loading='lazy'
                             className='w-100 rounded-3 shadow-lg'
-                            onClick={() => setShowPostModal(true)}
+                            onClick={onClick}
                         />
                     </Col>
                     <Col xs={5}>
@@ -46,7 +46,7 @@ function PostImage({ images, setShowPostModal }) {
                                 alt='post'
                                 loading='lazy'
                                 className={cx('smaller')}
-                                onClick={() => setShowPostModal(true)}
+                                onClick={onClick}
                             />
                         </div>
                     </Col>
@@ -61,7 +61,7 @@ function PostImage({ images, setShowPostModal }) {
                         alt='post'
                         loading='lazy'
                         className='mb-3 w-100 rounded-3 shadow-lg'
-                        onClick={() => setShowPostModal(true)}
+                        onClick={onClick}
                     />
                     <Col xs={7}>
                         <img
@@ -70,7 +70,7 @@ function PostImage({ images, setShowPostModal }) {
                             alt='post'
                             loading='lazy'
                             className='w-100 rounded-3 shadow-lg'
-                            onClick={() => setShowPostModal(true)}
+                            onClick={onClick}
                         />
                     </Col>
                     <Col xs={5}>
@@ -81,7 +81,7 @@ function PostImage({ images, setShowPostModal }) {
                                 alt='post'
                                 loading='lazy'
                                 className={cx('smaller')}
-                                onClick={() => setShowPostModal(true)}
+                                onClick={onClick}
                             />
                         </div>
                     </Col>
@@ -98,7 +98,7 @@ function PostImage({ images, setShowPostModal }) {
                                 alt='post'
                                 loading='lazy'
                                 className='w-100 rounded-3 shadow-lg'
-                                onClick={() => setShowPostModal(true)}
+                                onClick={onClick}
                             />
                         </Col>
                         <Col xs={5}>
@@ -109,7 +109,7 @@ function PostImage({ images, setShowPostModal }) {
                                     alt='post'
                                     loading='lazy'
                                     className={cx('smaller')}
-                                    onClick={() => setShowPostModal(true)}
+                                    onClick={onClick}
                                 />
                             </div>
                         </Col>
@@ -123,7 +123,7 @@ function PostImage({ images, setShowPostModal }) {
                                     alt='post'
                                     loading='lazy'
                                     className={cx('smaller')}
-                                    onClick={() => setShowPostModal(true)}
+                                    onClick={onClick}
                                 />
                             </div>
                         </Col>
@@ -134,7 +134,7 @@ function PostImage({ images, setShowPostModal }) {
                                 alt='post'
                                 loading='lazy'
                                 className='w-100 rounded-3 shadow-lg'
-                                onClick={() => setShowPostModal(true)}
+                                onClick={onClick}
                             />
                         </Col>
                     </Row>
@@ -151,7 +151,7 @@ function PostImage({ images, setShowPostModal }) {
                                 alt='post'
                                 loading='lazy'
                                 className='w-100 rounded-3'
-                                onClick={() => setShowPostModal(true)}
+                                onClick={onClick}
                             />
                         </Col>
                         <Col xs={5}>
@@ -162,7 +162,7 @@ function PostImage({ images, setShowPostModal }) {
                                     alt='post'
                                     loading='lazy'
                                     className={cx('smaller')}
-                                    onClick={() => setShowPostModal(true)}
+                                    onClick={onClick}
                                 />
                             </div>
                         </Col>
@@ -176,7 +176,7 @@ function PostImage({ images, setShowPostModal }) {
                                     alt='post'
                                     loading='lazy'
                                     className={cx('smaller')}
-                                    onClick={() => setShowPostModal(true)}
+                                    onClick={onClick}
                                 />
                             </div>
                         </Col>
@@ -188,7 +188,7 @@ function PostImage({ images, setShowPostModal }) {
                                 loading='lazy'
                                 className='w-100 rounded-3'
                             />
-                            <h1 className={cx('remaining')} onClick={() => setShowPostModal(true)}>
+                            <h1 className={cx('remaining')} onClick={onClick}>
                                 +{images.length - 4}
                             </h1>
                         </Col>
