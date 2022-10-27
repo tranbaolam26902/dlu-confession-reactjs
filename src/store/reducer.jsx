@@ -9,9 +9,12 @@ import {
     SET_USER_ID,
     SET_USER_AVATAR,
     SET_POST_DATA,
+    SET_SHOW_POST_MODAL,
+    SET_SCROLL_TO_COMMENT,
+    SET_EDIT_POST_DATA,
 } from './constants';
 
-const apiURL = 'https://fe63-14-167-231-69.ngrok.io';
+const apiURL = 'http://192.168.1.52:31234';
 
 const initStates = {
     apiURL: apiURL,
@@ -27,6 +30,9 @@ const initStates = {
     userId: '',
     userAvatar: '',
     postData: {},
+    showPostModal: false,
+    scrollToComment: false,
+    editPostData: {},
 };
 
 function reducer(state, action) {
@@ -80,6 +86,21 @@ function reducer(state, action) {
             return {
                 ...state,
                 postData: action.payload,
+            };
+        case SET_SHOW_POST_MODAL:
+            return {
+                ...state,
+                showPostModal: action.payload,
+            };
+        case SET_SCROLL_TO_COMMENT:
+            return {
+                ...state,
+                scrollToComment: action.payload,
+            };
+        case SET_EDIT_POST_DATA:
+            return {
+                ...state,
+                editPostData: action.payload,
             };
         default:
             throw new Error('Error');

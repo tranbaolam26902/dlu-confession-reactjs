@@ -8,3 +8,6 @@ export const SET_ROLES = 'set_roles';
 export const SET_USER_ID = 'set_user_id';
 export const SET_USER_AVATAR = 'set_user_avatar';
 export const SET_POST_DATA = 'set_post_data';
+export const SET_SHOW_POST_MODAL = 'set_show_post_modal';
+export const SET_SCROLL_TO_COMMENT = 'set_scroll_to_comment';
+export const SET_EDIT_POST_DATA = 'set_edit_post_data';

@@ -9,6 +9,9 @@ import {
     SET_USER_ID,
     SET_USER_AVATAR,
     SET_POST_DATA,
+    SET_SHOW_POST_MODAL,
+    SET_SCROLL_TO_COMMENT,
+    SET_EDIT_POST_DATA,
 } from './constants';
 
 export const setShowLoginModal = (payload) => ({
@@ -58,5 +61,20 @@ export const setUserAvatar = (payload) => ({
 
 export const setPostData = (payload) => ({
     type: SET_POST_DATA,
+    payload,
+});
+
+export const setShowPostModal = (payload) => ({
+    type: SET_SHOW_POST_MODAL,
+    payload,
+});
+
+export const setScrollToComment = (payload) => ({
+    type: SET_SCROLL_TO_COMMENT,
+    payload,
+});
+
+export const setEditPostData = (payload) => ({
+    type: SET_EDIT_POST_DATA,
     payload,
 });
