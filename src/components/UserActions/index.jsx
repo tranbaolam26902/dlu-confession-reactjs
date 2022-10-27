@@ -6,7 +6,6 @@ import { useStore, actions, useToken } from '../../store';
 import { useViewPort } from '../../store';
 import styles from './UserActions.module.scss';
 import icons from '../../assets/icons';
-import images from '../../assets/img';
 
 import { Wrapper as PopoverWrapper } from '../Popover';
 import Button from '../Button';
@@ -15,9 +14,6 @@ import Notification from '../Notification';
 const cx = classNames.bind(styles);
 
 function UserActions() {
-    //Test notification
-    let notification = 12;
-
     // Global states
     const [states, dispatch] = useStore();
     const { apiURL, userAvatar } = states;
@@ -27,21 +23,26 @@ function UserActions() {
     // Component's states
     const [notifications, setNotifications] = useState([]);
 
-    useEffect(() => {
-        fetch(`${apiURL}/api/UserNotifi/index`, {
-            headers: {
-                Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
-            },
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-                setNotifications(data);
-            });
-    }, []);
-
     // Variables
     const isMobile = viewPort.width < 992;
+
+    useEffect(() => {
+        let mounted = true;
+
+        if (localStorage.getItem('token')) {
+            fetch(`${apiURL}/api/UserNotifi/index`, {
+                headers: {
+                    Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+                },
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (mounted) setNotifications(data);
+                });
+        }
+
+        return () => (mounted = false);
+    }, []);
 
     const handleLogin = () => {
         dispatch(actions.setIsLoginModal(true));
@@ -84,6 +85,11 @@ function UserActions() {
                                             <div className='px-4' tabIndex={-1}>
                                                 <h3 className={cx('header')}>Thông báo</h3>
                                                 <hr />
+                                                {notifications.length == 0 && (
+                                                    <div className={cx('empty-notifications')}>
+                                                        Không có thông báo nào gần đây!
+                                                    </div>
+                                                )}
                                                 {notifications.map((notification) => {
                                                     return <Notification data={notification} key={notification.Id} />;
                                                 })}
@@ -91,7 +97,13 @@ function UserActions() {
                                         </PopoverWrapper>
                                     )}
                                 >
-                                    <div data={12} className={cx({ notification: true })}>
+                                    <div
+                                        data={notifications.map((notification) => !notification.IsRead).length}
+                                        className={cx({
+                                            notification:
+                                                notifications.map((notification) => !notification.IsRead).length != 0,
+                                        })}
+                                    >
                                         <img src={icons.notification} alt='icon-notification' className='mx-3' />
                                     </div>
                                 </Tippy>
