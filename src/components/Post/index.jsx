@@ -10,7 +10,6 @@ import images from '../../assets/img';
 import { Wrapper as PopoverWrapper } from '../Popover';
 import CategoryTag from '../CategoryTag';
 import Vote from '../Vote';
-import PostModal from '../PostModal';
 import PostImage from '../PostImage';
 import Avatar from '../Avatar';
 
@@ -24,22 +23,21 @@ function Post({ data }) {
     // Component's states
     const [like, setLike] = useState(data.Like);
     const [isVoted, setIsVoted] = useState(false);
-    const [showPostModal, setShowPostModal] = useState(false);
-    const [scrollToComment, setScrollToComment] = useState(false);
 
     const handleOpenPostModal = () => {
-        setShowPostModal(true);
+        dispatch(actions.setPostData(data));
+        dispatch(actions.setShowPostModal(true));
     };
 
     const handleComment = () => {
         if (token !== '') {
-            setShowPostModal(true);
-            setScrollToComment(true);
+            dispatch(actions.setShowPostModal(true));
+            dispatch(actions.setScrollToComment(true));
         } else dispatch(actions.setShowLoginModal(true));
     };
 
     const handleEdit = () => {
-        dispatch(actions.setPostData(data));
+        dispatch(actions.setEditPostData(data));
         dispatch(actions.setShowCreatePostModal(true));
     };
 
@@ -147,7 +145,7 @@ function Post({ data }) {
                         <div className={cx('content')} onClick={handleOpenPostModal}>
                             {data.Content}
                         </div>
-                        <PostImage images={data.Pictures} setShowPostModal={setShowPostModal} />
+                        <PostImage images={data.Pictures} onClick={handleOpenPostModal} />
                     </div>
                     <div className='d-flex justify-content-end mt-3'>
                         <button className='me-4' onClick={handleComment}>
@@ -165,15 +163,6 @@ function Post({ data }) {
                     </div>
                 </div>
             </div>
-            <PostModal
-                showPostModal={showPostModal}
-                setShowPostModal={setShowPostModal}
-                scrollToComment={scrollToComment}
-                setScrollToComment={setScrollToComment}
-                data={data}
-                like={like}
-                setLike={setLike}
-            />
         </>
     );
 }
