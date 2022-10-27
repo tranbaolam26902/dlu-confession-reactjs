@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 
-import { useStore } from '../../store';
+import { useStore, actions } from '../../store';
 import styles from './Notification.module.scss';
 
 const cx = classNames.bind(styles);
@@ -8,15 +8,29 @@ const cx = classNames.bind(styles);
 function Notification({ data }) {
     // Global states
     const [states, dispatch] = useStore();
-    const { avatarURL } = states;
+    const { apiURL, avatarURL } = states;
 
     // Convert time
     const date = data.NotifyDate.split('-');
     const day = date[2].split('T')[0];
     const month = date[1];
 
+    const handleRead = () => {
+        const formData = new FormData();
+        formData.append('id', data.PostId);
+        fetch(`${apiURL}/api/post/getpostbyid`, {
+            method: 'POST',
+            body: formData,
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                dispatch(actions.setPostData(data));
+                dispatch(actions.setShowPostModal(true));
+            });
+    };
+
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper')} onClick={handleRead}>
             <div className={cx('avatar')}>{data.Avatar && <img src={avatarURL + data.Avatar} alt='avatar' />}</div>
             <div className={cx('content')}>
                 <h6>{day + ' tháng ' + month}</h6>
