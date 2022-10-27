@@ -14,7 +14,7 @@ const cx = classNames.bind(styles);
 function CreatePost() {
     // Global states
     const [states, dispatch] = useStore();
-    const { showCreatePostModal, apiURL, postData, imageURL } = states;
+    const { showCreatePostModal, apiURL, editPostData, imageURL } = states;
 
     // States for create post
     const [isEditing, setIsEditing] = useState(false);
@@ -41,18 +41,18 @@ function CreatePost() {
                 if (mounted) setCategories(selectedCategories);
             });
 
-        if (postData.Id) {
+        if (editPostData.Id) {
             if (mounted) {
                 setIsEditing(true);
-                setPostCategories(postData.Categories.map((category) => category.Id));
-                setPostTitle(postData.Title);
-                if (postData.Content) setPostContent(postData.Content);
-                setUploadImages(postData.Pictures.map((picture) => `${imageURL}${picture.Path}`));
+                setPostCategories(editPostData.Categories.map((category) => category.Id));
+                setPostTitle(editPostData.Title);
+                if (editPostData.Content) setPostContent(editPostData.Content);
+                setUploadImages(editPostData.Pictures.map((picture) => `${imageURL}${picture.Path}`));
             }
         }
 
         return () => (mounted = false);
-    }, [postData]);
+    }, [editPostData]);
 
     const handleSelectCategories = (selected) => {
         setPostCategories(selected);
@@ -88,7 +88,7 @@ function CreatePost() {
             SelectedCategories: postCategories,
             PrivateMode: isPrivatePost,
         };
-        if (isEditing) createPostData.Id = postData.Id;
+        if (isEditing) createPostData.Id = editPostData.Id;
         formData.append('Post', JSON.stringify(createPostData));
         if (postImages.length !== 0)
             postImages.map((image) => {
