@@ -12,13 +12,14 @@ import PopularPost from '../../PopularPost';
 import Login from '../../Login';
 import CreatePost from '../../CreatePost';
 import ButtonScrollToTop from '../../ButtonScrollToTop';
+import PostModal from '../../PostModal';
 
 const cx = classNames.bind(styles);
 
 function DefaultLayout({ children }) {
     // Global states
     const [states, dispatch] = useStore();
-    const { apiURL, posts } = states;
+    const { apiURL, posts, postData } = states;
 
     // Component's states
     const stickyTop = { top: 'calc(var(--header-height) + 32px)' };
@@ -81,6 +82,7 @@ function DefaultLayout({ children }) {
             </Container>
             <Login />
             <CreatePost />
+            {postData.Id && <PostModal />}
         </>
     );
 }
