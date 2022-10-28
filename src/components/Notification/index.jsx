@@ -19,6 +19,7 @@ function Notification() {
 
     // Component's states
     const [notifications, setNotifications] = useState([]);
+    const [newNotifications, setNewNotifications] = useState(0);
     const [isNewNotification, setIsNewNotification] = useState(false);
 
     // Functions
@@ -39,7 +40,11 @@ function Notification() {
             },
         })
             .then((response) => response.json())
-            .then((responseNotifications) => setNotifications(responseNotifications));
+            .then((responseNotifications) => {
+                setNotifications(responseNotifications);
+                setNewNotifications(0);
+                setIsNewNotification(false);
+            });
     };
 
     useEffect(() => {
@@ -52,8 +57,16 @@ function Notification() {
                 .then((response) => response.json())
                 .then((responseNotifications) => {
                     setNotifications(responseNotifications);
-                    setIsNewNotification(countNewNotifications() > 0);
                 });
+        }
+        // eslint-disable-next-line
+    }, []);
+
+    useEffect(() => {
+        const temp = countNewNotifications();
+        if (temp > 0) {
+            setNewNotifications(temp);
+            setIsNewNotification(true);
         }
         // eslint-disable-next-line
     }, [notifications]);
@@ -62,7 +75,7 @@ function Notification() {
         <div className='position-relative d-flex align-items-center'>
             <Tippy
                 interactive
-                delay={[0, 300]}
+                trigger='click'
                 placement='bottom-end'
                 render={(attrs) => (
                     <div className='mt-2'>
@@ -87,12 +100,12 @@ function Notification() {
                 )}
             >
                 <div
-                    data={countNewNotifications()}
+                    data={newNotifications}
                     className={cx({
                         notification: isNewNotification,
                     })}
                 >
-                    <img src={icons.notification} alt='icon-notification' className='mx-3' />
+                    <img src={icons.notification} alt='icon-notification' className={cx('button')} />
                 </div>
             </Tippy>
         </div>

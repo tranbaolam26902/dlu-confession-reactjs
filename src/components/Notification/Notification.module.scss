@@ -37,3 +37,12 @@
     text-align: center;
     color: var(--text-secondary-50);
 }
+.button {
+    margin: 0 16px;
+    padding: 4px;
+    border-radius: 999px;
+    cursor: pointer;
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+}

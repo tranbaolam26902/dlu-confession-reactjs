@@ -65,7 +65,7 @@ function PostOptions({ data }) {
     return (
         <Tippy
             interactive
-            delay={[0, 300]}
+            trigger='click'
             placement='bottom-end'
             render={(attrs) => (
                 <PopoverWrapper>
@@ -81,7 +81,7 @@ function PostOptions({ data }) {
                             </button>
                         )}
                         {roles && (roles.includes('Manager') || userId === data.PostHistories[0].AccountId) && (
-                            <button className={cx('post-option', { isDelete: true })} onClick={handleDelete}>
+                            <button className={cx('post-option', 'isDelete')} onClick={handleDelete}>
                                 Xóa
                             </button>
                         )}
@@ -89,7 +89,7 @@ function PostOptions({ data }) {
                 </PopoverWrapper>
             )}
         >
-            <img src={icons.verticalOption} alt='icon-option' />
+            <img src={icons.verticalOption} alt='icon-option' className={cx('button')} />
         </Tippy>
     );
 }

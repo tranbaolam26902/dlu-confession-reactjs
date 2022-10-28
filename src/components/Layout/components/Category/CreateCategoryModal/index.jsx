@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Modal, Stack } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
-import { useStore } from '../../../../../store';
+import { useStore, actions } from '../../../../../store';
 import styles from './CreateCategoryModal.module.scss';
 import icons from '../../../../../assets/icons';
 
@@ -36,6 +36,13 @@ function CreateCategoryModal({ showCreateCategoryModal, setShowCreateCategoryMod
         }
         return true;
     };
+    const updateCategories = () => {
+        fetch(`${apiURL}/api/category/index`)
+            .then((response) => response.json())
+            .then((responseCategories) => {
+                dispatch(actions.setCategories(responseCategories));
+            });
+    };
     const createCategory = () => {
         const data = {
             Name: categoryName,
@@ -51,6 +58,7 @@ function CreateCategoryModal({ showCreateCategoryModal, setShowCreateCategoryMod
             },
             body: JSON.stringify(data),
         }).then(() => {
+            updateCategories();
             handleClose();
         });
     };

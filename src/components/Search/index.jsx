@@ -33,7 +33,7 @@ function Search({ placeholder }) {
     return (
         <Tippy
             interactive
-            delay={[0, 700]}
+            trigger='click'
             render={(attrs) => (
                 <PopoverWrapper>
                     <div className={cx('search-result')} tabIndex='-1' {...attrs}>

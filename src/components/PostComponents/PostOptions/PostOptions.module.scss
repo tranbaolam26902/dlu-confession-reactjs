@@ -8,3 +8,11 @@
         color: var(--red);
     }
 }
+.button {
+    padding: 0 4px;
+    border-radius: 999px;
+    cursor: pointer;
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+}

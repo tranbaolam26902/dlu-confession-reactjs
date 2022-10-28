@@ -47,6 +47,13 @@ function CommentSection() {
                 dispatch(actions.setShowMessageModal(true));
             });
     };
+    const updatePosts = () => {
+        fetch(`${apiURL}/api/post/index`)
+            .then((response) => response.json())
+            .then((responsePosts) => {
+                dispatch(actions.setPosts(responsePosts));
+            });
+    };
 
     // Event handlers
     const handleCommentInput = (e) => {
@@ -81,6 +88,7 @@ function CommentSection() {
                 .then((responseCommentData) => {
                     setComment('');
                     updatePostData(responseCommentData);
+                    updatePosts();
                 });
         }
     };

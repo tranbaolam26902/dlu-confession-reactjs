@@ -57,7 +57,7 @@ function UserActions() {
                             <div>
                                 <Tippy
                                     interactive
-                                    delay={[0, 300]}
+                                    trigger='click'
                                     placement='bottom-end'
                                     render={(attrs) => (
                                         <div style={{ marginTop: '2px' }}>

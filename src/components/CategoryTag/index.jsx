@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import { useStore } from '../../store';
+import { useStore, actions } from '../../store';
 import styles from './CategoryTag.module.scss';
 
 const cx = classNames.bind(styles);
@@ -11,6 +11,15 @@ function CategoryTag({ id, isEditing, children, onClick }) {
     // eslint-disable-next-line
     const [states, dispatch] = useStore();
     const { apiURL } = states;
+
+    // Functions
+    const updateCategories = () => {
+        fetch(`${apiURL}/api/category/index`)
+            .then((response) => response.json())
+            .then((responseCategories) => {
+                dispatch(actions.setCategories(responseCategories));
+            });
+    };
 
     // Event handlers
     const handleDelete = (e) => {
@@ -24,6 +33,8 @@ function CategoryTag({ id, isEditing, children, onClick }) {
                     Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
                 },
                 body: formData,
+            }).then(() => {
+                updateCategories();
             });
         }
     };

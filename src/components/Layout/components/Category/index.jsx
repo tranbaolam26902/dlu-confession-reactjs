@@ -35,7 +35,7 @@ function Category() {
                 dispatch(actions.setCategories(responseCategories));
             });
         // eslint-disable-next-line
-    }, [categories]);
+    }, []);
 
     return (
         <>

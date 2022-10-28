@@ -1,0 +1,19 @@
+.button {
+    margin-left: 8px;
+    padding: 4px;
+    border-radius: 999px;
+    cursor: pointer;
+    &:hover {
+        background-color: var(--background);
+    }
+}
+.option {
+    padding: 8px 16px;
+    text-align: left;
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+    &.isDelete {
+        color: var(--red);
+    }
+}
