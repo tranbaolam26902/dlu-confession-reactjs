@@ -41,7 +41,7 @@ function Login() {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        if (loginUsername == '' || loginPassword == '') {
+        if (loginUsername === '' || loginPassword === '') {
             setErrorMessage('Vui lòng nhập đầy đủ thông tin tài khoản!');
             return;
         }
@@ -61,7 +61,7 @@ function Login() {
 
     const handleSignUp = (e) => {
         e.preventDefault();
-        if (signUpUsername == '' || signUpPassword == '' || signUpConfirmPassword == '' || signUpEmail == '') {
+        if (signUpUsername === '' || signUpPassword === '' || signUpConfirmPassword === '' || signUpEmail === '') {
             setErrorMessage('Vui lòng nhập đầy đủ thông tin tài khoản!');
             return;
         }
