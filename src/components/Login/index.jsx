@@ -7,7 +7,7 @@ import styles from './Login.module.scss';
 import icons from '../../assets/icons';
 import images from '../../assets/img';
 
-import Button from '../Button';
+import { Button } from '../Buttons';
 
 const cx = classNames.bind(styles);
 

@@ -6,29 +6,12 @@
     box-shadow: 0 0px 4px 0 rgba(0, 0, 0, 0.25);
 }
 .content {
+    overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
-    overflow: hidden;
     margin-bottom: 4px;
     font-size: 1.8rem;
     line-height: 1.4;
     cursor: pointer;
-}
-.info,
-.comment,
-.share {
-    margin-left: 8px;
-    color: var(--text-secondary-50);
-}
-.post-option {
-    padding: 8px 16px;
-    text-align: left;
-    &:hover {
-        background-color: rgba(0, 0, 0, 0.05);
-    }
-    &.isDelete {
-        color: var(--red);
-    }
 }

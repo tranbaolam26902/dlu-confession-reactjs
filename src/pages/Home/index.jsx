@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useStore, actions } from '../../store';
 
-import Post from '../../components/Post';
+import { Post } from '../../components/PostComponents';
 
 function Home() {
     // Global states

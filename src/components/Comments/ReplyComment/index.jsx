@@ -1,28 +1,30 @@
 import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 
-import { useStore } from '../../store';
+import { useStore } from '../../../store';
 import styles from './ReplyComment.module.scss';
-import icons from '../../assets/icons';
+import icons from '../../../assets/icons';
 
-import Avatar from '../Avatar';
+import Avatar from '../../Avatar';
 
 const cx = classNames.bind(styles);
 
 function ReplyComment({ data, setShowReply }) {
     // Global states
+    // eslint-disable-next-line
     const [states, dispatch] = useStore();
     const { apiURL, userAvatar } = states;
 
     // Variables
-    const LINE_HEIGHT = 24;
     const INIT_HEIGHT = 40;
     const INIT_ROWS = 1;
+    const LINE_HEIGHT = 24;
 
     // Component's states
     const [comment, setComment] = useState('Trả lời ' + data.NickName + ': ');
     const [inputRows, setInputRows] = useState(INIT_ROWS);
 
+    // Event handlers
     const handleCommentInput = (e) => {
         if (e.target.value === '') {
             setComment('');
@@ -30,11 +32,11 @@ function ReplyComment({ data, setShowReply }) {
             return;
         }
         setComment(e.target.value);
+        // Dynamic textarea's height
         const currentHeight = e.target.scrollHeight;
         const row = (currentHeight - INIT_HEIGHT) / LINE_HEIGHT;
         if (inputRows <= 8) setInputRows(row + INIT_ROWS);
     };
-
     const handleSend = () => {
         if (comment !== '') {
             const formData = new FormData();
@@ -51,16 +53,15 @@ function ReplyComment({ data, setShowReply }) {
                     Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
                 },
                 body: formData,
-            })
-                .then((res) => res.json())
-                .then((data) => {
-                    setComment('');
-                    setShowReply(false);
-                });
+            }).then(() => {
+                setComment('');
+                setShowReply(false);
+            });
         }
     };
 
     useEffect(() => {
+        // Auto focus textarea
         const commentInput = document.getElementById('comment');
         const end = commentInput.value.length;
         commentInput.setSelectionRange(end, end);
@@ -74,9 +75,9 @@ function ReplyComment({ data, setShowReply }) {
                 id='comment'
                 className={cx('comment')}
                 placeholder='Viết bình luận...'
-                onChange={handleCommentInput}
                 value={comment}
                 rows={inputRows}
+                onChange={handleCommentInput}
             />
             <button className='mt-2' onClick={handleSend}>
                 <img src={icons.send} alt='btn-send' />

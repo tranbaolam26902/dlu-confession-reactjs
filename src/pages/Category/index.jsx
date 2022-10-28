@@ -6,7 +6,7 @@ import { useStore, actions } from '../../store';
 import styles from './Category.module.scss';
 import icons from '../../assets/icons';
 
-import Post from '../../components/Post';
+import { Post } from '../../components/PostComponents';
 
 const cx = classNames.bind(styles);
 

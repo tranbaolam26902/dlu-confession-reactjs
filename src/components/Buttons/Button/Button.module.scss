@@ -42,14 +42,13 @@
         position: relative;
     }
     span::after {
-        content: "";
+        content: '';
         position: absolute;
         left: 0;
         bottom: -4px;
         height: 2px;
         right: 100%;
         background-color: currentColor;
-        // transform: translateX(-100%);
         transition: all ease 0.2s;
     }
     span:hover::after {

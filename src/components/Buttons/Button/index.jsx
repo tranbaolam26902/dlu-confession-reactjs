@@ -6,6 +6,7 @@ import styles from './Button.module.scss';
 const cx = classNames.bind(styles);
 
 function Button({ to, href, secondary, outline, text, fluid, children, className, onClick, ...passProps }) {
+    // Variables
     let Component = 'button';
     const props = {
         onClick,

@@ -19,21 +19,21 @@
     &:first-child {
         margin-right: 8px;
     }
-    .btn-delete {
-        display: none;
-        position: absolute;
-        top: -4px;
-        right: -4px;
-        padding: 2px 4px;
-        color: var(--red);
-        background-color: var(--primary);
-        border-radius: 100px;
-        box-shadow: 0 0 2px 0 var(--text-secondary-80);
-    }
-    .btn-delete:hover {
+}
+.btn-delete {
+    display: none;
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    padding: 2px 4px;
+    color: var(--red);
+    background-color: var(--primary);
+    border-radius: 100px;
+    box-shadow: 0 0 2px 0 var(--text-secondary-80);
+    &:hover {
         box-shadow: 0 0 2px 0 var(--red);
     }
-    .isEditing {
-        display: inline-block;
-    }
+}
+.isEditing {
+    display: inline-block;
 }

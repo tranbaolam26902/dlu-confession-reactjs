@@ -7,16 +7,16 @@
     &:last-child::before {
         content: '';
         position: absolute;
-        left: -40px;
         top: 20px;
+        left: -40px;
         bottom: 0;
         width: 40px;
         background-color: var(--primary);
     }
 }
 .side {
-    flex: 0 0 40px;
     position: relative;
+    flex: 0 0 40px;
     margin-right: 16px;
 }
 .main {

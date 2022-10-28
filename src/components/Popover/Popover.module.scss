@@ -1,8 +1,8 @@
 .wrapper {
+    overflow-y: auto;
     position: relative;
     padding: 16px 0;
     max-height: 60vh;
-    overflow-y: auto;
     background-color: var(--primary);
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.25);
     border-radius: 16px;

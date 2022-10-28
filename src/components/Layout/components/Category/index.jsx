@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Modal, Stack } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
 import { useStore, actions } from '../../../../store';
@@ -7,7 +6,8 @@ import styles from './Category.module.scss';
 import icons from '../../../../assets/icons';
 
 import CategoryTag from '../../../CategoryTag';
-import Button from '../../../Button';
+import Button from '../../../Buttons/Button';
+import CreateCategoryModal from './CreateCategoryModal';
 
 const cx = classNames.bind(styles);
 
@@ -18,69 +18,24 @@ function Category() {
 
     // Component's states
     const [showCreateCategoryModal, setShowCreateCategoryModal] = useState(false);
-    const [categoryName, setCategoryName] = useState('');
-    const [categoryDescription, setCategoryDescription] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
     const [isEditing, setIsEditing] = useState(false);
     const [editingText, setEditingText] = useState('Chỉnh sửa');
 
-    useEffect(() => {
-        let mounted = true;
-
-        fetch(`${apiURL}/api/category/index`)
-            .then((res) => res.json())
-            .then((data) => {
-                if (mounted) dispatch(actions.setCategories(data));
-            });
-
-        return () => (mounted = false);
-    }, [categories]);
-
-    // Remove accents for alias
-    const removeAccents = (str) =>
-        str
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .replace(/đ/g, 'd')
-            .replace(/Đ/g, 'D');
-    const getAlias = (name) => removeAccents(name).split(' ').join('-');
-
-    const handleCreate = (e) => {
-        e.preventDefault();
-        if (categoryName === '') {
-            setErrorMessage('Nhập tên danh mục!');
-            return;
-        }
-        const data = {
-            Name: categoryName,
-            Alias: getAlias(categoryName),
-            Description: categoryDescription,
-            Active: true,
-        };
-        fetch(`${apiURL}/api/admcategory/create`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
-            },
-            body: JSON.stringify(data),
-        }).then((res) => {
-            handleClose();
-        });
-    };
-
-    const handleClose = () => {
-        setErrorMessage('');
-        setCategoryName('');
-        setCategoryDescription('');
-        setShowCreateCategoryModal(false);
-    };
-
+    // Event handlers
     const handleEdit = () => {
         setIsEditing(!isEditing);
         if (!isEditing) setEditingText('Xong');
         else setEditingText('Chỉnh sửa');
     };
+
+    useEffect(() => {
+        fetch(`${apiURL}/api/category/index`)
+            .then((response) => response.json())
+            .then((responseCategories) => {
+                dispatch(actions.setCategories(responseCategories));
+            });
+        // eslint-disable-next-line
+    }, [categories]);
 
     return (
         <>
@@ -101,10 +56,10 @@ function Category() {
                     {categories.map((category) => {
                         return (
                             <CategoryTag
-                                key={category.Id}
                                 id={category.Id}
-                                onClick={() => dispatch(actions.setFilter(category.Id))}
+                                key={category.Id}
                                 isEditing={isEditing}
+                                onClick={() => dispatch(actions.setFilter(category.Id))}
                             >
                                 {category.Name}
                             </CategoryTag>
@@ -118,39 +73,10 @@ function Category() {
                     </Button>
                 )}
             </div>
-
-            <Modal show={showCreateCategoryModal} onHide={handleClose} centered>
-                <div className={cx('create-category')}>
-                    <div className={cx('header')}>
-                        <h3 className={cx('title')}>Tạo danh mục</h3>
-                        <button className={cx('close')} onClick={handleClose}>
-                            <img src={icons.close} alt='icon-close' />
-                        </button>
-                    </div>
-                    <hr className='my-0' />
-                    <form onSubmit={handleCreate}>
-                        <Stack gap={3} className='pt-3'>
-                            <div className='text-danger text-center'>{errorMessage}</div>
-                            <input
-                                className={cx('text-box')}
-                                placeholder='Tên danh mục *'
-                                onChange={(e) => setCategoryName(e.target.value)}
-                            />
-                            <textarea
-                                className={cx('text-area')}
-                                placeholder='Mô tả'
-                                onChange={(e) => setCategoryDescription(e.target.value)}
-                            />
-                            <div className='text-end'>
-                                <Button text onClick={handleClose}>
-                                    Hủy
-                                </Button>
-                                <Button secondary>Tạo</Button>
-                            </div>
-                        </Stack>
-                    </form>
-                </div>
-            </Modal>
+            <CreateCategoryModal
+                showCreateCategoryModal={showCreateCategoryModal}
+                setShowCreateCategoryModal={setShowCreateCategoryModal}
+            />
         </>
     );
 }

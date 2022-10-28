@@ -1,55 +1,29 @@
-import { useState, useEffect } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
-import { useStore, useViewPort, actions } from '../../../store';
+import { useStore, useViewPort } from '../../../store';
 import styles from './DefaultLayout.module.scss';
 
 import Header from '../components/Header';
 import Category from '../components/Category';
 import Popular from '../components/Popular';
-import PopularPost from '../../PopularPost';
 import Login from '../../Login';
 import CreatePost from '../../CreatePost';
-import ButtonScrollToTop from '../../ButtonScrollToTop';
-import PostModal from '../../PostModal';
+import { PostModal } from '../../PostComponents';
+import { ButtonScrollToTop } from '../../Buttons';
 
 const cx = classNames.bind(styles);
 
 function DefaultLayout({ children }) {
     // Global states
+    // eslint-disable-next-line
     const [states, dispatch] = useStore();
-    const { apiURL, posts, postData } = states;
-
-    // Component's states
-    const stickyTop = { top: 'calc(var(--header-height) + 32px)' };
+    const { postData } = states;
     const viewPort = useViewPort();
+
+    // Variables
+    const stickyTop = { top: 'calc(var(--header-height) + 32px)' };
     const isMobile = viewPort.width < 992;
-    const [popularPosts, setPopularPosts] = useState([]);
-
-    useEffect(() => {
-        let mounted = true;
-
-        fetch(`${apiURL}/api/post/index`)
-            .then((res) => res.json())
-            .then((data) => {
-                if (mounted) dispatch(actions.setPosts(data));
-            });
-
-        return () => (mounted = false);
-    }, [posts]);
-
-    useEffect(() => {
-        let mounted = true;
-
-        fetch(`${apiURL}/api/post/hotpost`)
-            .then((res) => res.json())
-            .then((data) => {
-                setPopularPosts(data);
-            });
-
-        return () => (mounted = false);
-    }, [popularPosts]);
 
     return (
         <>
@@ -69,11 +43,7 @@ function DefaultLayout({ children }) {
                     {!isMobile && (
                         <Col lg={3} className={cx('reset-z-index')}>
                             <div className='sticky-top' style={stickyTop}>
-                                <Popular>
-                                    {popularPosts.map((post) => {
-                                        return <PopularPost key={post.Id} data={post} />;
-                                    })}
-                                </Popular>
+                                <Popular />
                                 <ButtonScrollToTop />
                             </div>
                         </Col>

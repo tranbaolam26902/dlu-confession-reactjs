@@ -13,9 +13,11 @@ const cx = classNames.bind(styles);
 
 function Header() {
     // Global states
+    // eslint-disable-next-line
     const [states, dispatch] = useStore();
     const viewPort = useViewPort();
 
+    // Variables
     const isMobile = viewPort.width <= 992;
 
     return (

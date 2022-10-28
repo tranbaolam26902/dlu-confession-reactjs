@@ -2,16 +2,16 @@ import { useState, useEffect, useRef } from 'react';
 import { Modal } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
-import { useStore, actions } from '../../store';
+import { useStore, actions } from '../../../store';
 import styles from './PostModal.module.scss';
-import icons from '../../assets/icons';
-import images from '../../assets/img';
+import icons from '../../../assets/icons';
 
-import Button from '../Button';
-import CategoryTag from '../CategoryTag';
-import Vote from '../Vote';
-import Comment from '../Comment';
-import Avatar from '../Avatar';
+import { Button } from '../../Buttons';
+import CategoryTag from '../../CategoryTag';
+import Vote from '../../Vote';
+import { CommentItem } from '../../Comments';
+import Avatar from '../../Avatar';
+import PostOptions from '../PostOptions';
 
 const cx = classNames.bind(styles);
 
@@ -19,7 +19,7 @@ function PostModal() {
     // Global states
     // eslint-disable-next-line
     const [states, dispatch] = useStore();
-    const { apiURL, userAvatar, token, userId, avatarURL, imageURL, postData, showPostModal, scrollToComment } = states;
+    const { token, apiURL, userId, postData, userAvatar, avatarURL, imageURL, showPostModal, scrollToComment } = states;
 
     // Variables
     const commentRef = useRef();
@@ -33,22 +33,12 @@ function PostModal() {
     const [comment, setComment] = useState('');
     const [inputRows, setInputRows] = useState(INIT_ROWS);
 
-    useEffect(() => {
-        let mounted = true;
+    // Convert created time
+    const date = postData.CreatedTime.split('-');
+    const day = date[2].split('T')[0];
+    const month = date[1];
 
-        if (postData.PostLikes.length > 0) {
-            postData.PostLikes.map((postLike) => {
-                if (postLike.UserID == userId && mounted) {
-                    setIsVoted(postLike.IsLiked);
-                }
-            });
-        } else {
-            setIsVoted(false);
-        }
-
-        return () => (mounted = false);
-    }, [postData.Commentss]);
-
+    // Event handlers
     const handleCommentInput = (e) => {
         if (e.target.value === '') {
             setComment('');
@@ -60,7 +50,6 @@ function PostModal() {
         const row = (currentHeight - INIT_HEIGHT) / LINE_HEIGHT;
         if (inputRows <= 8) setInputRows(row + INIT_ROWS);
     };
-
     const handleSend = () => {
         if (comment !== '') {
             const formData = new FormData();
@@ -84,21 +73,24 @@ function PostModal() {
                 });
         }
     };
-
     const handleScroll = () => {
         if (scrollToComment) commentRef.current.scrollIntoView({ behavior: 'smooth' });
     };
-
     const handleClose = () => {
         setComment('');
         dispatch(actions.setShowPostModal(false));
         dispatch(actions.setScrollToComment(false));
     };
 
-    // Convert created time
-    const date = postData.CreatedTime.split('-');
-    const day = date[2].split('T')[0];
-    const month = date[1];
+    useEffect(() => {
+        if (postData.PostLikes.length > 0)
+            postData.PostLikes.map((postLike) => {
+                if (postLike.UserID === userId) setIsVoted(postLike.IsLiked);
+                return null;
+            });
+        else setIsVoted(false);
+        // eslint-disable-next-line
+    }, []);
 
     return (
         <Modal show={showPostModal} size='lg' onHide={handleClose} centered onEntering={handleScroll}>
@@ -117,9 +109,7 @@ function PostModal() {
                             <h4 className='fw-bold'>{postData.NickName}</h4>
                             <h5>{day + ' tháng ' + month}</h5>
                         </div>
-                        <button>
-                            <img src={icons.verticalOption} alt='icon-option' />
-                        </button>
+                        <PostOptions data={postData} />
                     </div>
                     <div className='mb-2'>
                         {postData.Categories.map((category) => {
@@ -133,9 +123,9 @@ function PostModal() {
                             return (
                                 <img
                                     src={imageURL + picture.Path}
+                                    className={cx('images')}
                                     alt='post'
                                     key={picture.Id}
-                                    className={cx('images')}
                                 />
                             );
                         })}
@@ -190,7 +180,7 @@ function PostModal() {
                             <hr />
                             <div>
                                 {postData.Comments.map((comment) => {
-                                    return <Comment data={comment} key={comment.Id} />;
+                                    return <CommentItem data={comment} key={comment.Id} />;
                                 })}
                                 {!postData.Comments.length && (
                                     <h5 className='text-center'>

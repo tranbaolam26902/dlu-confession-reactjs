@@ -1,13 +1,14 @@
 import { Col, Row } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
-import { useStore, actions } from '../../store';
+import { useStore } from '../../../store';
 import styles from './PostImage.module.scss';
 
 const cx = classNames.bind(styles);
 
 function PostImage({ images, onClick }) {
     // Global states
+    // eslint-disable-next-line
     const [states, dispatch] = useStore();
     const { imageURL } = states;
 

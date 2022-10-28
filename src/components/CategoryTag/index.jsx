@@ -6,10 +6,13 @@ import styles from './CategoryTag.module.scss';
 
 const cx = classNames.bind(styles);
 
-function CategoryTag({ children, onClick, isEditing, id }) {
+function CategoryTag({ id, isEditing, children, onClick }) {
+    // Global states
+    // eslint-disable-next-line
     const [states, dispatch] = useStore();
     const { apiURL } = states;
 
+    // Event handlers
     const handleDelete = (e) => {
         e.preventDefault();
         if (window.confirm('Xác nhận xóa danh mục?\nCác bài viết thuộc danh mục này sẽ không bị xóa')) {

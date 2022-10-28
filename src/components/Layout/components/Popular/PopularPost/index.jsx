@@ -1,11 +1,11 @@
 import { Stack, Row, Col } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
-import { useStore, actions } from '../../store';
+import { useStore, actions } from '../../../../../store';
 import styles from './PopularPost.module.scss';
 
-import CategoryTag from '../CategoryTag';
-import Avatar from '../Avatar';
+import CategoryTag from '../../../../CategoryTag';
+import Avatar from '../../../../Avatar';
 
 const cx = classNames.bind(styles);
 
@@ -14,15 +14,16 @@ function PopularPost({ data }) {
     const [states, dispatch] = useStore();
     const { avatarURL } = states;
 
-    // Convert created time
-    const date = data.CreatedTime.split('-');
-    const day = date[2].split('T')[0];
-    const month = date[1];
-
+    // Event handlers
     const handleOpenPostModal = () => {
         dispatch(actions.setPostData(data));
         dispatch(actions.setShowPostModal(true));
     };
+
+    // Convert created time
+    const date = data.CreatedTime.split('-');
+    const day = date[2].split('T')[0];
+    const month = date[1];
 
     return (
         <>
@@ -38,7 +39,7 @@ function PopularPost({ data }) {
                         </div>
                     </Col>
                 </Row>
-                {data.Categories.length != 0 && (
+                {data.Categories.length !== 0 && (
                     <div className={cx('categories')}>
                         {data.Categories.map((category) => {
                             return (
@@ -54,7 +55,7 @@ function PopularPost({ data }) {
                 </div>
                 <div className={cx('footer')}>
                     <span className='me-1'>{data.Like}</span>
-                    <span>lượt bình chọn</span>
+                    <span>lượt thích</span>
                     <span className={cx('mx-1')}>/</span>
                     <span className='me-1'>{data.TotalCmt}</span>
                     <span>bình luận</span>
