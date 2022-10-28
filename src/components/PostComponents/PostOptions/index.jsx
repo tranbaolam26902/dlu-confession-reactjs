@@ -1,7 +1,7 @@
 import Tippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
 
-import { useStore, actions } from '../../../store';
+import { useStore, actions, useToken } from '../../../store';
 import styles from './PostOptions.module.scss';
 import icons from '../../../assets/icons';
 
@@ -13,6 +13,7 @@ function PostOptions({ data }) {
     // Global states
     const [states, dispatch] = useStore();
     const { apiURL, roles, userId } = states;
+    const { token } = useToken();
 
     // Functions
     const updatePosts = () => {
@@ -24,6 +25,9 @@ function PostOptions({ data }) {
     };
 
     // Event handlers
+    const handleReport = () => {
+        if (!token) dispatch(actions.setShowLoginModal(true));
+    };
     const handleEdit = () => {
         dispatch(actions.setEditPostData(data));
         dispatch(actions.setShowCreatePostModal(true));
@@ -66,7 +70,11 @@ function PostOptions({ data }) {
             render={(attrs) => (
                 <PopoverWrapper>
                     <div className='d-flex flex-column'>
-                        {roles && !roles.includes('Manager') && <button className={cx('post-option')}>Báo cáo</button>}
+                        {roles && !roles.includes('Manager') && (
+                            <button className={cx('post-option')} onClick={handleReport}>
+                                Báo cáo
+                            </button>
+                        )}
                         {userId === data.PostHistories[0].AccountId && (
                             <button className={cx('post-option')} onClick={handleEdit}>
                                 Chỉnh sửa

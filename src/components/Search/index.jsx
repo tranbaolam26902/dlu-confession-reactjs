@@ -1,4 +1,4 @@
-import Tippy, { tippy } from '@tippyjs/react/headless';
+import Tippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
 
 import styles from './Search.module.scss';

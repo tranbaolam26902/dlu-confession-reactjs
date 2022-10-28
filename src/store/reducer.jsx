@@ -12,6 +12,8 @@ import {
     SET_SHOW_POST_MODAL,
     SET_SCROLL_TO_COMMENT,
     SET_EDIT_POST_DATA,
+    SET_MESSAGE,
+    SET_SHOW_MESSAGE_MODAL,
 } from './constants';
 
 const apiURL = 'http://192.168.1.52:31234';
@@ -33,6 +35,8 @@ const initStates = {
     showPostModal: false,
     scrollToComment: false,
     editPostData: {},
+    message: '',
+    showMessageModal: false,
 };
 
 function reducer(state, action) {
@@ -101,6 +105,16 @@ function reducer(state, action) {
             return {
                 ...state,
                 editPostData: action.payload,
+            };
+        case SET_MESSAGE:
+            return {
+                ...state,
+                message: action.payload,
+            };
+        case SET_SHOW_MESSAGE_MODAL:
+            return {
+                ...state,
+                showMessageModal: action.payload,
             };
         default:
             throw new Error('Error');

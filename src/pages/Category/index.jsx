@@ -20,8 +20,6 @@ function Category() {
     const [currentCategory, setCurrentCategory] = useState('');
 
     useEffect(() => {
-        let mounted = true;
-
         if (filter !== '') {
             const formData = new FormData();
             formData.append('id', filter);
@@ -29,18 +27,16 @@ function Category() {
                 method: 'POST',
                 body: formData,
             })
-                .then((res) => res.json())
-                .then((data) => {
-                    if (mounted) {
-                        setPosts(data);
-                        categories.map((category) => {
-                            if (category.Id == filter) setCurrentCategory(category.Name);
-                        });
-                    }
+                .then((response) => response.json())
+                .then((responsePosts) => {
+                    setPosts(responsePosts);
+                    categories.map((category) => {
+                        if (category.Id === filter) setCurrentCategory(category.Name);
+                        return null;
+                    });
                 });
         }
-
-        return () => (mounted = false);
+        // eslint-disable-next-line
     }, [posts]);
 
     return (
@@ -56,7 +52,7 @@ function Category() {
             </div>
             <div>
                 {posts.map((post) => {
-                    if (post.Active) return <Post data={post} key={post.Id} />;
+                    return <Post data={post} key={post.Id} />;
                 })}
                 {posts.length === 0 && (
                     <h5 className='text-center'>

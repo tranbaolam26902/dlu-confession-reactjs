@@ -17,17 +17,25 @@ function Notification({ data }) {
 
     // Event handlers
     const handleRead = () => {
-        console.log(data);
         const formData = new FormData();
         formData.append('id', data.PostId);
         fetch(`${apiURL}/api/post/getpostbyid`, {
             method: 'POST',
             body: formData,
         })
-            .then((response) => response.json())
+            .then((response) => {
+                if (response.status === 400) {
+                    throw new Error('400 bad request');
+                }
+                return response.json();
+            })
             .then((responsePostData) => {
                 dispatch(actions.setPostData(responsePostData));
                 dispatch(actions.setShowPostModal(true));
+            })
+            .catch(() => {
+                dispatch(actions.setMessage('Bài viết không tồn tại hoặc đã bị xóa!'));
+                dispatch(actions.setShowMessageModal(true));
             });
     };
 

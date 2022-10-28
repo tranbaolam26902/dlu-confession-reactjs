@@ -1,15 +1,17 @@
+import { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Fragment } from 'react';
 
 import { publicRoutes } from './routes';
 import { DefaultLayout } from './components/Layout';
 
 function App() {
-    document.title = 'Confession Trường Đại học Đà Lạt';
+    useEffect(() => {
+        document.title = 'Confession Trường Đại học Đà Lạt';
+    }, []);
 
     return (
         <Router>
-            <div className="App">
+            <div className='App'>
                 <Routes>
                     {publicRoutes.map((route, index) => {
                         const Page = route.component;

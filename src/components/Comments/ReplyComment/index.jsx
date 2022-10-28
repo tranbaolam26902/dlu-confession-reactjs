@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 
-import { useStore } from '../../../store';
+import { useStore, actions } from '../../../store';
 import styles from './ReplyComment.module.scss';
 import icons from '../../../assets/icons';
 
@@ -23,6 +23,20 @@ function ReplyComment({ data, setShowReply }) {
     // Component's states
     const [comment, setComment] = useState('Trả lời ' + data.NickName + ': ');
     const [inputRows, setInputRows] = useState(INIT_ROWS);
+
+    // Functions
+    const updatePostData = (commentData) => {
+        const formData = new FormData();
+        formData.append('id', commentData.PostId);
+        fetch(`${apiURL}/api/post/getpostbyid`, {
+            method: 'POST',
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((responsePostData) => {
+                dispatch(actions.setPostData(responsePostData));
+            });
+    };
 
     // Event handlers
     const handleCommentInput = (e) => {
@@ -53,10 +67,13 @@ function ReplyComment({ data, setShowReply }) {
                     Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
                 },
                 body: formData,
-            }).then(() => {
-                setComment('');
-                setShowReply(false);
-            });
+            })
+                .then((response) => response.json())
+                .then((responseCommentData) => {
+                    setComment('');
+                    setShowReply(false);
+                    updatePostData(responseCommentData);
+                });
         }
     };
 

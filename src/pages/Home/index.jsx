@@ -10,12 +10,10 @@ function Home() {
     const { apiURL, posts, avatarURL } = states;
 
     useEffect(() => {
-        let mounted = true;
-
         fetch(`${apiURL}/api/post/index`)
-            .then((res) => res.json())
-            .then((data) => {
-                dispatch(actions.setPosts(data));
+            .then((response) => response.json())
+            .then((responsePosts) => {
+                dispatch(actions.setPosts(responsePosts));
                 if (localStorage.getItem('token')) {
                     fetch(`${apiURL}/api/useraccount/getinfo`, {
                         method: 'GET',
@@ -23,23 +21,23 @@ function Home() {
                             Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
                         },
                     })
-                        .then((res) => res.json())
-                        .then((data) => {
-                            if (mounted) {
-                                dispatch(actions.setUserId(data.Id));
-                                dispatch(actions.setRoles(data.RoleTemps));
-                                dispatch(actions.setUserAvatar(`${avatarURL}${data.UserProfile.Avatar}`));
-                            }
+                        .then((response) => response.json())
+                        .then((responseAccountInformation) => {
+                            dispatch(actions.setUserId(responseAccountInformation.Id));
+                            dispatch(actions.setRoles(responseAccountInformation.RoleTemps));
+                            dispatch(
+                                actions.setUserAvatar(`${avatarURL}${responseAccountInformation.UserProfile.Avatar}`),
+                            );
                         });
                 }
             });
-        return () => (mounted = false);
+        // eslint-disable-next-line
     }, []);
 
     return (
         <div>
             {posts.map((post) => {
-                if (post.Active) return <Post data={post} key={post.Id} />;
+                return <Post data={post} key={post.Id} />;
             })}
         </div>
     );

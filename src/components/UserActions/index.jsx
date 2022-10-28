@@ -22,11 +22,11 @@ function UserActions() {
     // Variables
     const isMobile = viewPort.width < 992;
 
+    // Event handlers
     const handleLogin = () => {
         dispatch(actions.setIsLoginModal(true));
         dispatch(actions.setShowLoginModal(true));
     };
-
     const handleSignUp = () => {
         dispatch(actions.setIsLoginModal(false));
         dispatch(actions.setShowLoginModal(true));

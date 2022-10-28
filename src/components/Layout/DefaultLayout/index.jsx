@@ -11,6 +11,7 @@ import Login from '../../Login';
 import CreatePost from '../../CreatePost';
 import { PostModal } from '../../PostComponents';
 import { ButtonScrollToTop } from '../../Buttons';
+import MessageModal from '../../MessageModal';
 
 const cx = classNames.bind(styles);
 
@@ -53,6 +54,7 @@ function DefaultLayout({ children }) {
             <Login />
             <CreatePost />
             {postData.Id && <PostModal />}
+            <MessageModal />
         </>
     );
 }

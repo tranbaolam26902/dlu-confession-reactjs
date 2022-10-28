@@ -12,6 +12,8 @@ import {
     SET_SHOW_POST_MODAL,
     SET_SCROLL_TO_COMMENT,
     SET_EDIT_POST_DATA,
+    SET_MESSAGE,
+    SET_SHOW_MESSAGE_MODAL,
 } from './constants';
 
 export const setShowLoginModal = (payload) => ({
@@ -76,5 +78,15 @@ export const setScrollToComment = (payload) => ({
 
 export const setEditPostData = (payload) => ({
     type: SET_EDIT_POST_DATA,
+    payload,
+});
+
+export const setMessage = (payload) => ({
+    type: SET_MESSAGE,
+    payload,
+});
+
+export const setShowMessageModal = (payload) => ({
+    type: SET_SHOW_MESSAGE_MODAL,
     payload,
 });

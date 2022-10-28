@@ -1,0 +1,19 @@
+.comment {
+    display: inline-block;
+    flex: 1;
+    margin-left: 16px;
+    padding: 8px 16px;
+    background-color: var(--white);
+    border: 2px solid var(--gray-50);
+    border-radius: 16px;
+    &:focus {
+        border-color: var(--text-secondary-80);
+    }
+}
+.not-logged-in {
+    text-align: center;
+    button {
+        color: var(--secondary);
+        font-weight: bold;
+    }
+}
