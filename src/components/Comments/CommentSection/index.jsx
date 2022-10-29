@@ -87,6 +87,7 @@ function CommentSection() {
                 .then((response) => response.json())
                 .then((responseCommentData) => {
                     setComment('');
+                    setInputRows(INIT_ROWS);
                     updatePostData(responseCommentData);
                     updatePosts();
                 });
