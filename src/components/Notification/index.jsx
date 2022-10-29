@@ -99,14 +99,18 @@ function Notification() {
                             <div className='px-4' tabIndex={-1}>
                                 <h3 className={cx('header')}>Thông báo</h3>
                                 <hr />
-                                <div className='d-flex align-items-center justify-content-between mb-2'>
-                                    <h5 className={cx('action-all')} onClick={handleReadAll}>
-                                        Đánh dấu tất cả là đã đọc
-                                    </h5>
-                                    <h5 className={cx('action-all')} onClick={handleDeleteAllRead}>
-                                        Xóa tất cả đã đọc
-                                    </h5>
-                                </div>
+                                {notifications.length !== 0 && (
+                                    <div className='d-flex align-items-center justify-content-between mb-2'>
+                                        {isNewNotification && (
+                                            <h5 className={cx('action', 'read-all')} onClick={handleReadAll}>
+                                                Đánh dấu tất cả là đã đọc
+                                            </h5>
+                                        )}
+                                        <h5 className={cx('action', 'delete-all')} onClick={handleDeleteAllRead}>
+                                            Xóa tất cả đã đọc
+                                        </h5>
+                                    </div>
+                                )}
                                 {notifications.length === 0 && (
                                     <div className={cx('empty-notifications')}>Không có thông báo nào gần đây!</div>
                                 )}
