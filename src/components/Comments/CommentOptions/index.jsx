@@ -9,7 +9,7 @@ import { Wrapper as PopoverWrapper } from '../../Popover';
 
 const cx = classNames.bind(styles);
 
-function CommentOptions({ data }) {
+function CommentOptions({ data, setIsEditing }) {
     // Global states
     const [states, dispatch] = useStore();
     const { apiURL, userId } = states;
@@ -51,7 +51,11 @@ function CommentOptions({ data }) {
             render={(attrs) => (
                 <PopoverWrapper>
                     <div className='d-flex flex-column'>
-                        {data.AccountId === userId && <button className={cx('option')}>Chỉnh sửa</button>}
+                        {data.AccountId === userId && (
+                            <button className={cx('option')} onClick={() => setIsEditing(true)}>
+                                Chỉnh sửa
+                            </button>
+                        )}
                         <button className={cx('option', 'isDelete')} onClick={handleDelete}>
                             Xóa
                         </button>

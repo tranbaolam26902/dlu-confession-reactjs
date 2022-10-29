@@ -20,7 +20,7 @@
     margin-right: 16px;
 }
 .main {
-    flex: 1;
+    flex: 1 1 auto;
 }
 .divider {
     position: absolute;
@@ -57,5 +57,16 @@
     }
     * + * {
         margin-left: 16px;
+    }
+}
+.comment {
+    flex: 1;
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: var(--white);
+    border: 2px solid var(--gray-50);
+    border-radius: 16px;
+    &:focus {
+        border-color: var(--text-secondary-80);
     }
 }
