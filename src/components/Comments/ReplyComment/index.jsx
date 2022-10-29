@@ -25,6 +25,13 @@ function ReplyComment({ data, setShowReply }) {
     const [inputRows, setInputRows] = useState(INIT_ROWS);
 
     // Functions
+    const updatePosts = () => {
+        fetch(`${apiURL}/api/post/index`)
+            .then((response) => response.json())
+            .then((responsePosts) => {
+                dispatch(actions.setPosts(responsePosts));
+            });
+    };
     const updatePostData = (commentData) => {
         const formData = new FormData();
         formData.append('id', commentData.PostId);
@@ -73,6 +80,7 @@ function ReplyComment({ data, setShowReply }) {
                     setComment('');
                     setShowReply(false);
                     updatePostData(responseCommentData);
+                    updatePosts();
                 });
         }
     };
