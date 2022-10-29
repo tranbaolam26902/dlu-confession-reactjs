@@ -64,7 +64,7 @@ function UserActions() {
                                             <PopoverWrapper>
                                                 <div className={cx('user-actions')}>
                                                     <button className={cx('btn-logout')} onClick={removeToken}>
-                                                        Logout
+                                                        Đăng xuất
                                                     </button>
                                                 </div>
                                             </PopoverWrapper>
