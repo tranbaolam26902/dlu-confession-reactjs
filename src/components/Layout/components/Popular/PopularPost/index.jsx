@@ -53,13 +53,11 @@ function PopularPost({ data }) {
                 <div className={cx('body')} onClick={handleOpenPostModal}>
                     <h5 className={cx('title')}>{data.Title}</h5>
                 </div>
-                <div className={cx('footer')}>
-                    <span className='me-1'>{data.Like}</span>
-                    <span>lượt thích</span>
-                    <span className={cx('mx-1')}>/</span>
-                    <span className='me-1'>{data.TotalCmt}</span>
-                    <span>bình luận</span>
-                </div>
+                <h6>
+                    <i>
+                        {data.TotalCmt} bình luận / {data.Like} Lượt thích
+                    </i>
+                </h6>
             </Stack>
         </>
     );
