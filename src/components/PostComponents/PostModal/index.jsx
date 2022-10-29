@@ -83,6 +83,11 @@ function PostModal() {
                             );
                         })}
                     </div>
+                    <h6 className='my-3 text-end'>
+                        <i>
+                            {postData.TotalCmt} bình luận / {postData.Like} Lượt thích
+                        </i>
+                    </h6>
                     <div ref={commentRef}>
                         <CommentSection />
                     </div>
