@@ -85,7 +85,7 @@ function PostModal() {
                     </div>
                     <div>
                         <h3 className='mb-1 fw-bold'>{postData.Title}</h3>
-                        <div className={cx('content')}>{postData.Content}</div>
+                        <div className={cx('content')}>{postData.Content.replace(/\n+/g, '\n')}</div>
                         {postData.Pictures.map((picture) => {
                             return (
                                 <img

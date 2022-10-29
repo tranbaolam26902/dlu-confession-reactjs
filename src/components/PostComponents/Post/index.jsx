@@ -79,7 +79,7 @@ function Post({ data }) {
                             {data.Title}
                         </h3>
                         <div className={cx('content')} onClick={handleOpenPostModal}>
-                            {data.Content}
+                            {data.Content.replace(/\n+/g, '\n')}
                         </div>
                         <PostImage images={data.Pictures} onClick={handleOpenPostModal} />
                     </div>

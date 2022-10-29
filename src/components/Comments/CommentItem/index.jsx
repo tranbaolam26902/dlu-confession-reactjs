@@ -122,7 +122,7 @@ function CommentItem({ data }) {
                     <div className='d-flex align-items-center'>
                         <div className={cx('content')}>
                             <h5 className='fw-bold'>{data.NickName}</h5>
-                            <span>{data.Content}</span>
+                            <span>{data.Content.replace(/\n+/g, '\n')}</span>
                         </div>
                         {(data.AccountId === userId || isPersonalPost) && (
                             <CommentOptions data={data} setIsEditing={setIsEditing} />
