@@ -8,15 +8,15 @@ const cx = classNames.bind(styles);
 function Notification({ data }) {
     // Global states
     const [states, dispatch] = useStore();
-    const { apiURL, avatarURL } = states;
+    const { apiURL, avatarURL, notifications } = states;
 
     // Convert time
     const date = data.NotifyDate.split('-');
     const day = date[2].split('T')[0];
     const month = date[1];
 
-    // Event handlers
-    const handleRead = () => {
+    // Functions
+    const showPost = () => {
         const formData = new FormData();
         formData.append('id', data.PostId);
         fetch(`${apiURL}/api/post/getpostbyid`, {
@@ -38,6 +38,39 @@ function Notification({ data }) {
                 dispatch(actions.setMessage('Bài viết không tồn tại hoặc đã bị xóa!'));
                 dispatch(actions.setShowMessageModal(true));
             });
+    };
+    const getNotifications = () => {
+        if (localStorage.getItem('token')) {
+            fetch(`${apiURL}/api/UserNotifi/index`, {
+                headers: {
+                    Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+                },
+            })
+                .then((response) => response.json())
+                .then((responseNotifications) => {
+                    dispatch(actions.setNotifications(responseNotifications));
+                });
+        }
+    };
+    const setNotificationStatus = () => {
+        const formData = new FormData();
+        formData.append('id', data.Id);
+        if (!data.IsRead)
+            fetch(`${apiURL}/api/UserNotifi/ReadNotify`, {
+                method: 'POST',
+                headers: {
+                    Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+                },
+                body: formData,
+            }).then(() => {
+                getNotifications();
+            });
+    };
+
+    // Event handlers
+    const handleRead = () => {
+        showPost();
+        setNotificationStatus();
     };
 
     return (

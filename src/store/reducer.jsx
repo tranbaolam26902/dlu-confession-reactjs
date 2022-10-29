@@ -14,9 +14,10 @@ import {
     SET_EDIT_POST_DATA,
     SET_MESSAGE,
     SET_SHOW_MESSAGE_MODAL,
+    SET_NOTIFICATIONS,
 } from './constants';
 
-const apiURL = 'http://192.168.1.52:31234';
+const apiURL = 'https://localhost:44332';
 
 const initStates = {
     apiURL: apiURL,
@@ -37,6 +38,7 @@ const initStates = {
     editPostData: {},
     message: '',
     showMessageModal: false,
+    notifications: [],
 };
 
 function reducer(state, action) {
@@ -115,6 +117,11 @@ function reducer(state, action) {
             return {
                 ...state,
                 showMessageModal: action.payload,
+            };
+        case SET_NOTIFICATIONS:
+            return {
+                ...state,
+                notifications: action.payload,
             };
         default:
             throw new Error('Error');

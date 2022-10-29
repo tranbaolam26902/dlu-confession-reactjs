@@ -14,6 +14,7 @@ import {
     SET_EDIT_POST_DATA,
     SET_MESSAGE,
     SET_SHOW_MESSAGE_MODAL,
+    SET_NOTIFICATIONS,
 } from './constants';
 
 export const setShowLoginModal = (payload) => ({
@@ -88,5 +89,10 @@ export const setMessage = (payload) => ({
 
 export const setShowMessageModal = (payload) => ({
     type: SET_SHOW_MESSAGE_MODAL,
+    payload,
+});
+
+export const setNotifications = (payload) => ({
+    type: SET_NOTIFICATIONS,
     payload,
 });

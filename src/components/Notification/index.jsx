@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import Tippy from '@tippyjs/react/headless';
 
-import { useStore } from '../../store';
+import { useStore, actions } from '../../store';
 import styles from './Notification.module.scss';
 import icons from '../../assets/icons';
 
@@ -15,14 +15,26 @@ function Notification() {
     // Global states
     // eslint-disable-next-line
     const [states, dispatch] = useStore();
-    const { apiURL } = states;
+    const { apiURL, notifications } = states;
 
     // Component's states
-    const [notifications, setNotifications] = useState([]);
     const [newNotifications, setNewNotifications] = useState(0);
     const [isNewNotification, setIsNewNotification] = useState(false);
 
     // Functions
+    const getNotifications = () => {
+        if (localStorage.getItem('token')) {
+            fetch(`${apiURL}/api/UserNotifi/index`, {
+                headers: {
+                    Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+                },
+            })
+                .then((response) => response.json())
+                .then((responseNotifications) => {
+                    dispatch(actions.setNotifications(responseNotifications));
+                });
+        }
+    };
     const countNewNotifications = () => {
         let count = 0;
         notifications.map((notification) => {
@@ -41,24 +53,25 @@ function Notification() {
         })
             .then((response) => response.json())
             .then((responseNotifications) => {
-                setNotifications(responseNotifications);
+                dispatch(actions.setNotifications(responseNotifications));
                 setNewNotifications(0);
                 setIsNewNotification(false);
             });
     };
+    const handleDeleteAllRead = () => {
+        fetch(`${apiURL}/api/UserNotifi/DeleteAll`, {
+            headers: {
+                Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+            },
+        })
+            .then((response) => response.json())
+            .then((responseNotifications) => {
+                dispatch(actions.setNotifications(responseNotifications));
+            });
+    };
 
     useEffect(() => {
-        if (localStorage.getItem('token')) {
-            fetch(`${apiURL}/api/UserNotifi/index`, {
-                headers: {
-                    Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
-                },
-            })
-                .then((response) => response.json())
-                .then((responseNotifications) => {
-                    setNotifications(responseNotifications);
-                });
-        }
+        getNotifications();
         // eslint-disable-next-line
     }, []);
 
@@ -67,6 +80,9 @@ function Notification() {
         if (temp > 0) {
             setNewNotifications(temp);
             setIsNewNotification(true);
+        } else {
+            setNewNotifications(0);
+            setIsNewNotification(false);
         }
         // eslint-disable-next-line
     }, [notifications]);
@@ -81,13 +97,16 @@ function Notification() {
                     <div className='mt-2'>
                         <PopoverWrapper>
                             <div className='px-4' tabIndex={-1}>
-                                <div className='d-flex align-items-center justify-content-between'>
-                                    <h3 className={cx('header')}>Thông báo</h3>
-                                    <h5 className={cx('read-all')} onClick={handleReadAll}>
+                                <h3 className={cx('header')}>Thông báo</h3>
+                                <hr />
+                                <div className='d-flex align-items-center justify-content-between mb-2'>
+                                    <h5 className={cx('action-all')} onClick={handleReadAll}>
                                         Đánh dấu tất cả là đã đọc
                                     </h5>
+                                    <h5 className={cx('action-all')} onClick={handleDeleteAllRead}>
+                                        Xóa tất cả đã đọc
+                                    </h5>
                                 </div>
-                                <hr />
                                 {notifications.length === 0 && (
                                     <div className={cx('empty-notifications')}>Không có thông báo nào gần đây!</div>
                                 )}
