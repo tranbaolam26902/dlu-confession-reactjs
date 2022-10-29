@@ -53,8 +53,18 @@ function CreatePost() {
             setPostCategories(editPostData.Categories.map((category) => category.Id));
             setPostTitle(editPostData.Title);
             if (editPostData.Content) setPostContent(editPostData.Content);
+            else setPostContent('');
             setUploadImages(editPostData.Pictures.map((picture) => `${imageURL}${picture.Path}`));
         }
+    };
+    const clearData = () => {
+        setPostCategories([]);
+        setPostTitle('');
+        setPostContent('');
+        setUploadImages([]);
+        setPostImages([]);
+        setIsPrivatePost(false);
+        setIsEditing(false);
     };
     const validatePostData = () => {
         if (postCategories.length === 0 && !isEditing) {
@@ -94,12 +104,7 @@ function CreatePost() {
             },
             body: formData,
         }).then(() => {
-            setPostCategories([]);
-            setPostTitle('');
-            setPostContent('');
-            setUploadImages([]);
-            setPostImages([]);
-            setIsPrivatePost(false);
+            clearData();
             handleClose();
             updatePosts();
         });
@@ -112,6 +117,7 @@ function CreatePost() {
             },
             body: formData,
         }).then(() => {
+            clearData();
             handleClose();
             updatePosts();
         });
@@ -145,16 +151,8 @@ function CreatePost() {
         setUploadImages([]);
     };
     const handleClose = () => {
-        if (isEditing) {
-            setPostCategories([]);
-            setPostTitle('');
-            setPostContent('');
-            setUploadImages([]);
-            setPostImages([]);
-            setIsPrivatePost(false);
-        }
+        if (isEditing) clearData();
         setErrorMessage('');
-        setIsEditing(false);
         dispatch(actions.setEditPostData({}));
         dispatch(actions.setShowCreatePostModal(false));
     };
