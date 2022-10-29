@@ -30,6 +30,7 @@ function Notification({ data }) {
                 return response.json();
             })
             .then((responsePostData) => {
+                if (data.TypeNotify) dispatch(actions.setScrollToComment(true));
                 dispatch(actions.setPostData(responsePostData));
                 dispatch(actions.setShowPostModal(true));
             })
