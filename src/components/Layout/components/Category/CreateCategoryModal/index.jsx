@@ -89,6 +89,7 @@ function CreateCategoryModal({ showCreateCategoryModal, setShowCreateCategoryMod
                     <Stack gap={3} className='pt-3'>
                         <div className='text-danger text-center'>{errorMessage}</div>
                         <input
+                            autoFocus
                             className={cx('text-box')}
                             placeholder='Tên danh mục *'
                             onChange={(e) => setCategoryName(e.target.value)}
