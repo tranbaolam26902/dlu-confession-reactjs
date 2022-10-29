@@ -7,7 +7,6 @@ import icons from '../../../assets/icons';
 import images from '../../../assets/img';
 
 import CategoryTag from '../../CategoryTag';
-import Vote from '../../Vote';
 import PostImage from '../PostImage';
 import Avatar from '../../Avatar';
 import PostOptions from '../PostOptions';
@@ -17,16 +16,30 @@ const cx = classNames.bind(styles);
 function Post({ data }) {
     // Global states
     const [states, dispatch] = useStore();
-    const { token, userId, avatarURL } = states;
+    const { token, apiURL, userId, avatarURL } = states;
 
     // Component's states
-    const [like, setLike] = useState(data.Like);
-    const [isVoted, setIsVoted] = useState(false);
+    const [isLiked, setIsLiked] = useState(false);
 
     // Convert created time
     const date = data.CreatedTime.split('-');
     const day = date[2].split('T')[0];
     const month = date[1];
+
+    // Functions
+    const checkIsLikedPost = () => {
+        data.PostLikes.map((postLike) => {
+            if (postLike.UserID === userId) setIsLiked(true);
+            return null;
+        });
+    };
+    const updatePosts = () => {
+        fetch(`${apiURL}/api/post/index`)
+            .then((response) => response.json())
+            .then((responsePosts) => {
+                dispatch(actions.setPosts(responsePosts));
+            });
+    };
 
     // Event handlers
     const handleOpenPostModal = () => {
@@ -40,14 +53,25 @@ function Post({ data }) {
             dispatch(actions.setScrollToComment(true));
         } else dispatch(actions.setShowLoginModal(true));
     };
+    const handleLike = () => {
+        if (localStorage.getItem('token')) {
+            const formData = new FormData();
+            formData.append('id', data.Id);
+            fetch(`${apiURL}/api/userpost/like`, {
+                method: 'POST',
+                headers: {
+                    Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+                },
+                body: formData,
+            }).then(() => {
+                setIsLiked(!isLiked);
+                updatePosts();
+            });
+        } else dispatch(actions.setShowLoginModal(true));
+    };
 
     useEffect(() => {
-        if (data.PostLikes.length > 0)
-            data.PostLikes.map((postLike) => {
-                if (postLike.UserID === userId) setIsVoted(postLike.IsLiked);
-                return null;
-            });
-        else setIsVoted(false);
+        checkIsLikedPost();
         // eslint-disable-next-line
     }, [userId]);
 
@@ -88,14 +112,11 @@ function Post({ data }) {
                             <img src={icons.comment} alt='icon-comment' />
                             <span className='ms-2'>{data.TotalCmt}</span>
                         </button>
-                        <Vote
-                            data={data}
-                            userId={userId}
-                            like={like}
-                            setLike={setLike}
-                            isVoted={isVoted}
-                            setIsVoted={setIsVoted}
-                        />
+                        <button onClick={handleLike}>
+                            {isLiked && <img src={icons.liked} alt='icon-liked' />}
+                            {!isLiked && <img src={icons.like} alt='icon-like' />}
+                            <span className={cx({ isLiked: isLiked })}>{data.Like}</span>
+                        </button>
                     </div>
                 </div>
             </div>
