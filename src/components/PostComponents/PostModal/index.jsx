@@ -7,7 +7,6 @@ import styles from './PostModal.module.scss';
 import icons from '../../../assets/icons';
 
 import CategoryTag from '../../CategoryTag';
-// import Vote from '../../Vote';
 import Avatar from '../../Avatar';
 import PostOptions from '../PostOptions';
 import CommentSection from '../../Comments/CommentSection';
@@ -18,12 +17,9 @@ function PostModal() {
     // Global states
     const [states, dispatch] = useStore();
     const { postData, avatarURL, imageURL, showPostModal, scrollToComment } = states;
+
     // Variables
     const commentRef = useRef();
-
-    // Component's states
-    // const [like, setLike] = useState(data.Like);
-    // const [isVoted, setIsVoted] = useState(false);
 
     // Convert created time
     const date = postData.CreatedTime.split('-');
@@ -38,16 +34,6 @@ function PostModal() {
         dispatch(actions.setShowPostModal(false));
         dispatch(actions.setScrollToComment(false));
     };
-
-    // useEffect(() => {
-    //     if (postData.PostLikes.length > 0)
-    //         postData.PostLikes.map((postLike) => {
-    //             if (postLike.UserID === userId) setIsVoted(postLike.IsLiked);
-    //             return null;
-    //         });
-    //     else setIsVoted(false);
-    //     // eslint-disable-next-line
-    // }, []);
 
     return (
         <Modal show={showPostModal} size='lg' onHide={handleClose} centered onEntering={handleScroll}>
@@ -96,20 +82,6 @@ function PostModal() {
                                 />
                             );
                         })}
-                    </div>
-                    <div className='d-flex justify-content-end align-items-center mt-3'>
-                        <div className='me-4'>
-                            <img src={icons.comment} alt='icon-comment' />
-                            <span className='ms-2'>{postData.TotalCmt}</span>
-                        </div>
-                        {/* <Vote
-                            data={postData}
-                            userId={userId}
-                            like={like}
-                            setLike={setLike}
-                            isVoted={isVoted}
-                            setIsVoted={setIsVoted}
-                        /> */}
                     </div>
                     <div ref={commentRef}>
                         <CommentSection />
