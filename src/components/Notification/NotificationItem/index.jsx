@@ -8,7 +8,7 @@ const cx = classNames.bind(styles);
 function Notification({ data }) {
     // Global states
     const [states, dispatch] = useStore();
-    const { apiURL, avatarURL, notifications } = states;
+    const { apiURL, avatarURL } = states;
 
     // Convert time
     const date = data.NotifyDate.split('-');
