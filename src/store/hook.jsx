@@ -39,7 +39,7 @@ const useToken = () => {
 
     const removeToken = () => {
         localStorage.removeItem('token');
-        window.location.reload();
+        window.location.assign('/');
     };
 
     return {
