@@ -1,10 +1,14 @@
 .wrapper {
+    position: relative;
     display: flex;
     padding: 12px 16px;
     &:hover {
         border-radius: 16px;
         background-color: var(--background);
         cursor: pointer;
+    }
+    &:hover .button {
+        display: inline-block;
     }
 }
 .avatar {
@@ -43,4 +47,22 @@
     height: 10px;
     border-radius: 999px;
     background-color: var(--secondary);
+}
+.button {
+    position: absolute;
+    top: 50%;
+    right: 64px;
+    display: none;
+    margin-left: 8px;
+    padding: 4px;
+    border-radius: 999px;
+    transform: translatey(-50%);
+    cursor: pointer;
+}
+.option {
+    padding: 8px 16px;
+    text-align: left;
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
 }

@@ -1,7 +1,11 @@
+import Tippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
 
 import { useStore, actions } from '../../../store';
 import styles from './NotificationItem.module.scss';
+import icons from '../../../assets/icons';
+
+import { Wrapper as PopoverWrapper } from '../../Popover';
 
 const cx = classNames.bind(styles);
 
@@ -68,13 +72,31 @@ function Notification({ data }) {
     };
 
     // Event handlers
-    const handleRead = () => {
+    const handleReadAndShowPost = () => {
         showPost();
         setNotificationStatus();
     };
+    const handleRead = (e) => {
+        e.stopPropagation();
+        setNotificationStatus();
+    };
+    const handleDelete = (e) => {
+        e.stopPropagation();
+        const formData = new FormData();
+        formData.append('id', data.Id);
+        fetch(`${apiURL}/api/Usernotifi/DeleteNotify`, {
+            method: 'POST',
+            headers: {
+                Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+            },
+            body: formData,
+        }).then(() => {
+            getNotifications();
+        });
+    };
 
     return (
-        <div className={cx('wrapper')} onClick={handleRead}>
+        <div className={cx('wrapper')} onClick={handleReadAndShowPost}>
             <div className={cx('avatar')}>{data.Avatar && <img src={avatarURL + data.Avatar} alt='avatar' />}</div>
             <div className={cx('content')}>
                 <h6>{day + ' tháng ' + month}</h6>
@@ -86,6 +108,24 @@ function Notification({ data }) {
             <div className='position-relative d-flex align-items-center'>
                 <span className={cx({ isRead: !data.IsRead })}></span>
             </div>
+            <Tippy
+                interactive
+                placement='left-start'
+                render={(attrs) => (
+                    <PopoverWrapper>
+                        <div className='d-flex flex-column'>
+                            <button className={cx('option')} onClick={handleRead}>
+                                Đánh dấu là đã đọc
+                            </button>
+                            <button className={cx('option')} onClick={handleDelete}>
+                                Xóa
+                            </button>
+                        </div>
+                    </PopoverWrapper>
+                )}
+            >
+                <img src={icons.horizontalOption} alt='icon-option' className={cx('button')} />
+            </Tippy>
         </div>
     );
 }
