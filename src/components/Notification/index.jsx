@@ -24,7 +24,7 @@ function Notification() {
     // Functions
     const getNotifications = () => {
         if (localStorage.getItem('token')) {
-            fetch(`${apiURL}/api/UserNotifi/index`, {
+            fetch(`${apiURL}/api/UserNotify/index`, {
                 headers: {
                     Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
                 },
@@ -46,7 +46,7 @@ function Notification() {
 
     // Event handlers
     const handleReadAll = () => {
-        fetch(`${apiURL}/api/UserNotifi/ReadAll`, {
+        fetch(`${apiURL}/api/UserNotify/ReadAll`, {
             headers: {
                 Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
             },
@@ -59,7 +59,7 @@ function Notification() {
             });
     };
     const handleDeleteAllRead = () => {
-        fetch(`${apiURL}/api/UserNotifi/DeleteAll`, {
+        fetch(`${apiURL}/api/UserNotify/DeleteAll`, {
             headers: {
                 Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
             },

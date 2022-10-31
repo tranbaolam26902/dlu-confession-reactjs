@@ -45,7 +45,7 @@ function Notification({ data }) {
     };
     const getNotifications = () => {
         if (localStorage.getItem('token')) {
-            fetch(`${apiURL}/api/UserNotifi/index`, {
+            fetch(`${apiURL}/api/UserNotify/index`, {
                 headers: {
                     Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
                 },
@@ -60,7 +60,7 @@ function Notification({ data }) {
         const formData = new FormData();
         formData.append('id', data.Id);
         if (!data.IsRead)
-            fetch(`${apiURL}/api/UserNotifi/ReadNotify`, {
+            fetch(`${apiURL}/api/UserNotify/ReadNotify`, {
                 method: 'POST',
                 headers: {
                     Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
@@ -84,7 +84,7 @@ function Notification({ data }) {
         e.stopPropagation();
         const formData = new FormData();
         formData.append('id', data.Id);
-        fetch(`${apiURL}/api/Usernotifi/DeleteNotify`, {
+        fetch(`${apiURL}/api/Usernotify/DeleteNotify`, {
             method: 'POST',
             headers: {
                 Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
