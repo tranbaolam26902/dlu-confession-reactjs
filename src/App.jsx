@@ -1,10 +1,19 @@
 import { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import { useStore } from './store';
 import { publicRoutes } from './routes';
 import { DefaultLayout } from './components/Layout';
+import Login from './components/Login';
+import CreatePost from './components/CreatePost';
+import { PostModal } from './components/PostComponents';
+import MessageModal from './components/MessageModal';
 
 function App() {
+    // Global states
+    // eslint-disable-next-line
+    const [states, dispatch] = useStore();
+    const { postData } = states;
     useEffect(() => {
         document.title = 'Confession Trường Đại học Đà Lạt';
     }, []);
@@ -34,6 +43,10 @@ function App() {
                         );
                     })}
                 </Routes>
+                <Login />
+                <CreatePost />
+                {postData.Id && <PostModal />}
+                <MessageModal />
             </div>
         </Router>
     );

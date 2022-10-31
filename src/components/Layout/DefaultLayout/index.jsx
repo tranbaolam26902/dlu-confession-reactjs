@@ -1,25 +1,18 @@
 import { Col, Container, Row } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
-import { useStore, useViewPort } from '../../../store';
+import { useViewPort } from '../../../store';
 import styles from './DefaultLayout.module.scss';
 
 import Header from '../components/Header';
 import Category from '../components/Category';
 import Popular from '../components/Popular';
-import Login from '../../Login';
-import CreatePost from '../../CreatePost';
-import { PostModal } from '../../PostComponents';
 import { ButtonScrollToTop } from '../../Buttons';
-import MessageModal from '../../MessageModal';
 
 const cx = classNames.bind(styles);
 
 function DefaultLayout({ children }) {
     // Global states
-    // eslint-disable-next-line
-    const [states, dispatch] = useStore();
-    const { postData } = states;
     const viewPort = useViewPort();
 
     // Variables
@@ -28,7 +21,7 @@ function DefaultLayout({ children }) {
 
     return (
         <>
-            <Header></Header>
+            <Header />
             <Container fluid='md'>
                 <Row className='position-relative gx-lg-4 mt-lg-4 mt-3'>
                     {!isMobile && (
@@ -51,10 +44,6 @@ function DefaultLayout({ children }) {
                     )}
                 </Row>
             </Container>
-            <Login />
-            <CreatePost />
-            {postData.Id && <PostModal />}
-            <MessageModal />
         </>
     );
 }
