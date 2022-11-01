@@ -12,6 +12,13 @@ function PostImage({ images, onClick }) {
     const [states, dispatch] = useStore();
     const { imageURL } = states;
 
+    const isVertical = (source) => {
+        const img = new Image();
+        img.src = `${imageURL}${source}`;
+        if (img.height > img.width) return true;
+        return false;
+    };
+
     switch (images.length) {
         case 0:
             return <></>;
@@ -22,7 +29,7 @@ function PostImage({ images, onClick }) {
                     src={imageURL + images[0].Path}
                     alt='post'
                     loading='lazy'
-                    className='w-100 rounded-3 shadow-lg'
+                    className={cx('normal')}
                     onClick={onClick}
                 />
             );
@@ -35,7 +42,7 @@ function PostImage({ images, onClick }) {
                             src={imageURL + images[0].Path}
                             alt='post'
                             loading='lazy'
-                            className='w-100 rounded-3 shadow-lg'
+                            className={cx('normal')}
                             onClick={onClick}
                         />
                     </Col>
@@ -46,7 +53,7 @@ function PostImage({ images, onClick }) {
                                 src={imageURL + images[1].Path}
                                 alt='post'
                                 loading='lazy'
-                                className={cx('smaller')}
+                                className={cx('smaller', { isVertical: isVertical(images[1].Path) })}
                                 onClick={onClick}
                             />
                         </div>
@@ -70,7 +77,7 @@ function PostImage({ images, onClick }) {
                             src={imageURL + images[1].Path}
                             alt='post'
                             loading='lazy'
-                            className='w-100 rounded-3 shadow-lg'
+                            className={cx('normal')}
                             onClick={onClick}
                         />
                     </Col>
@@ -81,7 +88,7 @@ function PostImage({ images, onClick }) {
                                 src={imageURL + images[2].Path}
                                 alt='post'
                                 loading='lazy'
-                                className={cx('smaller')}
+                                className={cx('smaller', { isVertical: isVertical(images[2].Path) })}
                                 onClick={onClick}
                             />
                         </div>
@@ -98,7 +105,7 @@ function PostImage({ images, onClick }) {
                                 src={imageURL + images[0].Path}
                                 alt='post'
                                 loading='lazy'
-                                className='w-100 rounded-3 shadow-lg'
+                                className={cx('normal')}
                                 onClick={onClick}
                             />
                         </Col>
@@ -109,7 +116,7 @@ function PostImage({ images, onClick }) {
                                     src={imageURL + images[1].Path}
                                     alt='post'
                                     loading='lazy'
-                                    className={cx('smaller')}
+                                    className={cx('smaller', { isVertical: isVertical(images[1].Path) })}
                                     onClick={onClick}
                                 />
                             </div>
@@ -123,7 +130,7 @@ function PostImage({ images, onClick }) {
                                     src={imageURL + images[2].Path}
                                     alt='post'
                                     loading='lazy'
-                                    className={cx('smaller')}
+                                    className={cx('smaller', { isVertical: isVertical(images[2].Path) })}
                                     onClick={onClick}
                                 />
                             </div>
@@ -134,7 +141,7 @@ function PostImage({ images, onClick }) {
                                 src={imageURL + images[3].Path}
                                 alt='post'
                                 loading='lazy'
-                                className='w-100 rounded-3 shadow-lg'
+                                className={cx('normal')}
                                 onClick={onClick}
                             />
                         </Col>
@@ -162,7 +169,7 @@ function PostImage({ images, onClick }) {
                                     src={imageURL + images[1].Path}
                                     alt='post'
                                     loading='lazy'
-                                    className={cx('smaller')}
+                                    className={cx('smaller', { isVertical: isVertical(images[1].Path) })}
                                     onClick={onClick}
                                 />
                             </div>
@@ -176,7 +183,7 @@ function PostImage({ images, onClick }) {
                                     src={imageURL + images[2].Path}
                                     alt='post'
                                     loading='lazy'
-                                    className={cx('smaller')}
+                                    className={cx('smaller', { isVertical: isVertical(images[2].Path) })}
                                     onClick={onClick}
                                 />
                             </div>
