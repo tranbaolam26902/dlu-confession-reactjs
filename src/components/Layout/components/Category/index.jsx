@@ -55,12 +55,7 @@ function Category() {
                 <div className={cx('categories')}>
                     {categories.map((category) => {
                         return (
-                            <CategoryTag
-                                id={category.Id}
-                                key={category.Id}
-                                isEditing={isEditing}
-                                onClick={() => dispatch(actions.setFilter(category.Id))}
-                            >
+                            <CategoryTag id={category.Id} key={category.Id} isEditing={isEditing}>
                                 {category.Name}
                             </CategoryTag>
                         );

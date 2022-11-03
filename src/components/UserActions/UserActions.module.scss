@@ -1,12 +1,17 @@
 .user-actions {
+    display: flex;
+    flex-direction: column;
     padding: 0 12px;
 }
-.btn-logout {
+.option {
     padding: 8px 16px;
-    color: var(--red);
+    text-align: left;
     border-radius: 8px;
     &:hover {
         background-color: rgba(0, 0, 0, 0.05);
+    }
+    &.logout {
+        color: var(--red);
     }
 }
 .avatar {

@@ -68,11 +68,6 @@ function reducer(state, action) {
                 ...state,
                 categories: action.payload,
             };
-        case SET_FILTER:
-            return {
-                ...state,
-                filter: action.payload,
-            };
         case SET_ROLES:
             return {
                 ...state,

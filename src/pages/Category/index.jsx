@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import { useStore, actions } from '../../store';
@@ -11,18 +11,24 @@ import { Post } from '../../components/PostComponents';
 const cx = classNames.bind(styles);
 
 function Category() {
+    // React's hooks
+    const navigate = useNavigate();
+
     // Global states
     const [states, dispatch] = useStore();
-    const { apiURL, categories, filter } = states;
+    const { apiURL, categories } = states;
 
     // Component's states
     const [posts, setPosts] = useState([]);
     const [currentCategory, setCurrentCategory] = useState('');
 
+    // Variables
+    const categoryId = window.location.pathname.split('/').pop();
+
     useEffect(() => {
-        if (filter !== '') {
+        if (categoryId !== '') {
             const formData = new FormData();
-            formData.append('id', filter);
+            formData.append('id', categoryId);
             fetch(`${apiURL}/api/post/FindPostCategory`, {
                 method: 'POST',
                 body: formData,
@@ -30,13 +36,16 @@ function Category() {
                 .then((response) => response.json())
                 .then((responsePosts) => {
                     setPosts(responsePosts);
-                    categories.map((category) => {
-                        if (category.Id === filter) setCurrentCategory(category.Name);
-                        return null;
-                    });
                 });
         }
         // eslint-disable-next-line
+    }, [navigate]);
+
+    useEffect(() => {
+        categories.map((category) => {
+            if (category.Id === categoryId) setCurrentCategory(category.Name);
+            return null;
+        });
     }, [posts]);
 
     return (
@@ -46,7 +55,7 @@ function Category() {
                     <span>Bài viết thuộc danh mục: </span>
                     <span className={cx('category')}>{currentCategory}</span>
                 </div>
-                <Link to='/' onClick={() => dispatch(actions.setFilter(''))}>
+                <Link to='/'>
                     <img src={icons.closeSmall} alt='btn-delete-filter' />
                 </Link>
             </div>

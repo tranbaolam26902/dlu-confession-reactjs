@@ -4,7 +4,6 @@ import {
     SET_SHOW_CREATE_POST_MODAL,
     SET_POSTS,
     SET_CATEGORIES,
-    SET_FILTER,
     SET_ROLES,
     SET_USER_ID,
     SET_USER_AVATAR,
@@ -39,11 +38,6 @@ export const setPosts = (payload) => ({
 
 export const setCategories = (payload) => ({
     type: SET_CATEGORIES,
-    payload,
-});
-
-export const setFilter = (payload) => ({
-    type: SET_FILTER,
     payload,
 });
 

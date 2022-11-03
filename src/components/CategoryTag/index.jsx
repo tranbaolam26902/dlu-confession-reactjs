@@ -6,7 +6,7 @@ import styles from './CategoryTag.module.scss';
 
 const cx = classNames.bind(styles);
 
-function CategoryTag({ id, isEditing, children, onClick }) {
+function CategoryTag({ id, isEditing, children }) {
     // Global states
     // eslint-disable-next-line
     const [states, dispatch] = useStore();
@@ -40,7 +40,7 @@ function CategoryTag({ id, isEditing, children, onClick }) {
     };
 
     return (
-        <Link to='/category' onClick={onClick} className={cx('wrapper')}>
+        <Link to={`/category/${id}`} className={cx('wrapper')}>
             {children}
             <span className={cx('btn-delete', { isEditing })} onClick={handleDelete}>
                 &#10005;

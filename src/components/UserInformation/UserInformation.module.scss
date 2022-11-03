@@ -1,0 +1,42 @@
+.wrapper {
+    padding: 24px 32px 32px;
+    background-color: var(--primary);
+    border-radius: 16px;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.25);
+}
+.title {
+    font-weight: bold;
+    color: var(--text-secondary-50);
+}
+.edit {
+    font-weight: bold;
+    cursor: pointer;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+.body {
+    padding-top: 16px;
+    max-height: 60vh;
+    overflow-y: auto;
+    text-align: center;
+}
+.body::-webkit-scrollbar {
+    width: 4px;
+}
+.avatar {
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    width: 180px;
+    height: 180px;
+    border-radius: 16px;
+    box-shadow: 0 0 4px 0px rgba(0, 0, 0, 0.5);
+    img {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        height: 100%;
+        transform: translateX(-50%);
+    }
+}

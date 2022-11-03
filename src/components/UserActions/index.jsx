@@ -9,13 +9,15 @@ import icons from '../../assets/icons';
 import { Wrapper as PopoverWrapper } from '../Popover';
 import { Button } from '../Buttons';
 import Notification from '../Notification';
+import { ButtonToProfile } from '../Buttons';
+import { useEffect } from 'react';
 
 const cx = classNames.bind(styles);
 
 function UserActions() {
     // Global states
     const [states, dispatch] = useStore();
-    const { userAvatar } = states;
+    const { apiURL, userId, userAvatar, avatarURL } = states;
     const { token, removeToken } = useToken();
     const viewPort = useViewPort();
 
@@ -31,6 +33,23 @@ function UserActions() {
         dispatch(actions.setIsLoginModal(false));
         dispatch(actions.setShowLoginModal(true));
     };
+
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+            fetch(`${apiURL}/api/useraccount/getinfo`, {
+                method: 'GET',
+                headers: {
+                    Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+                },
+            })
+                .then((response) => response.json())
+                .then((responseAccountInformation) => {
+                    dispatch(actions.setUserId(responseAccountInformation.Id));
+                    dispatch(actions.setRoles(responseAccountInformation.RoleTemps));
+                    dispatch(actions.setUserAvatar(`${avatarURL}${responseAccountInformation.UserProfile.Avatar}`));
+                });
+        }
+    }, []);
 
     if (isMobile) {
         return <img src={icons.user} alt='logo' />;
@@ -63,7 +82,10 @@ function UserActions() {
                                         <div style={{ marginTop: '2px' }}>
                                             <PopoverWrapper>
                                                 <div className={cx('user-actions')}>
-                                                    <button className={cx('btn-logout')} onClick={removeToken}>
+                                                    <ButtonToProfile id={userId}>
+                                                        <button className={cx('option')}>Trang cá nhân</button>
+                                                    </ButtonToProfile>
+                                                    <button className={cx('option', 'logout')} onClick={removeToken}>
                                                         Đăng xuất
                                                     </button>
                                                 </div>

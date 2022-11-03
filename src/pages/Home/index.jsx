@@ -14,22 +14,6 @@ function Home() {
             .then((response) => response.json())
             .then((responsePosts) => {
                 dispatch(actions.setPosts(responsePosts));
-                if (localStorage.getItem('token')) {
-                    fetch(`${apiURL}/api/useraccount/getinfo`, {
-                        method: 'GET',
-                        headers: {
-                            Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
-                        },
-                    })
-                        .then((response) => response.json())
-                        .then((responseAccountInformation) => {
-                            dispatch(actions.setUserId(responseAccountInformation.Id));
-                            dispatch(actions.setRoles(responseAccountInformation.RoleTemps));
-                            dispatch(
-                                actions.setUserAvatar(`${avatarURL}${responseAccountInformation.UserProfile.Avatar}`),
-                            );
-                        });
-                }
             });
         // eslint-disable-next-line
     }, []);

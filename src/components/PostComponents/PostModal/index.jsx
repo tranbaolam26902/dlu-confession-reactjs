@@ -56,17 +56,7 @@ function PostModal() {
                     </div>
                     <div className='mb-2'>
                         {postData.Categories.map((category) => {
-                            return (
-                                <CategoryTag
-                                    key={category.Id}
-                                    onClick={() => {
-                                        dispatch(actions.setFilter(category.Id));
-                                        dispatch(actions.setShowPostModal(false));
-                                    }}
-                                >
-                                    {category.Name}
-                                </CategoryTag>
-                            );
+                            return <CategoryTag key={category.Id}>{category.Name}</CategoryTag>;
                         })}
                     </div>
                     <div>

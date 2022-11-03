@@ -25,7 +25,7 @@ function Header() {
             <Container fluid='md'>
                 <Row className={cx('inner')}>
                     <Col>
-                        <Link to='/' onClick={() => dispatch(actions.setFilter(''))}>
+                        <Link to='/'>
                             <img src={images.logoFull} alt='logo' />
                         </Link>
                     </Col>

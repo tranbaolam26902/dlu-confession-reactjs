@@ -43,7 +43,7 @@ function PopularPost({ data }) {
                     <div className={cx('categories')}>
                         {data.Categories.map((category) => {
                             return (
-                                <CategoryTag key={category.Id} onClick={() => dispatch(actions.setFilter(category.Id))}>
+                                <CategoryTag id={category.Id} key={category.Id}>
                                     {category.Name}
                                 </CategoryTag>
                             );

@@ -10,6 +10,7 @@ import CategoryTag from '../../CategoryTag';
 import PostImage from '../PostImage';
 import Avatar from '../../Avatar';
 import PostOptions from '../PostOptions';
+import { ButtonToProfile } from '../../Buttons';
 
 const cx = classNames.bind(styles);
 
@@ -84,7 +85,13 @@ function Post({ data }) {
                         {!data.PrivateMode && <Avatar avatar={`${avatarURL}${data.Avatar}`} />}
                         <div className='mx-3 w-100'>
                             {data.PrivateMode && <h4 className='fw-bold'>Ẩn danh</h4>}
-                            {!data.PrivateMode && <h4 className='fw-bold'>{data.NickName}</h4>}
+                            {!data.PrivateMode && (
+                                <h4 className='fw-bold'>
+                                    <ButtonToProfile id={data.PostHistories[0].AccountId}>
+                                        {data.NickName}
+                                    </ButtonToProfile>
+                                </h4>
+                            )}
                             <h5>{day + ' tháng ' + month}</h5>
                         </div>
                         <PostOptions data={data} />
@@ -92,7 +99,7 @@ function Post({ data }) {
                     <div className='mb-2'>
                         {data.Categories.map((category) => {
                             return (
-                                <CategoryTag key={category.Id} onClick={() => dispatch(actions.setFilter(category.Id))}>
+                                <CategoryTag id={category.Id} key={category.Id}>
                                     {category.Name}
                                 </CategoryTag>
                             );
