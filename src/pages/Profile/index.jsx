@@ -41,7 +41,7 @@ function Profile() {
 
     return (
         <>
-            {userPosts.length === 0 ? <EmptyPosts /> : null}
+            {userPosts.length === 0 ? <EmptyPosts message='Chưa có bài viết' /> : null}
             {userPosts.map((post) => {
                 return <Post data={post} key={post.Id} />;
             })}

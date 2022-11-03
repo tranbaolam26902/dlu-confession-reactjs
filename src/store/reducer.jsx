@@ -16,7 +16,7 @@ import {
     SET_NOTIFICATIONS,
 } from './constants';
 
-const apiURL = 'http://192.168.1.52:31234';
+const apiURL = 'https://localhost:44332';
 
 const initStates = {
     apiURL: apiURL,

@@ -41,7 +41,7 @@ function Category() {
                 });
         }
         // eslint-disable-next-line
-    }, [navigate]);
+    }, [navigate, states.posts]);
 
     useEffect(() => {
         categories.map((category) => {
@@ -66,7 +66,7 @@ function Category() {
                 {posts.map((post) => {
                     return <Post data={post} key={post.Id} />;
                 })}
-                {posts.length === 0 ? <EmptyPosts /> : null}
+                {posts.length === 0 ? <EmptyPosts message='Chưa có bài viết nào thuộc danh mục này' /> : null}
             </div>
         </>
     );

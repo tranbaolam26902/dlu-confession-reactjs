@@ -5,12 +5,12 @@ import images from '../../assets/img';
 
 const cx = classNames.bind(styles);
 
-function EmptyPosts() {
+function EmptyPosts({ message }) {
     return (
         <div className={cx('wrapper')}>
             <img src={images.emptyPosts} alt='empty-posts' />
             <h5>
-                <i>Chưa có bài viết</i>
+                <i>{message}</i>
             </h5>
         </div>
     );
