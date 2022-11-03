@@ -5,8 +5,8 @@ import classNames from 'classnames/bind';
 import { useStore } from '../../store';
 import styles from './Category.module.scss';
 import icons from '../../assets/icons';
-import images from '../../assets/img';
 
+import EmptyPosts from '../../components/EmptyPosts';
 import { Post } from '../../components/PostComponents';
 
 const cx = classNames.bind(styles);
@@ -66,14 +66,7 @@ function Category() {
                 {posts.map((post) => {
                     return <Post data={post} key={post.Id} />;
                 })}
-                {posts.length === 0 && (
-                    <div className={cx('wrapper')}>
-                        <img src={images.emptyPosts} alt='empty-posts' />
-                        <h5>
-                            <i>Chưa có bài viết nào thuộc danh mục này</i>
-                        </h5>
-                    </div>
-                )}
+                {posts.length === 0 ? <EmptyPosts /> : null}
             </div>
         </>
     );

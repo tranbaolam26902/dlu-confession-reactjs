@@ -1,14 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import classNames from 'classnames/bind';
 
 import { useStore } from '../../store';
-import styles from './Profile.Module.scss';
-import images from '../../assets/img';
 
 import { Post } from '../../components/PostComponents';
-
-const cx = classNames.bind(styles);
+import EmptyPosts from '../../components/EmptyPosts';
 
 function Profile() {
     // React's hooks
@@ -45,14 +41,7 @@ function Profile() {
 
     return (
         <>
-            {userPosts.length === 0 ? (
-                <div className={cx('wrapper')}>
-                    <img src={images.emptyPosts} alt='empty-posts' />
-                    <h5>
-                        <i>Chưa có bài viết</i>
-                    </h5>
-                </div>
-            ) : null}
+            {userPosts.length === 0 ? <EmptyPosts /> : null}
             {userPosts.map((post) => {
                 return <Post data={post} key={post.Id} />;
             })}
