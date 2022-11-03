@@ -7,7 +7,7 @@ import { Post } from '../../components/PostComponents';
 function Home() {
     // Global states
     const [states, dispatch] = useStore();
-    const { apiURL, posts, avatarURL } = states;
+    const { apiURL, posts } = states;
 
     useEffect(() => {
         fetch(`${apiURL}/api/post/index`)

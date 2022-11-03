@@ -209,6 +209,9 @@ function CreatePost() {
                                 value={postTitle}
                                 placeholder='Tiêu đề *'
                                 onChange={(e) => setPostTitle(e.target.value)}
+                                onKeyPress={(e) => {
+                                    e.key === 'Enter' && e.preventDefault();
+                                }}
                             />
                             {/* End: Title section */}
 

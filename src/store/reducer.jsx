@@ -4,7 +4,6 @@ import {
     SET_SHOW_CREATE_POST_MODAL,
     SET_POSTS,
     SET_CATEGORIES,
-    SET_FILTER,
     SET_ROLES,
     SET_USER_ID,
     SET_USER_AVATAR,
@@ -17,7 +16,7 @@ import {
     SET_NOTIFICATIONS,
 } from './constants';
 
-const apiURL = 'https://localhost:44332';
+const apiURL = 'http://192.168.1.52:31234';
 
 const initStates = {
     apiURL: apiURL,

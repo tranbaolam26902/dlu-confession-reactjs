@@ -14,6 +14,7 @@ function UserInformation() {
     const navigate = useNavigate();
 
     // Global states
+    // eslint-disable-next-line
     const [states, dispatch] = useStore();
     const { apiURL, avatarURL } = states;
 
@@ -47,6 +48,7 @@ function UserInformation() {
 
     useEffect(() => {
         getUserInfo();
+        // eslint-disable-next-line
     }, [navigate]);
 
     return (
@@ -84,7 +86,12 @@ function UserInformation() {
                 </>
             ) : null}
             {userInformation.Id ? (
-                <EditModal data={userInformation} showEditModal={showEditModal} setShowEditModal={setShowEditModal} />
+                <EditModal
+                    data={userInformation}
+                    setData={setUserInformation}
+                    showEditModal={showEditModal}
+                    setShowEditModal={setShowEditModal}
+                />
             ) : null}
         </div>
     );

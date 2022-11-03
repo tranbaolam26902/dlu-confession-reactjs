@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import Tippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
 
@@ -8,28 +9,19 @@ import { Wrapper as PopoverWrapper } from '../Popover';
 
 const cx = classNames.bind(styles);
 
-function Search({ placeholder }) {
-    const searchResult = [
-        'Sumeru',
-        'Dehya c0 r1',
-        'Dehya c0 r1',
-        'Dehya c0 r1',
-        'Dehya c0 r1',
-        'Dehya c0 r1',
-        'Dehya c0 r1',
-        'Dehya c0 r1',
-        'Dehya c0 r1',
-        'Dehya c0 r1',
-        'Dehya c0 r1',
-        'Dehya c0 r1',
-        'Dehya c0 r1',
-        'Dehya c0 r1',
-        'Dehya c0 r1',
-        'Dehya c0 r1',
-        'Dehya c0 r1',
-        'Dehya c0 r1',
-        'Dehya c0 r1',
-    ];
+function Search() {
+    const searchResult = ['Sumeru', 'Dehya c0 r1'];
+    // React's hooks
+    const navigate = useNavigate();
+
+    // Functions
+
+    // Event handlers
+    const handleSearch = (e) => {
+        e.preventDefault();
+        navigate(`/search/genshin`);
+    };
+
     return (
         <Tippy
             interactive
@@ -48,16 +40,12 @@ function Search({ placeholder }) {
                 </PopoverWrapper>
             )}
         >
-            <div className={cx('wrapper')}>
-                <input
-                    type='text'
-                    placeholder={placeholder ? placeholder : 'Tìm kiếm...'}
-                    className={cx('search-input')}
-                />
+            <form className={cx('wrapper')} onSubmit={handleSearch}>
+                <input type='text' placeholder='Tìm kiếm...' className={cx('search-input')} />
                 <button className='d-flex align-items-center me-2 px-3 py-1 h-100'>
                     <img src={icons.search} alt='search-icon' />
                 </button>
-            </div>
+            </form>
         </Tippy>
     );
 }

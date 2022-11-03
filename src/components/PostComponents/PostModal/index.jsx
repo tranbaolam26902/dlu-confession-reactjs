@@ -5,11 +5,13 @@ import classNames from 'classnames/bind';
 import { useStore, actions } from '../../../store';
 import styles from './PostModal.module.scss';
 import icons from '../../../assets/icons';
+import images from '../../../assets/img';
 
 import CategoryTag from '../../CategoryTag';
 import Avatar from '../../Avatar';
 import PostOptions from '../PostOptions';
 import CommentSection from '../../Comments/CommentSection';
+import { ButtonToProfile } from '../../Buttons';
 
 const cx = classNames.bind(styles);
 
@@ -39,7 +41,8 @@ function PostModal() {
         <Modal show={showPostModal} size='lg' onHide={handleClose} centered onEntering={handleScroll}>
             <div id={postData.Id} className={cx('wrapper')}>
                 <div className={cx('header')}>
-                    <h3 className={cx('title')}>Bài viết của {postData.NickName}</h3>
+                    {postData.PrivateMode ? <h3 className={cx('title')}>Bài viết ẩn danh</h3> : null}
+                    {!postData.PrivateMode ? <h3 className={cx('title')}>Bài viết của {postData.NickName}</h3> : null}
                     <button className={cx('close')} onClick={handleClose}>
                         <img src={icons.close} alt='icon-close' />
                     </button>
@@ -47,9 +50,17 @@ function PostModal() {
                 <hr className='mb-3' />
                 <div className='d-flex flex-column'>
                     <div className='d-flex mb-3'>
-                        <Avatar avatar={`${avatarURL}${postData.Avatar}`} />
+                        {postData.PrivateMode && <Avatar avatar={images.avatar} />}
+                        {!postData.PrivateMode && <Avatar avatar={`${avatarURL}${postData.Avatar}`} />}
                         <div className='mx-3 w-100'>
-                            <h4 className='fw-bold'>{postData.NickName}</h4>
+                            {postData.PrivateMode && <h4 className='fw-bold'>Ẩn danh</h4>}
+                            {!postData.PrivateMode && (
+                                <h4 className='fw-bold'>
+                                    <ButtonToProfile id={postData.PostHistories[0].AccountId}>
+                                        {postData.NickName}
+                                    </ButtonToProfile>
+                                </h4>
+                            )}
                             <h5>{day + ' tháng ' + month}</h5>
                         </div>
                         <PostOptions data={postData} />

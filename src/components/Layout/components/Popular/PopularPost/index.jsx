@@ -3,9 +3,11 @@ import classNames from 'classnames/bind';
 
 import { useStore, actions } from '../../../../../store';
 import styles from './PopularPost.module.scss';
+import images from '../../../../../assets/img';
 
 import CategoryTag from '../../../../CategoryTag';
 import Avatar from '../../../../Avatar';
+import { ButtonToProfile } from '../../../../Buttons';
 
 const cx = classNames.bind(styles);
 
@@ -30,11 +32,19 @@ function PopularPost({ data }) {
             <Stack gap={2} className={cx('wrapper')}>
                 <Row className='gx-0'>
                     <Col xs={2}>
-                        <Avatar avatar={`${avatarURL}${data.Avatar}`} />
+                        {data.PrivateMode && <Avatar avatar={images.avatar} />}
+                        {!data.PrivateMode && <Avatar avatar={`${avatarURL}${data.Avatar}`} />}
                     </Col>
                     <Col xs={10}>
                         <div className='ms-2'>
-                            <h5 className='fw-bold'>{data.NickName}</h5>
+                            {data.PrivateMode && <h5 className='fw-bold'>Ẩn danh</h5>}
+                            {!data.PrivateMode && (
+                                <h5 className='fw-bold'>
+                                    <ButtonToProfile id={data.PostHistories[0].AccountId}>
+                                        {data.NickName}
+                                    </ButtonToProfile>
+                                </h5>
+                            )}
                             <h6>{day + ' tháng ' + month}</h6>
                         </div>
                     </Col>

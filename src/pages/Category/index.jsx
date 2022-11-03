@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
-import { useStore, actions } from '../../store';
+import { useStore } from '../../store';
 import styles from './Category.module.scss';
 import icons from '../../assets/icons';
+import images from '../../assets/img';
 
 import { Post } from '../../components/PostComponents';
 
@@ -15,6 +16,7 @@ function Category() {
     const navigate = useNavigate();
 
     // Global states
+    // eslint-disable-next-line
     const [states, dispatch] = useStore();
     const { apiURL, categories } = states;
 
@@ -46,6 +48,7 @@ function Category() {
             if (category.Id === categoryId) setCurrentCategory(category.Name);
             return null;
         });
+        // eslint-disable-next-line
     }, [posts]);
 
     return (
@@ -64,9 +67,12 @@ function Category() {
                     return <Post data={post} key={post.Id} />;
                 })}
                 {posts.length === 0 && (
-                    <h5 className='text-center'>
-                        <i>Chưa có bài viết nào thuộc danh mục này</i>
-                    </h5>
+                    <div className={cx('wrapper')}>
+                        <img src={images.emptyPosts} alt='empty-posts' />
+                        <h5>
+                            <i>Chưa có bài viết nào thuộc danh mục này</i>
+                        </h5>
+                    </div>
                 )}
             </div>
         </>

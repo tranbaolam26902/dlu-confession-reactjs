@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 

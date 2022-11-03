@@ -4,6 +4,7 @@ const images = {
     logoLarge: require('./logo-lg.svg').default,
     logoText: require('./logo-text.svg').default,
     avatar: require('./avatar.png'),
+    emptyPosts: require('./empty-posts.png'),
 };
 
 export default images;

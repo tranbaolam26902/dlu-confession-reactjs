@@ -10,24 +10,60 @@ import { Button } from '../../Buttons';
 
 const cx = classNames.bind(styles);
 
-function EditModal({ data, showEditModal, setShowEditModal }) {
+function EditModal({ data, setData, showEditModal, setShowEditModal }) {
     // Global states
+    // eslint-disable-next-line
     const [states, dispatch] = useStore();
-    const { avatarURL } = states;
+    const { apiURL, avatarURL } = states;
 
     // Component's states
     const [errorMessage, setErrorMessage] = useState('');
     const [nickname, setNickname] = useState('');
     const [description, setDescription] = useState('');
     const [avatar, setAvatar] = useState('');
+    const [avatarFile, setAvatarFile] = useState();
+
+    // Functions
+    const validateInformation = () => {
+        if (nickname === '') return false;
+        return true;
+    };
 
     // Event handlers
     const handleClose = () => {
+        setErrorMessage('');
         setShowEditModal(false);
     };
-    const handleEdit = () => {};
+    const handleEdit = (e) => {
+        e.preventDefault();
+        if (validateInformation()) {
+            const userData = {
+                UserProfile: {
+                    NickName: nickname,
+                    Description: description,
+                },
+            };
+            const formData = new FormData();
+            if (avatarFile !== null) formData.append('file', avatarFile);
+            formData.append('account', JSON.stringify(userData));
+            fetch(`${apiURL}/api/useraccount/UpdateAccount`, {
+                method: 'POST',
+                headers: {
+                    Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+                },
+                body: formData,
+            })
+                .then((response) => response.json())
+                .then((responseUserInformation) => {
+                    console.log(responseUserInformation);
+                    setData(responseUserInformation);
+                    handleClose();
+                });
+        } else setErrorMessage('Tên hiển thị không được để trống!');
+    };
     const handleChangeAvatar = (e) => {
         setAvatar(URL.createObjectURL(e.target.files[0]));
+        setAvatarFile(e.target.files[0]);
     };
 
     useEffect(() => {
@@ -36,6 +72,7 @@ function EditModal({ data, showEditModal, setShowEditModal }) {
             if (data.UserProfile.Description) setDescription(data.UserProfile.Description);
             if (data.UserProfile.Avatar) setAvatar(avatarURL + data.UserProfile.Avatar);
         } catch {}
+        // eslint-disable-next-line
     }, []);
 
     return (
@@ -52,27 +89,33 @@ function EditModal({ data, showEditModal, setShowEditModal }) {
                     <form onSubmit={handleEdit}>
                         <Stack gap={3} className='mt-3'>
                             <div className='text-danger text-center'>{errorMessage}</div>
-                            <label for='avatar' className={cx('avatar-selector')}>
+                            <label htmlFor='avatar' className={cx('avatar-selector')}>
                                 <img src={avatar} className={cx('avatar')} alt='avatar' />
                                 <div className={cx('overlay')}>Đổi ảnh đại diện</div>
                             </label>
                             <input id='avatar' type='file' hidden onChange={handleChangeAvatar} />
                             <div className='d-flex flex-column'>
-                                <label for='nickname'>Tên hiển thị: *</label>
+                                <label htmlFor='nickname'>Tên hiển thị: *</label>
                                 <input
                                     id='nickname'
                                     className={cx('text-box')}
                                     value={nickname}
                                     onChange={(e) => setNickname(e.target.value)}
+                                    onKeyPress={(e) => {
+                                        e.key === 'Enter' && e.preventDefault();
+                                    }}
                                 />
                             </div>
                             <div className='d-flex flex-column'>
-                                <label for='description'>Giới thiệu:</label>
+                                <label htmlFor='description'>Giới thiệu:</label>
                                 <input
                                     id='description'
                                     className={cx('text-box')}
                                     value={description}
                                     onChange={(e) => setDescription(e.target.value)}
+                                    onKeyPress={(e) => {
+                                        e.key === 'Enter' && e.preventDefault();
+                                    }}
                                 />
                             </div>
                             <div className='d-flex justify-content-end align-items-center'>

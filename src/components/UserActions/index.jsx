@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import classNames from 'classnames/bind';
 import Tippy from '@tippyjs/react/headless';
 
@@ -11,6 +12,7 @@ import { Button } from '../Buttons';
 import Notification from '../Notification';
 import { ButtonToProfile } from '../Buttons';
 import { useEffect } from 'react';
+import ChangePasswordModal from '../ChangePasswordModal';
 
 const cx = classNames.bind(styles);
 
@@ -20,6 +22,9 @@ function UserActions() {
     const { apiURL, userId, userAvatar, avatarURL } = states;
     const { token, removeToken } = useToken();
     const viewPort = useViewPort();
+
+    // Component's states
+    const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
 
     // Variables
     const isMobile = viewPort.width < 992;
@@ -49,6 +54,7 @@ function UserActions() {
                     dispatch(actions.setUserAvatar(`${avatarURL}${responseAccountInformation.UserProfile.Avatar}`));
                 });
         }
+        // eslint-disable-next-line
     }, []);
 
     if (isMobile) {
@@ -85,6 +91,12 @@ function UserActions() {
                                                     <ButtonToProfile id={userId}>
                                                         <button className={cx('option')}>Trang cá nhân</button>
                                                     </ButtonToProfile>
+                                                    <button
+                                                        className={cx('option')}
+                                                        onClick={() => setShowChangePasswordModal(true)}
+                                                    >
+                                                        Đổi mật khẩu
+                                                    </button>
                                                     <button className={cx('option', 'logout')} onClick={removeToken}>
                                                         Đăng xuất
                                                     </button>
@@ -106,6 +118,10 @@ function UserActions() {
                                 </Tippy>
                             </div>
                         </div>
+                        <ChangePasswordModal
+                            showChangePasswordModal={showChangePasswordModal}
+                            setShowChangePasswordModal={setShowChangePasswordModal}
+                        />
                     </>
                 )}
             </>
