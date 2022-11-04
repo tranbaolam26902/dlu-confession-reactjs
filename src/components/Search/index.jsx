@@ -42,17 +42,24 @@ function Search() {
 
     useEffect(() => {
         const debounce = setTimeout(() => {
-            const formData = new FormData();
-            formData.append('keyword', keyword);
-            fetch(`${apiURL}/api/post/FindPost`, {
-                method: 'POST',
-                body: formData,
-            })
-                .then((response) => response.json())
-                .then((responseSearchResults) => {
-                    setSearchResults(responseSearchResults);
-                });
-            keyword === '' ? setSearchLabel('Lịch sử tìm kiếm:') : setSearchLabel('Bài viết liên quan:');
+            if (keyword !== '') {
+                const formData = new FormData();
+                formData.append('keyword', keyword);
+                fetch(`${apiURL}/api/post/FindPost`, {
+                    method: 'POST',
+                    body: formData,
+                })
+                    .then((response) => response.json())
+                    .then((responseSearchResults) => {
+                        if (responseSearchResults.length !== 0) {
+                            setSearchResults(responseSearchResults);
+                            setSearchLabel('Bài viết liên quan:');
+                        } else setSearchLabel('Không tìm thấy nội dung liên quan đến từ khóa tìm kiếm');
+                    });
+            } else {
+                setSearchLabel('Nhập từ khóa tìm kiếm...');
+                setSearchResults([]);
+            }
         }, 1000);
         return () => clearTimeout(debounce);
         // eslint-disable-next-line
@@ -65,22 +72,23 @@ function Search() {
             render={(attrs) => (
                 <PopoverWrapper>
                     <div className={cx('search-result')} tabIndex='-1' {...attrs}>
-                        {searchResults.length !== 0 ? <h5 className='ms-3 mb-2'>{searchLabel}</h5> : null}
-                        {searchResults.length === 0 ? (
-                            <h5 className='text-center'>Không tìm thấy nội dung liên quan đến từ khóa tìm kiếm</h5>
+                        <h5 className='ms-3'>{searchLabel}</h5>
+                        {searchResults.length !== 0 ? (
+                            <div className='mt-2'>
+                                {searchResults.map((result, index) => {
+                                    return (
+                                        <div
+                                            key={index}
+                                            className={cx('search-result-item')}
+                                            onClick={() => handleSearch(result.Title)}
+                                        >
+                                            <Avatar avatar={avatarURL + result.Avatar} />
+                                            <div className='ms-3 fw-bold'>{result.Title}</div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
                         ) : null}
-                        {searchResults.map((result, index) => {
-                            return (
-                                <div
-                                    key={index}
-                                    className={cx('search-result-item')}
-                                    onClick={() => handleSearch(result.Title)}
-                                >
-                                    <Avatar avatar={avatarURL + result.Avatar} />
-                                    <div className='ms-3 fw-bold'>{result.Title}</div>
-                                </div>
-                            );
-                        })}
                     </div>
                 </PopoverWrapper>
             )}
