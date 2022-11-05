@@ -27,6 +27,7 @@ function Login() {
     const [signUpNickname, setSignUpNickname] = useState('');
     const [signUpEmail, setSignUpEmail] = useState('');
 
+    // Event handlers
     const handleSwitch = () => {
         setErrorMessage('');
         setLoginUsername('');
@@ -38,7 +39,6 @@ function Login() {
         setSignUpEmail('');
         dispatch(actions.setIsLoginModal(!isLoginModal));
     };
-
     const handleLogin = (e) => {
         e.preventDefault();
         if (loginUsername === '' || loginPassword === '') {
@@ -58,7 +58,6 @@ function Login() {
                 }
             });
     };
-
     const handleSignUp = (e) => {
         e.preventDefault();
         if (signUpUsername === '' || signUpPassword === '' || signUpConfirmPassword === '' || signUpEmail === '') {
@@ -99,7 +98,7 @@ function Login() {
                     });
             });
     };
-
+    const handleForgotPassword = () => {};
     const handleClose = () => {
         setErrorMessage('');
         setLoginUsername('');
@@ -149,9 +148,8 @@ function Login() {
                                     required
                                 />
                             </div>
-                            <div className='d-flex align-items-center'>
-                                {/* <input id='remember-user' type='checkbox' className='me-1' />
-                                <label htmlFor='remember-user'>Lưu tài khoản</label> */}
+                            <div className='text-end'>
+                                <button onClick={handleForgotPassword}>Quên mật khẩu?</button>
                             </div>
                             <Button secondary fluid>
                                 Đăng nhập

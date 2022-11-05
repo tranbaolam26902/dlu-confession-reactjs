@@ -25,7 +25,7 @@ function Popular({ children }) {
                 setPosts(responsePosts);
             });
         // eslint-disable-next-line
-    }, []);
+    }, [states.posts]);
 
     return (
         <div className={cx('wrapper')}>

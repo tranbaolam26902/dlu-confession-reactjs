@@ -1,8 +1,8 @@
 import { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import { useStore } from './store';
-import { publicRoutes } from './routes';
+import { useStore, actions } from './store';
+import { publicRoutes, privateRoutes } from './routes';
 import { DefaultLayout } from './components/Layout';
 import Login from './components/Login';
 import CreatePost from './components/CreatePost';
@@ -13,9 +13,25 @@ function App() {
     // Global states
     // eslint-disable-next-line
     const [states, dispatch] = useStore();
-    const { postData } = states;
+    const { apiURL, postData, roles, avatarURL } = states;
+
     useEffect(() => {
         document.title = 'Confession Trường Đại học Đà Lạt';
+        if (localStorage.getItem('token')) {
+            fetch(`${apiURL}/api/useraccount/getinfo`, {
+                method: 'GET',
+                headers: {
+                    Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+                },
+            })
+                .then((response) => response.json())
+                .then((responseAccountInformation) => {
+                    dispatch(actions.setUserId(responseAccountInformation.Id));
+                    dispatch(actions.setRoles(responseAccountInformation.RoleTemps));
+                    dispatch(actions.setUserAvatar(`${avatarURL}${responseAccountInformation.UserProfile.Avatar}`));
+                });
+        }
+        // eslint-disable-next-line
     }, []);
 
     return (
@@ -42,6 +58,28 @@ function App() {
                             />
                         );
                     })}
+                    {roles && roles.includes('Manager')
+                        ? privateRoutes.map((route, index) => {
+                              const Page = route.component;
+                              let Layout = DefaultLayout;
+                              if (route.layout) {
+                                  Layout = route.layout;
+                              } else if (route.layout === null) {
+                                  Layout = Fragment;
+                              }
+                              return (
+                                  <Route
+                                      key={index}
+                                      path={route.path}
+                                      element={
+                                          <Layout>
+                                              <Page />
+                                          </Layout>
+                                      }
+                                  />
+                              );
+                          })
+                        : null}
                 </Routes>
                 <Login />
                 <CreatePost />

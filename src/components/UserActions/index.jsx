@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import Tippy from '@tippyjs/react/headless';
 
@@ -9,9 +10,8 @@ import icons from '../../assets/icons';
 
 import { Wrapper as PopoverWrapper } from '../Popover';
 import { Button } from '../Buttons';
-import Notification from '../Notification';
 import { ButtonToProfile } from '../Buttons';
-import { useEffect } from 'react';
+import Notification from '../Notification';
 import ChangePasswordModal from '../ChangePasswordModal';
 
 const cx = classNames.bind(styles);
@@ -19,7 +19,7 @@ const cx = classNames.bind(styles);
 function UserActions() {
     // Global states
     const [states, dispatch] = useStore();
-    const { apiURL, userId, userAvatar, avatarURL } = states;
+    const { userId, userAvatar, roles } = states;
     const { token, removeToken } = useToken();
     const viewPort = useViewPort();
 
@@ -38,24 +38,6 @@ function UserActions() {
         dispatch(actions.setIsLoginModal(false));
         dispatch(actions.setShowLoginModal(true));
     };
-
-    useEffect(() => {
-        if (localStorage.getItem('token')) {
-            fetch(`${apiURL}/api/useraccount/getinfo`, {
-                method: 'GET',
-                headers: {
-                    Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
-                },
-            })
-                .then((response) => response.json())
-                .then((responseAccountInformation) => {
-                    dispatch(actions.setUserId(responseAccountInformation.Id));
-                    dispatch(actions.setRoles(responseAccountInformation.RoleTemps));
-                    dispatch(actions.setUserAvatar(`${avatarURL}${responseAccountInformation.UserProfile.Avatar}`));
-                });
-        }
-        // eslint-disable-next-line
-    }, []);
 
     if (isMobile) {
         return <img src={icons.user} alt='logo' />;
@@ -91,6 +73,11 @@ function UserActions() {
                                                     <ButtonToProfile id={userId}>
                                                         <button className={cx('option')}>Trang cá nhân</button>
                                                     </ButtonToProfile>
+                                                    {roles && roles.includes('Manager') ? (
+                                                        <Link to='/manage-reported-posts' className={cx('option')}>
+                                                            Quản lý bài viết
+                                                        </Link>
+                                                    ) : null}
                                                     <button
                                                         className={cx('option')}
                                                         onClick={() => setShowChangePasswordModal(true)}

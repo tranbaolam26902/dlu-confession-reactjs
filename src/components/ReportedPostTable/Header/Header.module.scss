@@ -1,0 +1,9 @@
+.wrapper {
+    padding: 8px 16px;
+    font-weight: bold;
+    background-color: var(--primary);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    box-shadow: 0 0 2px 2px rgb(0, 0, 0, 0.05);
+    user-select: none;
+}

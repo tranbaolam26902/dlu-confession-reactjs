@@ -1,8 +1,11 @@
 import Home from '../pages/Home';
 import Profile from '../pages/Profile';
 import Category from '../pages/Category';
-import { ProfileLayout } from '../components/Layout';
 import Search from '../pages/Search';
+import ManageReportedPosts from '../pages/ManageReportedPosts';
+
+import { ProfileLayout } from '../components/Layout';
+import { HeaderOnly } from '../components/Layout';
 
 const publicRoutes = [
     { path: '/', component: Home },
@@ -11,6 +14,6 @@ const publicRoutes = [
     { path: '/search/:keyword', component: Search },
 ];
 
-const privateRoutes = [];
+const privateRoutes = [{ path: '/manage-reported-posts', component: ManageReportedPosts, layout: HeaderOnly }];
 
 export { publicRoutes, privateRoutes };

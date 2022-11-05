@@ -1,0 +1,17 @@
+.wrapper {
+    padding: 16px;
+    background-color: var(--primary);
+    &:nth-child(2n + 1) {
+        background-color: var(--background);
+    }
+}
+.content {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    font-size: 1.8rem;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    cursor: pointer;
+}
