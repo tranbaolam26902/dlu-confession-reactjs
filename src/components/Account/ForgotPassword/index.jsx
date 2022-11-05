@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Modal, Stack } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
-import { useStore, actions, useToken } from '../../../store';
+import { useStore, actions } from '../../../store';
 import styles from '../Account.module.scss';
 import icons from '../../../assets/icons';
 import images from '../../../assets/img';
@@ -25,6 +25,9 @@ function ForgotPassword() {
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
+    // Constants
+    const SEND_CODE_TIME_OUT = 30; // 30 seconds
+
     // Functions
     const validateEmail = () => {
         if (email === '') {
@@ -33,27 +36,70 @@ function ForgotPassword() {
         }
         return true;
     };
+    const setCountdown = () => {
+        setDisableSendCode(true);
+        setSendCode(SEND_CODE_TIME_OUT);
+        const countdown = setInterval(() => {
+            setSendCode((sendCode) => {
+                if (sendCode === 0) {
+                    setSendCode('Gửi mã');
+                    setDisableSendCode(false);
+                    clearInterval(countdown);
+                }
+                return sendCode - 1;
+            });
+        }, 1000);
+    };
 
     // Event handlers
     const handleSendCode = (e) => {
         e.preventDefault();
         if (errorMessage !== '') setErrorMessage('');
         if (validateEmail()) {
-            setDisableSendCode(true);
-            setSendCode(30);
-            const countdown = setInterval(() => {
-                setSendCode((sendCode) => {
-                    if (sendCode == 0) {
-                        setSendCode('Gửi mã');
-                        setDisableSendCode(false);
-                        clearInterval(countdown);
+            setCountdown();
+            const formData = new FormData();
+            formData.append('email', email);
+            fetch(`${apiURL}/api/Account/SendEmailOTP`, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => {
+                    if (response.status !== 200) return response.json();
+                })
+                .then((responseError) => {
+                    if (responseError.ModelState) {
+                        setErrorMessage(responseError.ModelState.Error[0]);
                     }
-                    return sendCode - 1;
                 });
-            }, 1000);
         }
     };
-    const handleChangePassword = () => {};
+    const handleChangePassword = (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        const data = {
+            Email: email,
+            Otp: otp,
+            NewPassword: newPassword,
+        };
+        formData.append('ForgotPassword', JSON.stringify(data));
+        fetch(`${apiURL}/api/Account/ForgotPassword`, {
+            method: 'POST',
+            body: formData,
+        })
+            .then((response) => {
+                if (response.status !== 200) return response.json();
+                else {
+                    handleClose();
+                    dispatch(actions.setMessage('Đổi mật khẩu thành công'));
+                    dispatch(actions.setShowMessageModal(true));
+                }
+            })
+            .then((responseError) => {
+                if (responseError.ModelState) {
+                    setErrorMessage(responseError.ModelState.Error[0]);
+                }
+            });
+    };
     const handleSwitchToSignIn = () => {
         dispatch(actions.setShowForgotPasswordModal(false));
         dispatch(actions.setShowSignInModal(true));
@@ -98,7 +144,8 @@ function ForgotPassword() {
                                     required
                                 />
                             </div>
-                            <button
+                            <span
+                                role='button'
                                 className={cx('btn-get-code', { disable: disableSendCode })}
                                 onClick={
                                     disableSendCode
@@ -109,7 +156,7 @@ function ForgotPassword() {
                                 }
                             >
                                 {sendCode}
-                            </button>
+                            </span>
                         </div>
                         <div className='d-flex flex-column mb-2'>
                             <label htmlFor='otp'>Mã xác nhận</label>
