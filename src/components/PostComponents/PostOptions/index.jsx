@@ -26,7 +26,7 @@ function PostOptions({ data }) {
 
     // Event handlers
     const handleReport = () => {
-        if (!token) dispatch(actions.setShowLoginModal(true));
+        if (!token) dispatch(actions.setShowSignInModal(true));
     };
     const handleEdit = () => {
         dispatch(actions.setEditPostData(data));

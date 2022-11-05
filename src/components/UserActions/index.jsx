@@ -30,13 +30,13 @@ function UserActions() {
     const isMobile = viewPort.width < 992;
 
     // Event handlers
-    const handleLogin = () => {
-        dispatch(actions.setIsLoginModal(true));
-        dispatch(actions.setShowLoginModal(true));
+    const handleSignIn = () => {
+        dispatch(actions.setShowSignUpModal(false));
+        dispatch(actions.setShowSignInModal(true));
     };
     const handleSignUp = () => {
-        dispatch(actions.setIsLoginModal(false));
-        dispatch(actions.setShowLoginModal(true));
+        dispatch(actions.setShowSignInModal(false));
+        dispatch(actions.setShowSignUpModal(true));
     };
 
     if (isMobile) {
@@ -49,7 +49,7 @@ function UserActions() {
                         <Button text onClick={handleSignUp}>
                             Đăng ký
                         </Button>
-                        <Button secondary onClick={handleLogin}>
+                        <Button secondary onClick={handleSignIn}>
                             Đăng nhập
                         </Button>
                     </>

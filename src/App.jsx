@@ -4,10 +4,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useStore, actions } from './store';
 import { publicRoutes, privateRoutes } from './routes';
 import { DefaultLayout } from './components/Layout';
-import Login from './components/Login';
 import CreatePost from './components/CreatePost';
 import { PostModal } from './components/PostComponents';
 import MessageModal from './components/MessageModal';
+import { SignIn, SignUp, ForgotPassword } from './components/Account';
 
 function App() {
     // Global states
@@ -81,7 +81,9 @@ function App() {
                           })
                         : null}
                 </Routes>
-                <Login />
+                <SignIn />
+                <SignUp />
+                <ForgotPassword />
                 <CreatePost />
                 {postData.Id && <PostModal />}
                 <MessageModal />

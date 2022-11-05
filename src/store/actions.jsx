@@ -1,6 +1,7 @@
 import {
-    SET_SHOW_LOGIN_MODAL,
-    SET_IS_LOGIN_MODAL,
+    SET_SHOW_SIGN_IN_MODAL,
+    SET_SHOW_SIGN_UP_MODAL,
+    SET_SHOW_FORGOT_PASSWORD_MODAL,
     SET_SHOW_CREATE_POST_MODAL,
     SET_POSTS,
     SET_CATEGORIES,
@@ -16,13 +17,18 @@ import {
     SET_NOTIFICATIONS,
 } from './constants';
 
-export const setShowLoginModal = (payload) => ({
-    type: SET_SHOW_LOGIN_MODAL,
+export const setShowSignInModal = (payload) => ({
+    type: SET_SHOW_SIGN_IN_MODAL,
     payload,
 });
 
-export const setIsLoginModal = (payload) => ({
-    type: SET_IS_LOGIN_MODAL,
+export const setShowSignUpModal = (payload) => ({
+    type: SET_SHOW_SIGN_UP_MODAL,
+    payload,
+});
+
+export const setShowForgotPasswordModal = (payload) => ({
+    type: SET_SHOW_FORGOT_PASSWORD_MODAL,
     payload,
 });
 

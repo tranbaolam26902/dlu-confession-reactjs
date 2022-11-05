@@ -1,6 +1,7 @@
 import {
-    SET_SHOW_LOGIN_MODAL,
-    SET_IS_LOGIN_MODAL,
+    SET_SHOW_SIGN_IN_MODAL,
+    SET_SHOW_SIGN_UP_MODAL,
+    SET_SHOW_FORGOT_PASSWORD_MODAL,
     SET_SHOW_CREATE_POST_MODAL,
     SET_POSTS,
     SET_CATEGORIES,
@@ -22,8 +23,9 @@ const initStates = {
     apiURL: apiURL,
     imageURL: `${apiURL}/image/post?id=`,
     avatarURL: `${apiURL}/image/user?id=`,
-    showLoginModal: false,
-    isLoginModal: true,
+    showSignInModal: false,
+    showSignUpModal: false,
+    showForgotPasswordModal: false,
     showCreatePostModal: false,
     posts: [],
     categories: [],
@@ -42,15 +44,20 @@ const initStates = {
 
 function reducer(state, action) {
     switch (action.type) {
-        case SET_SHOW_LOGIN_MODAL:
+        case SET_SHOW_SIGN_IN_MODAL:
             return {
                 ...state,
-                showLoginModal: action.payload,
+                showSignInModal: action.payload,
             };
-        case SET_IS_LOGIN_MODAL:
+        case SET_SHOW_SIGN_UP_MODAL:
             return {
                 ...state,
-                isLoginModal: action.payload,
+                showSignUpModal: action.payload,
+            };
+        case SET_SHOW_FORGOT_PASSWORD_MODAL:
+            return {
+                ...state,
+                showForgotPasswordModal: action.payload,
             };
         case SET_SHOW_CREATE_POST_MODAL:
             return {

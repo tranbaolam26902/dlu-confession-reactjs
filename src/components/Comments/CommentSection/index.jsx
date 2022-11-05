@@ -116,7 +116,7 @@ function CommentSection() {
                     <h5 className={cx('not-logged-in')}>
                         <button
                             onClick={() => {
-                                dispatch(actions.setShowLoginModal(true));
+                                dispatch(actions.setShowSignInModal(true));
                                 dispatch(actions.setShowPostModal(false));
                             }}
                         >

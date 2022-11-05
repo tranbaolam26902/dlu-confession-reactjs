@@ -52,7 +52,7 @@ function Post({ data }) {
             dispatch(actions.setPostData(data));
             dispatch(actions.setShowPostModal(true));
             dispatch(actions.setScrollToComment(true));
-        } else dispatch(actions.setShowLoginModal(true));
+        } else dispatch(actions.setShowSignInModal(true));
     };
     const handleLike = () => {
         if (localStorage.getItem('token')) {
@@ -68,7 +68,7 @@ function Post({ data }) {
                 setIsLiked(!isLiked);
                 updatePosts();
             });
-        } else dispatch(actions.setShowLoginModal(true));
+        } else dispatch(actions.setShowSignInModal(true));
     };
 
     useEffect(() => {
