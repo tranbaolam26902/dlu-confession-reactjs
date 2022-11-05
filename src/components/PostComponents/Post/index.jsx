@@ -82,7 +82,11 @@ function Post({ data }) {
                 <div className='d-flex flex-column'>
                     <div className='d-flex mb-3'>
                         {data.PrivateMode && <Avatar avatar={images.avatar} />}
-                        {!data.PrivateMode && <Avatar avatar={`${avatarURL}${data.Avatar}`} />}
+                        {!data.PrivateMode && (
+                            <ButtonToProfile id={data.PostHistories[0].AccountId}>
+                                <Avatar avatar={`${avatarURL}${data.Avatar}`} />
+                            </ButtonToProfile>
+                        )}
                         <div className='mx-3 w-100'>
                             {data.PrivateMode && <h4 className='fw-bold'>Ẩn danh</h4>}
                             {!data.PrivateMode && (

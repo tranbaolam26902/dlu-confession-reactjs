@@ -1,4 +1,6 @@
 .wrapper {
+    display: inline-flex;
+    flex: 0 0 40px;
     text-align: left;
     &:hover {
         color: var(--text-color);

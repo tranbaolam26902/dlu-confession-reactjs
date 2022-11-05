@@ -33,7 +33,11 @@ function PopularPost({ data }) {
                 <Row className='gx-0'>
                     <Col xs={2}>
                         {data.PrivateMode && <Avatar avatar={images.avatar} />}
-                        {!data.PrivateMode && <Avatar avatar={`${avatarURL}${data.Avatar}`} />}
+                        {!data.PrivateMode && (
+                            <ButtonToProfile id={data.PostHistories[0].AccountId}>
+                                <Avatar avatar={`${avatarURL}${data.Avatar}`} />
+                            </ButtonToProfile>
+                        )}
                     </Col>
                     <Col xs={10}>
                         <div className='ms-2'>
