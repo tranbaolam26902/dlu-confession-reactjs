@@ -2,6 +2,7 @@ import {
     SET_SHOW_SIGN_IN_MODAL,
     SET_SHOW_SIGN_UP_MODAL,
     SET_SHOW_FORGOT_PASSWORD_MODAL,
+    SET_SHOW_CHANGE_PASSWORD_MODAL,
     SET_SHOW_CREATE_POST_MODAL,
     SET_POSTS,
     SET_CATEGORIES,
@@ -29,6 +30,11 @@ export const setShowSignUpModal = (payload) => ({
 
 export const setShowForgotPasswordModal = (payload) => ({
     type: SET_SHOW_FORGOT_PASSWORD_MODAL,
+    payload,
+});
+
+export const setShowChangePasswordModal = (payload) => ({
+    type: SET_SHOW_CHANGE_PASSWORD_MODAL,
     payload,
 });
 

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import Tippy from '@tippyjs/react/headless';
@@ -12,7 +11,6 @@ import { Wrapper as PopoverWrapper } from '../Popover';
 import { Button } from '../Buttons';
 import { ButtonToProfile } from '../Buttons';
 import Notification from '../Notification';
-import ChangePasswordModal from '../ChangePasswordModal';
 
 const cx = classNames.bind(styles);
 
@@ -22,9 +20,6 @@ function UserActions() {
     const { userId, userAvatar, roles } = states;
     const { token, removeToken } = useToken();
     const viewPort = useViewPort();
-
-    // Component's states
-    const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
 
     // Variables
     const isMobile = viewPort.width < 992;
@@ -80,7 +75,9 @@ function UserActions() {
                                                     ) : null}
                                                     <button
                                                         className={cx('option')}
-                                                        onClick={() => setShowChangePasswordModal(true)}
+                                                        onClick={() =>
+                                                            dispatch(actions.setShowChangePasswordModal(true))
+                                                        }
                                                     >
                                                         Đổi mật khẩu
                                                     </button>
@@ -105,10 +102,6 @@ function UserActions() {
                                 </Tippy>
                             </div>
                         </div>
-                        <ChangePasswordModal
-                            showChangePasswordModal={showChangePasswordModal}
-                            setShowChangePasswordModal={setShowChangePasswordModal}
-                        />
                     </>
                 ) : null}
             </>

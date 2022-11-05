@@ -12,9 +12,6 @@
         text-align: left;
         cursor: pointer;
     }
-    input[type='password']:focus + .password-hint {
-        display: inline-block;
-    }
 }
 .switch {
     margin-left: 4px;
@@ -29,6 +26,9 @@
     &:focus {
         border-color: var(--text-secondary-80);
     }
+}
+input[type='password']:focus + .password-hint {
+    display: inline-block;
 }
 .password-hint {
     display: none;

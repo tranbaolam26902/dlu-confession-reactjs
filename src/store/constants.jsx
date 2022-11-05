@@ -1,6 +1,7 @@
 export const SET_SHOW_SIGN_IN_MODAL = 'set_show_sign_in_modal';
 export const SET_SHOW_SIGN_UP_MODAL = 'set_show_sign_up_modal';
 export const SET_SHOW_FORGOT_PASSWORD_MODAL = 'set_show_forgot_password_modal';
+export const SET_SHOW_CHANGE_PASSWORD_MODAL = 'set_show_change_password_modal';
 export const SET_SHOW_CREATE_POST_MODAL = 'set_show_create_post_modal';
 export const SET_POSTS = 'set_posts';
 export const SET_CATEGORIES = 'set_categories';

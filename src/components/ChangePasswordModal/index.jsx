@@ -10,10 +10,10 @@ import { Button } from '../Buttons';
 
 const cx = classNames.bind(styles);
 
-function ChangePasswordModal({ showChangePasswordModal, setShowChangePasswordModal }) {
+function ChangePasswordModal() {
     // Global states
     const [states, dispatch] = useStore();
-    const { apiURL } = states;
+    const { apiURL, showChangePasswordModal } = states;
 
     // Component's states
     const [errorMessage, setErrorMessage] = useState('');
@@ -35,13 +35,12 @@ function ChangePasswordModal({ showChangePasswordModal, setShowChangePasswordMod
     };
 
     // Event handlers
-    const handleClose = (e) => {
-        e.preventDefault();
+    const handleClose = () => {
         setErrorMessage('');
         setOldPassword('');
         setNewPassword('');
         setConfirmNewPassword('');
-        setShowChangePasswordModal(false);
+        dispatch(actions.setShowChangePasswordModal(false));
     };
     const handleChangePassword = (e) => {
         e.preventDefault();
@@ -85,44 +84,56 @@ function ChangePasswordModal({ showChangePasswordModal, setShowChangePasswordMod
                 </div>
                 <hr className='my-0' />
                 <form onSubmit={handleChangePassword}>
-                    <Stack gap={3} className='pt-3'>
+                    <Stack gap={2} className='pt-3'>
                         <div className='text-danger text-center'>{errorMessage}</div>
-                        <input
-                            type='password'
-                            autoFocus
-                            className={cx('text-box')}
-                            placeholder='Mật khẩu cũ'
-                            value={oldPassword}
-                            onChange={(e) => setOldPassword(e.target.value)}
-                            onKeyPress={(e) => {
-                                e.key === 'Enter' && e.preventDefault();
-                            }}
-                        />
-                        <div className='position-relative'>
+                        <div className='d-flex flex-column'>
+                            <label htmlFor='current-password'>Mật khẩu hiện tại</label>
                             <input
+                                id='current-password'
                                 type='password'
+                                autoFocus
                                 className={cx('text-box')}
-                                placeholder='Mật khẩu mới'
-                                value={newPassword}
-                                onChange={(e) => setNewPassword(e.target.value)}
+                                value={oldPassword}
+                                onChange={(e) => setOldPassword(e.target.value)}
                                 onKeyPress={(e) => {
                                     e.key === 'Enter' && e.preventDefault();
                                 }}
                             />
+                        </div>
+                        <div className='position-relative'>
+                            <div className='d-flex flex-column'>
+                                <label htmlFor='new-password'>Mật khẩu mới</label>
+                                <input
+                                    id='new-password'
+                                    type='password'
+                                    className={cx('text-box')}
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    onKeyPress={(e) => {
+                                        e.key === 'Enter' && e.preventDefault();
+                                    }}
+                                />
+                                <div className={cx('password-hint')}>
+                                    Mật khẩu phải có ít nhất 01 chữ cái thường, 01 chữ số và tối thiểu 06 ký tự
+                                </div>
+                            </div>
                             <div className={cx('password-hint')}>
                                 Mật khẩu phải có ít nhất 01 chữ cái thường, 01 chữ số và tối thiểu 06 ký tự
                             </div>
                         </div>
-                        <input
-                            type='password'
-                            className={cx('text-box')}
-                            placeholder='Nhập lại mật khẩu mới'
-                            value={confirmNewPassword}
-                            onChange={(e) => setConfirmNewPassword(e.target.value)}
-                            onKeyPress={(e) => {
-                                e.key === 'Enter' && handleChangePassword(e);
-                            }}
-                        />
+                        <div className='d-flex flex-column'>
+                            <label htmlFor='confirm-new-password'>Nhập lại mật khẩu mới</label>
+                            <input
+                                id='confirm-new-password'
+                                type='password'
+                                className={cx('text-box')}
+                                value={confirmNewPassword}
+                                onChange={(e) => setConfirmNewPassword(e.target.value)}
+                                onKeyPress={(e) => {
+                                    e.key === 'Enter' && handleChangePassword(e);
+                                }}
+                            />
+                        </div>
                         <div className='text-end'>
                             <Button text onClick={handleClose}>
                                 Hủy

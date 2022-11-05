@@ -2,6 +2,7 @@ import {
     SET_SHOW_SIGN_IN_MODAL,
     SET_SHOW_SIGN_UP_MODAL,
     SET_SHOW_FORGOT_PASSWORD_MODAL,
+    SET_SHOW_CHANGE_PASSWORD_MODAL,
     SET_SHOW_CREATE_POST_MODAL,
     SET_POSTS,
     SET_CATEGORIES,
@@ -26,6 +27,7 @@ const initStates = {
     showSignInModal: false,
     showSignUpModal: false,
     showForgotPasswordModal: false,
+    showChangePasswordModal: false,
     showCreatePostModal: false,
     posts: [],
     categories: [],
@@ -58,6 +60,11 @@ function reducer(state, action) {
             return {
                 ...state,
                 showForgotPasswordModal: action.payload,
+            };
+        case SET_SHOW_CHANGE_PASSWORD_MODAL:
+            return {
+                ...state,
+                showChangePasswordModal: action.payload,
             };
         case SET_SHOW_CREATE_POST_MODAL:
             return {
