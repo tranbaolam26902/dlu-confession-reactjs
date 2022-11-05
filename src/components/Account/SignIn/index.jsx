@@ -101,7 +101,9 @@ function SignIn() {
                             />
                         </div>
                         <h5 className='my-1 text-end'>
-                            <button onClick={handleForgotPassword}>Quên mật khẩu?</button>
+                            <span role='button' onClick={handleForgotPassword}>
+                                Quên mật khẩu?
+                            </span>
                         </h5>
                         <Button secondary fluid>
                             Đăng nhập
