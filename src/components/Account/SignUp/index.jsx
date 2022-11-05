@@ -29,12 +29,13 @@ function SignUp() {
     const validateSignUp = () => {
         if (username === '' || password === '' || confirmPassword === '' || email === '') {
             setErrorMessage('Vui lòng nhập đầy đủ thông tin tài khoản!');
-            return;
+            return false;
         }
         if (password !== confirmPassword) {
             setErrorMessage('Mật khẩu và mật khẩu xác thực không trùng khớp!');
-            return;
+            return false;
         }
+        return true;
     };
     const login = () => {
         fetch(`${apiURL}/token`, {
@@ -50,27 +51,29 @@ function SignUp() {
     // Event handlers
     const handleSignUp = (e) => {
         e.preventDefault();
-        const data = {
-            UserName: username,
-            Password: password,
-            ConfirmPassword: confirmPassword,
-            Email: email,
-            NickName: nickname,
-        };
-        fetch(`${apiURL}/api/Account/Register`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-            .then((response) => response.json())
-            .then((responseError) => {
-                if (responseError.ModelState) {
-                    setErrorMessage(responseError.ModelState.Error[0]);
-                    return;
-                } else login();
-            });
+        if (validateSignUp()) {
+            const data = {
+                UserName: username,
+                Password: password,
+                ConfirmPassword: confirmPassword,
+                Email: email,
+                NickName: nickname,
+            };
+            fetch(`${apiURL}/api/Account/Register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then((response) => response.json())
+                .then((responseError) => {
+                    if (responseError.ModelState) {
+                        setErrorMessage(responseError.ModelState.Error[0]);
+                        return;
+                    } else login();
+                });
+        }
     };
     const handleSwitchToSignIn = () => {
         dispatch(actions.setShowSignUpModal(false));
