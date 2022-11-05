@@ -97,7 +97,9 @@ function Notification({ data }) {
 
     return (
         <div className={cx('wrapper')} onClick={handleReadAndShowPost}>
-            <div className={cx('avatar')}>{data.Avatar && <img src={avatarURL + data.Avatar} alt='avatar' />}</div>
+            <div className={cx('avatar')}>
+                {data.Avatar ? <img src={avatarURL + data.Avatar} alt='avatar' /> : null}
+            </div>
             <div className={cx('content')}>
                 <h6>{day + ' tháng ' + month}</h6>
                 <h5 className={cx('description')}>

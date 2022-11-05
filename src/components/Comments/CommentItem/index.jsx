@@ -114,10 +114,10 @@ function CommentItem({ data }) {
         <div className={cx('wrapper')}>
             <div className={cx('side')}>
                 <Avatar avatar={`${avatarURL}${data.Avatar}`} />
-                {data.ChildComments.length !== 0 && <div className={cx('divider')}></div>}
-                {data.ParentId && <div className={cx('match-parent')}></div>}
+                {data.ChildComments.length !== 0 ? <div className={cx('divider')}></div> : null}
+                {data.ParentId ? <div className={cx('match-parent')}></div> : null}
             </div>
-            {!isEditing && (
+            {!isEditing ? (
                 <div className={cx('main')}>
                     <div className='d-flex align-items-center'>
                         <div className={cx('content')}>
@@ -145,8 +145,8 @@ function CommentItem({ data }) {
                     </div>
                     {showReply && <ReplyComment data={data} setShowReply={setShowReply} />}
                 </div>
-            )}
-            {isEditing && (
+            ) : null}
+            {isEditing ? (
                 <div className='d-flex align-items-end w-100'>
                     <textarea
                         id='comment'
@@ -160,7 +160,7 @@ function CommentItem({ data }) {
                         <img src={icons.send} alt='btn-send' />
                     </button>
                 </div>
-            )}
+            ) : null}
         </div>
     );
 }

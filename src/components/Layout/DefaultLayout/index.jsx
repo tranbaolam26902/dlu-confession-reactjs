@@ -24,24 +24,24 @@ function DefaultLayout({ children }) {
             <Header />
             <Container fluid='md'>
                 <Row className='position-relative gx-lg-4 mt-lg-4 mt-3'>
-                    {!isMobile && (
+                    {!isMobile ? (
                         <Col lg={3} className={cx('reset-z-index')}>
                             <div className='sticky-top' style={stickyTop}>
                                 <Category />
                             </div>
                         </Col>
-                    )}
+                    ) : null}
                     <Col lg={6} className='mx-auto'>
                         {children}
                     </Col>
-                    {!isMobile && (
+                    {!isMobile ? (
                         <Col lg={3} className={cx('reset-z-index')}>
                             <div className='sticky-top' style={stickyTop}>
                                 <Popular />
                                 <ButtonScrollToTop />
                             </div>
                         </Col>
-                    )}
+                    ) : null}
                 </Row>
             </Container>
         </>

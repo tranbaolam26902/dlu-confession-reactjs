@@ -44,7 +44,7 @@ function UserActions() {
     } else {
         return (
             <>
-                {!token && (
+                {!token ? (
                     <>
                         <Button text onClick={handleSignUp}>
                             Đăng ký
@@ -53,8 +53,8 @@ function UserActions() {
                             Đăng nhập
                         </Button>
                     </>
-                )}
-                {token && (
+                ) : null}
+                {token ? (
                     <>
                         <div className='d-flex justify-content-end'>
                             <Button secondary onClick={() => dispatch(actions.setShowCreatePostModal(true))}>
@@ -93,14 +93,14 @@ function UserActions() {
                                     )}
                                 >
                                     <div className={cx('avatar')}>
-                                        {userAvatar && (
+                                        {userAvatar ? (
                                             <img
                                                 src={userAvatar}
                                                 alt='user-avatar'
                                                 loading='lazy'
                                                 className={cx('image')}
                                             />
-                                        )}
+                                        ) : null}
                                     </div>
                                 </Tippy>
                             </div>
@@ -110,7 +110,7 @@ function UserActions() {
                             setShowChangePasswordModal={setShowChangePasswordModal}
                         />
                     </>
-                )}
+                ) : null}
             </>
         );
     }

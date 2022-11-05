@@ -100,7 +100,7 @@ function CommentSection() {
             <div className='text-center fw-bold'>Bình luận</div>
             <hr />
             <div className='mt-3'>
-                {token && (
+                {token ? (
                     <div className='d-flex'>
                         <Avatar avatar={userAvatar} />
                         <textarea
@@ -111,8 +111,8 @@ function CommentSection() {
                             rows={inputRows}
                         />
                     </div>
-                )}
-                {!token && (
+                ) : null}
+                {!token ? (
                     <h5 className={cx('not-logged-in')}>
                         <button
                             onClick={() => {
@@ -124,14 +124,14 @@ function CommentSection() {
                         </button>{' '}
                         để bình luận về bài viết!
                     </h5>
-                )}
+                ) : null}
                 <div className='d-flex justify-content-between align-items-end my-3'>
                     <h5 className='fw-bold'>Tất cả bình luận</h5>
-                    {token && (
+                    {token ? (
                         <Button secondary onClick={handleSend}>
                             Gửi
                         </Button>
-                    )}
+                    ) : null}
                 </div>
                 <hr />
                 <div>

@@ -99,21 +99,21 @@ function Notification() {
                             <div className='px-4' tabIndex={-1}>
                                 <h3 className={cx('header')}>Thông báo</h3>
                                 <hr />
-                                {notifications.length !== 0 && (
+                                {notifications.length !== 0 ? (
                                     <div className='d-flex align-items-center justify-content-between mb-2'>
-                                        {isNewNotification && (
+                                        {isNewNotification ? (
                                             <h5 className={cx('action', 'read-all')} onClick={handleReadAll}>
                                                 Đánh dấu tất cả là đã đọc
                                             </h5>
-                                        )}
+                                        ) : null}
                                         <h5 className={cx('action', 'delete-all')} onClick={handleDeleteAllRead}>
                                             Xóa tất cả đã đọc
                                         </h5>
                                     </div>
-                                )}
-                                {notifications.length === 0 && (
+                                ) : null}
+                                {notifications.length === 0 ? (
                                     <div className={cx('empty-notifications')}>Không có thông báo nào gần đây!</div>
-                                )}
+                                ) : null}
                                 {notifications.map((notification) => {
                                     return <NotificationItem data={notification} key={notification.Id} />;
                                 })}

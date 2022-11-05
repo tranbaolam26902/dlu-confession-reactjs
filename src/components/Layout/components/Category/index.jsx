@@ -45,11 +45,11 @@ function Category() {
                         <img src={icons.category} alt='category-icon' />
                         <h5 className={cx('title')}>Danh mục</h5>
                     </div>
-                    {roles && roles.includes('Manager') && (
+                    {roles && roles.includes('Manager') ? (
                         <h6 className='fw-bold' role='button' onClick={handleEdit}>
                             {editingText}
                         </h6>
-                    )}
+                    ) : null}
                 </div>
                 <hr className='mb-3' />
                 <div className={cx('categories')}>
@@ -62,11 +62,11 @@ function Category() {
                     })}
                 </div>
                 <hr className='mb-3' />
-                {roles && roles.includes('Manager') && (
+                {roles && roles.includes('Manager') ? (
                     <Button outline fluid onClick={() => setShowCreateCategoryModal(true)}>
                         Tạo danh mục
                     </Button>
-                )}
+                ) : null}
             </div>
             <CreateCategoryModal
                 showCreateCategoryModal={showCreateCategoryModal}

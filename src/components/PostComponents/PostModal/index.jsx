@@ -50,21 +50,21 @@ function PostModal() {
                 <hr className='mb-3' />
                 <div className='d-flex flex-column'>
                     <div className='d-flex mb-3'>
-                        {postData.PrivateMode && <Avatar avatar={images.avatar} />}
-                        {!postData.PrivateMode && (
+                        {postData.PrivateMode ? <Avatar avatar={images.avatar} /> : null}
+                        {!postData.PrivateMode ? (
                             <ButtonToProfile id={postData.PostHistories[0].AccountId}>
                                 <Avatar avatar={`${avatarURL}${postData.Avatar}`} />
                             </ButtonToProfile>
-                        )}
+                        ) : null}
                         <div className='mx-3 w-100'>
-                            {postData.PrivateMode && <h4 className='fw-bold'>Ẩn danh</h4>}
-                            {!postData.PrivateMode && (
+                            {postData.PrivateMode ? <h4 className='fw-bold'>Ẩn danh</h4> : null}
+                            {!postData.PrivateMode ? (
                                 <h4 className='fw-bold'>
                                     <ButtonToProfile id={postData.PostHistories[0].AccountId}>
                                         {postData.NickName}
                                     </ButtonToProfile>
                                 </h4>
-                            )}
+                            ) : null}
                             <h5>{day + ' tháng ' + month}</h5>
                         </div>
                         <PostOptions data={postData} />

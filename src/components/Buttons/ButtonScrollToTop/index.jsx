@@ -29,11 +29,11 @@ function ButtonScrollToTop() {
 
     return (
         <>
-            {showButton && (
+            {showButton === true ? (
                 <button className={cx('wrapper')} onClick={handleScroll}>
                     <img src={icons.arrowUp} alt='icon-arrow-up' />
                 </button>
-            )}
+            ) : null}
         </>
     );
 }

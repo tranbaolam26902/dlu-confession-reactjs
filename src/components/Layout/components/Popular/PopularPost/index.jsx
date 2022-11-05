@@ -32,28 +32,28 @@ function PopularPost({ data }) {
             <Stack gap={2} className={cx('wrapper')}>
                 <Row className='gx-0'>
                     <Col xs={2}>
-                        {data.PrivateMode && <Avatar avatar={images.avatar} />}
-                        {!data.PrivateMode && (
+                        {data.PrivateMode ? <Avatar avatar={images.avatar} /> : null}
+                        {!data.PrivateMode ? (
                             <ButtonToProfile id={data.PostHistories[0].AccountId}>
                                 <Avatar avatar={`${avatarURL}${data.Avatar}`} />
                             </ButtonToProfile>
-                        )}
+                        ) : null}
                     </Col>
                     <Col xs={10}>
                         <div className='ms-2'>
-                            {data.PrivateMode && <h5 className='fw-bold'>Ẩn danh</h5>}
-                            {!data.PrivateMode && (
+                            {data.PrivateMode ? <h5 className='fw-bold'>Ẩn danh</h5> : null}
+                            {!data.PrivateMode ? (
                                 <h5 className='fw-bold'>
                                     <ButtonToProfile id={data.PostHistories[0].AccountId}>
                                         {data.NickName}
                                     </ButtonToProfile>
                                 </h5>
-                            )}
+                            ) : null}
                             <h6>{day + ' tháng ' + month}</h6>
                         </div>
                     </Col>
                 </Row>
-                {data.Categories.length !== 0 && (
+                {data.Categories.length !== 0 ? (
                     <div className={cx('categories')}>
                         {data.Categories.map((category) => {
                             return (
@@ -63,7 +63,7 @@ function PopularPost({ data }) {
                             );
                         })}
                     </div>
-                )}
+                ) : null}
                 <div className={cx('body')} onClick={handleOpenPostModal}>
                     <h5 className={cx('title')}>{data.Title}</h5>
                 </div>

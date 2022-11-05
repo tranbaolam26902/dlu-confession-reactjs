@@ -29,11 +29,11 @@ function Header() {
                             <img src={images.logoFull} alt='logo' />
                         </Link>
                     </Col>
-                    {!isMobile && (
+                    {!isMobile ? (
                         <Col className='position-relative'>
                             <Search placeholder='Tìm kiếm...' />
                         </Col>
-                    )}
+                    ) : null}
                     <Col className='text-end'>
                         <UserActions />
                     </Col>

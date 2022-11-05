@@ -169,8 +169,8 @@ function CreatePost() {
                 <div className={cx('wrapper')}>
                     {/* Start: Header */}
                     <div className={cx('header')}>
-                        {!isEditing && <h3 className={cx('title')}>Tạo bài viết</h3>}
-                        {isEditing && <h3 className={cx('title')}>Chỉnh sửa bài viết</h3>}
+                        {!isEditing ? <h3 className={cx('title')}>Tạo bài viết</h3> : null}
+                        {isEditing ? <h3 className={cx('title')}>Chỉnh sửa bài viết</h3> : null}
                         <button className={cx('close')} onClick={handleClose}>
                             <img src={icons.close} alt='icon-close' />
                         </button>
@@ -183,7 +183,7 @@ function CreatePost() {
                         <Stack gap={3} className='mt-3'>
                             <div className='text-danger text-center'>{errorMessage}</div>
                             {/* Start: Select categories section */}
-                            {!isEditing && (
+                            {!isEditing ? (
                                 <div className='d-flex align-items-center justify-content-between'>
                                     <div className='me-2'>Danh mục:</div>
                                     <div className={cx('select-categories')}>
@@ -200,7 +200,7 @@ function CreatePost() {
                                         />
                                     </div>
                                 </div>
-                            )}
+                            ) : null}
                             {/* End: Select categories section */}
 
                             {/* Start: Title section */}
@@ -231,11 +231,11 @@ function CreatePost() {
                                     <img src={icons.galleryAdd} alt='icon-upload' className='me-2' />
                                     <span>Thêm hình ảnh</span>
                                 </label>
-                                {uploadImages.length !== 0 && (
+                                {uploadImages.length !== 0 ? (
                                     <button onClick={handleRemoveUploadImages}>
                                         <u>Xóa tất cả</u>
                                     </button>
-                                )}
+                                ) : null}
                             </div>
                             <div className='d-flex'>
                                 {uploadImages.map((image, index) => {
@@ -247,16 +247,16 @@ function CreatePost() {
                                         );
                                     return <></>;
                                 })}
-                                {uploadImages.length >= 6 && (
+                                {uploadImages.length >= 6 ? (
                                     <div className={cx('image-preview-wrapper')}>
                                         <img src={uploadImages[5]} alt='post' className={cx('image-preview')} />
-                                        {uploadImages.length - 6 && (
+                                        {uploadImages.length - 6 ? (
                                             <h2 className={cx('upload-images-remaining')}>
                                                 +{uploadImages.length - 6}
                                             </h2>
-                                        )}
+                                        ) : null}
                                     </div>
-                                )}
+                                ) : null}
                             </div>
                             {/* End: Upload images section */}
 
@@ -282,8 +282,8 @@ function CreatePost() {
                                     <Button text onClick={handleClose}>
                                         Hủy
                                     </Button>
-                                    {!isEditing && <Button secondary>Đăng</Button>}
-                                    {isEditing && <Button secondary>Sửa</Button>}
+                                    {!isEditing ? <Button secondary>Đăng</Button> : null}
+                                    {isEditing ? <Button secondary>Sửa</Button> : null}
                                 </div>
                             </div>
                             {/* End: Actions section */}

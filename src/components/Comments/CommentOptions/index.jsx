@@ -51,11 +51,11 @@ function CommentOptions({ data, setIsEditing }) {
             render={(attrs) => (
                 <PopoverWrapper>
                     <div className='d-flex flex-column'>
-                        {data.AccountId === userId && (
+                        {data.AccountId === userId ? (
                             <button className={cx('option')} onClick={() => setIsEditing(true)}>
                                 Chỉnh sửa
                             </button>
-                        )}
+                        ) : null}
                         <button className={cx('option', 'isDelete')} onClick={handleDelete}>
                             Xóa
                         </button>

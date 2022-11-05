@@ -70,21 +70,21 @@ function PostOptions({ data }) {
             render={(attrs) => (
                 <PopoverWrapper>
                     <div className='d-flex flex-column'>
-                        {roles && !roles.includes('Manager') && (
+                        {roles && !roles.includes('Manager') ? (
                             <button className={cx('post-option')} onClick={handleReport}>
                                 Báo cáo
                             </button>
-                        )}
-                        {userId === data.PostHistories[0].AccountId && (
+                        ) : null}
+                        {userId === data.PostHistories[0].AccountId ? (
                             <button className={cx('post-option')} onClick={handleEdit}>
                                 Chỉnh sửa
                             </button>
-                        )}
-                        {roles && (roles.includes('Manager') || userId === data.PostHistories[0].AccountId) && (
+                        ) : null}
+                        {roles && (roles.includes('Manager') || userId === data.PostHistories[0].AccountId) ? (
                             <button className={cx('post-option', 'isDelete')} onClick={handleDelete}>
                                 Xóa
                             </button>
-                        )}
+                        ) : null}
                     </div>
                 </PopoverWrapper>
             )}

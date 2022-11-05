@@ -81,21 +81,21 @@ function Post({ data }) {
             <div className={cx('wrapper')}>
                 <div className='d-flex flex-column'>
                     <div className='d-flex mb-3'>
-                        {data.PrivateMode && <Avatar avatar={images.avatar} />}
-                        {!data.PrivateMode && (
+                        {data.PrivateMode ? <Avatar avatar={images.avatar} /> : null}
+                        {!data.PrivateMode ? (
                             <ButtonToProfile id={data.PostHistories[0].AccountId}>
                                 <Avatar avatar={`${avatarURL}${data.Avatar}`} />
                             </ButtonToProfile>
-                        )}
+                        ) : null}
                         <div className='mx-3 w-100'>
-                            {data.PrivateMode && <h4 className='fw-bold'>Ẩn danh</h4>}
-                            {!data.PrivateMode && (
+                            {data.PrivateMode ? <h4 className='fw-bold'>Ẩn danh</h4> : null}
+                            {!data.PrivateMode ? (
                                 <h4 className='fw-bold'>
                                     <ButtonToProfile id={data.PostHistories[0].AccountId}>
                                         {data.NickName}
                                     </ButtonToProfile>
                                 </h4>
-                            )}
+                            ) : null}
                             <h5>{day + ' tháng ' + month}</h5>
                         </div>
                         <PostOptions data={data} />
@@ -124,8 +124,8 @@ function Post({ data }) {
                             <span className='ms-2'>{data.TotalCmt}</span>
                         </button>
                         <button onClick={handleLike}>
-                            {isLiked && <img src={icons.liked} alt='icon-liked' />}
-                            {!isLiked && <img src={icons.like} alt='icon-like' />}
+                            {isLiked ? <img src={icons.liked} alt='icon-liked' /> : null}
+                            {!isLiked ? <img src={icons.like} alt='icon-like' /> : null}
                             <span className={cx({ isLiked: isLiked })}>{data.Like}</span>
                         </button>
                     </div>
