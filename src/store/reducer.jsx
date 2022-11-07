@@ -16,9 +16,10 @@ import {
     SET_MESSAGE,
     SET_SHOW_MESSAGE_MODAL,
     SET_NOTIFICATIONS,
+    SET_SHOW_REPORT_MODAL,
 } from './constants';
 
-const apiURL = 'https://localhost:44332';
+const apiURL = 'http://10.0.101.174:31234';
 
 const initStates = {
     apiURL: apiURL,
@@ -42,6 +43,7 @@ const initStates = {
     message: '',
     showMessageModal: false,
     notifications: [],
+    showReportModal: false,
 };
 
 function reducer(state, action) {
@@ -130,6 +132,11 @@ function reducer(state, action) {
             return {
                 ...state,
                 notifications: action.payload,
+            };
+        case SET_SHOW_REPORT_MODAL:
+            return {
+                ...state,
+                showReportModal: action.payload,
             };
         default:
             throw new Error('Error');

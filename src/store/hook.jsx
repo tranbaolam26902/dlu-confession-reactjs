@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useContext } from 'react';
 import Context from './Context';
 
@@ -70,4 +70,13 @@ const useFilter = () => {
     };
 };
 
-export { useViewPort, useStore, useToken, useFilter };
+const useFocusInput = () => {
+    const htmlElRef = useRef(null);
+    const setFocus = () => {
+        htmlElRef.current && htmlElRef.current.focus();
+    };
+
+    return [htmlElRef, setFocus];
+};
+
+export { useViewPort, useStore, useToken, useFilter, useFocusInput };

@@ -77,7 +77,7 @@ function CreateCategoryModal({ showCreateCategoryModal, setShowCreateCategoryMod
 
     return (
         <Modal show={showCreateCategoryModal} onHide={handleClose} centered>
-            <div className={cx('create-category')}>
+            <div className={cx('wrapper')}>
                 <div className={cx('header')}>
                     <h3 className={cx('title')}>Tạo danh mục</h3>
                     <button className={cx('close')} onClick={handleClose}>

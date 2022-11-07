@@ -16,18 +16,11 @@
     position: absolute;
     right: 0;
 }
-.text-box,
-.text-area {
-    display: block;
-    padding: 8px 16px;
-    width: 100%;
-    background-color: var(--white);
-    border: 2px solid var(--gray-50);
-    border-radius: 16px;
+.other {
+    margin-left: 8px;
+    width: 50%;
+    border-bottom: 1px solid gray;
     &:focus {
-        border-color: var(--text-secondary-80);
+        border-bottom-color: var(--secondary);
     }
-}
-.text-area {
-    height: 120px;
 }

@@ -16,6 +16,7 @@ import {
     SET_MESSAGE,
     SET_SHOW_MESSAGE_MODAL,
     SET_NOTIFICATIONS,
+    SET_SHOW_REPORT_MODAL,
 } from './constants';
 
 export const setShowSignInModal = (payload) => ({
@@ -100,5 +101,10 @@ export const setShowMessageModal = (payload) => ({
 
 export const setNotifications = (payload) => ({
     type: SET_NOTIFICATIONS,
+    payload,
+});
+
+export const setShowReportModal = (payload) => ({
+    type: SET_SHOW_REPORT_MODAL,
     payload,
 });

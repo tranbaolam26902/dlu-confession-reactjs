@@ -15,3 +15,4 @@ export const SET_EDIT_POST_DATA = 'set_edit_post_data';
 export const SET_MESSAGE = 'set_message';
 export const SET_SHOW_MESSAGE_MODAL = 'set_show_message_modal';
 export const SET_NOTIFICATIONS = 'set_notifications';
+export const SET_SHOW_REPORT_MODAL = 'set_show_report_modal';

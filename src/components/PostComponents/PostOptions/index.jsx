@@ -27,6 +27,10 @@ function PostOptions({ data }) {
     // Event handlers
     const handleReport = () => {
         if (!token) dispatch(actions.setShowSignInModal(true));
+        else {
+            dispatch(actions.setShowPostModal(false));
+            dispatch(actions.setShowReportModal(true));
+        }
     };
     const handleEdit = () => {
         dispatch(actions.setEditPostData(data));

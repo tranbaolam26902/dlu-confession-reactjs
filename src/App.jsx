@@ -9,6 +9,7 @@ import { PostModal } from './components/PostComponents';
 import MessageModal from './components/MessageModal';
 import { SignIn, SignUp, ForgotPassword } from './components/Account';
 import ChangePasswordModal from './components/ChangePasswordModal';
+import ReportModal from './components/ReportModal';
 
 function App() {
     // Global states
@@ -86,6 +87,7 @@ function App() {
                 <SignUp />
                 <ForgotPassword />
                 <ChangePasswordModal />
+                <ReportModal />
                 <CreatePost />
                 {postData.Id && <PostModal />}
                 <MessageModal />

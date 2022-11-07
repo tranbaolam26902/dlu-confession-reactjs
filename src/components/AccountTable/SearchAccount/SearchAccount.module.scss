@@ -1,0 +1,24 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    padding-left: 24px;
+    width: 400px;
+    background-color: var(--primary);
+    border: 2px solid var(--gray-0);
+    border-radius: 32px;
+    box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.05);
+    &:focus-within {
+        border-color: var(--gray-50);
+    }
+}
+.search-input {
+    padding: 7px 0;
+    width: 100%;
+    margin-right: 16px;
+    font-size: 1.6rem;
+    line-height: 2rem;
+    background-color: transparent;
+    &::placeholder {
+        color: var(--text-secondary-20);
+    }
+}
