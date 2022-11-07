@@ -68,15 +68,15 @@ function UserActions() {
                                                     <ButtonToProfile id={userId}>
                                                         <button className={cx('option')}>Trang cá nhân</button>
                                                     </ButtonToProfile>
+                                                    {roles && roles.includes('Admin') ? (
+                                                        <Link to='/manage-accounts' className={cx('option')}>
+                                                            Quản lý tài khoản
+                                                        </Link>
+                                                    ) : null}
                                                     {roles && roles.includes('Manager') ? (
-                                                        <>
-                                                            <Link to='/manage-accounts' className={cx('option')}>
-                                                                Quản lý tài khoản
-                                                            </Link>
-                                                            <Link to='/manage-reported-posts' className={cx('option')}>
-                                                                Quản lý bài viết
-                                                            </Link>
-                                                        </>
+                                                        <Link to='/manage-reported-posts' className={cx('option')}>
+                                                            Quản lý bài viết
+                                                        </Link>
                                                     ) : null}
                                                     <button
                                                         className={cx('option')}

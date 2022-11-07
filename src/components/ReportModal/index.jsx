@@ -16,7 +16,7 @@ function ReportModal() {
 
     // Global states
     const [states, dispatch] = useStore();
-    const { apiURL, showReportModal } = states;
+    const { apiURL, postData, showReportModal } = states;
 
     // Component's states
     const [errorMessage, setErrorMessage] = useState('');
@@ -41,8 +41,37 @@ function ReportModal() {
     };
     const handleReport = (e) => {
         e.preventDefault();
-        if (reason !== '') console.log(reason);
-        if (otherReason !== '' && reason === '') console.log(otherReason);
+        if (reason === '' && otherReason === '') {
+            setErrorMessage('Vui lòng chọn lý do');
+        } else {
+            const formData = new FormData();
+            const data = {};
+            data.Description = reason ? reason !== '' : otherReason;
+            formData.append('id', postData.Id);
+            formData.append('Report', JSON.stringify(data));
+            fetch(`${apiURL}/api/userpost/Report`, {
+                method: 'POST',
+                headers: {
+                    Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+                },
+                body: formData,
+            })
+                .then((response) => response.json())
+                .then((responsePost) => {
+                    if (responsePost.Id) {
+                        handleClose();
+                        dispatch(
+                            actions.setMessage(
+                                'Báo cáo của bạn đã được gửi đến quản trị viên để xem xét.\nCảm ơn bạn đã đóng góp',
+                            ),
+                        );
+                        dispatch(actions.setShowMessageModal(true));
+                    }
+                    if (responsePost.ModelState) {
+                        setErrorMessage(responsePost.ModelState.Error[0]);
+                    }
+                });
+        }
     };
 
     return (
@@ -151,7 +180,7 @@ function ReportModal() {
                             <Button text onClick={handleClose}>
                                 Hủy
                             </Button>
-                            <Button secondary>Tạo</Button>
+                            <Button secondary>Gửi</Button>
                         </div>
                     </Stack>
                 </form>
