@@ -8,6 +8,7 @@ import icons from '../../../assets/icons';
 import Avatar from '../../Avatar';
 import ReplyComment from '../ReplyComment';
 import CommentOptions from '../CommentOptions';
+import { ButtonToProfile } from '../../Buttons';
 
 const cx = classNames.bind(styles);
 
@@ -119,7 +120,9 @@ function CommentItem({ data }) {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('side')}>
-                <Avatar avatar={`${avatarURL}${data.Avatar}`} />
+                <ButtonToProfile id={data.AccountId}>
+                    <Avatar avatar={`${avatarURL}${data.Avatar}`} />
+                </ButtonToProfile>
                 {data.ChildComments.length !== 0 ? <div className={cx('divider')}></div> : null}
                 {data.ParentId ? <div className={cx('match-parent')}></div> : null}
             </div>
@@ -127,7 +130,9 @@ function CommentItem({ data }) {
                 <div className={cx('main')}>
                     <div className='d-flex align-items-center'>
                         <div className={cx('content')}>
-                            <h5 className='fw-bold'>{data.NickName}</h5>
+                            <h5 className='fw-bold'>
+                                <ButtonToProfile id={data.AccountId}>{data.NickName}</ButtonToProfile>
+                            </h5>
                             <span>{data.Content.replace(/\n+/g, '\n')}</span>
                         </div>
                         {(data.AccountId === userId || isPersonalPost) && (
