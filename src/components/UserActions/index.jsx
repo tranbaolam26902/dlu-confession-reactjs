@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import Tippy from '@tippyjs/react/headless';
@@ -21,6 +22,9 @@ function UserActions() {
     const { token, removeToken } = useToken();
     const viewPort = useViewPort();
 
+    // Component's states
+    const [isVertical, setIsVertical] = useState(false);
+
     // Variables
     const isMobile = viewPort.width < 992;
 
@@ -32,6 +36,14 @@ function UserActions() {
     const handleSignUp = () => {
         dispatch(actions.setShowSignInModal(false));
         dispatch(actions.setShowSignUpModal(true));
+    };
+    const handleLoadAvatar = () => {
+        const img = new Image();
+        img.src = userAvatar;
+        img.onload = () => {
+            if (img.height > img.width) setIsVertical(true);
+            else setIsVertical(false);
+        };
     };
 
     if (isMobile) {
@@ -100,7 +112,8 @@ function UserActions() {
                                                 src={userAvatar}
                                                 alt='user-avatar'
                                                 loading='lazy'
-                                                className={cx('image')}
+                                                className={cx('image', { isVertical: isVertical })}
+                                                onLoad={handleLoadAvatar}
                                             />
                                         ) : null}
                                     </div>

@@ -22,6 +22,7 @@ function EditModal({ data, setData, showEditModal, setShowEditModal }) {
     const [description, setDescription] = useState('');
     const [avatar, setAvatar] = useState('');
     const [avatarFile, setAvatarFile] = useState();
+    const [isVertical, setIsVertical] = useState(false);
 
     // Functions
     const validateInformation = () => {
@@ -55,15 +56,29 @@ function EditModal({ data, setData, showEditModal, setShowEditModal }) {
             })
                 .then((response) => response.json())
                 .then((responseUserInformation) => {
-                    console.log(responseUserInformation);
                     setData(responseUserInformation);
                     handleClose();
                 });
         } else setErrorMessage('Tên hiển thị không được để trống!');
     };
     const handleChangeAvatar = (e) => {
-        setAvatar(URL.createObjectURL(e.target.files[0]));
+        const imgURL = URL.createObjectURL(e.target.files[0]);
+        const img = new Image();
+        img.src = imgURL;
+        img.onload = () => {
+            if (img.height > img.width) setIsVertical(true);
+            else setIsVertical(false);
+        };
+        setAvatar(imgURL);
         setAvatarFile(e.target.files[0]);
+    };
+    const handleLoadAvatar = () => {
+        const img = new Image();
+        img.src = `${avatarURL}${data.UserProfile.Avatar}`;
+        img.onload = () => {
+            if (img.height > img.width) setIsVertical(true);
+            else setIsVertical(false);
+        };
     };
 
     useEffect(() => {
@@ -90,7 +105,12 @@ function EditModal({ data, setData, showEditModal, setShowEditModal }) {
                         <Stack gap={3} className='mt-3'>
                             <div className='text-danger text-center'>{errorMessage}</div>
                             <label htmlFor='avatar' className={cx('avatar-selector')}>
-                                <img src={avatar} className={cx('avatar')} alt='avatar' />
+                                <img
+                                    src={avatar}
+                                    className={cx('avatar', { isVertical: isVertical })}
+                                    alt='avatar'
+                                    onChange={handleLoadAvatar}
+                                />
                                 <div className={cx('overlay')}>Đổi ảnh đại diện</div>
                             </label>
                             <input id='avatar' type='file' hidden onChange={handleChangeAvatar} />

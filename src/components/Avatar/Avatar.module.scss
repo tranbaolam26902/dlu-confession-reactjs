@@ -5,10 +5,18 @@
     height: 40px;
     border-radius: 16px;
     box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
-    .avatar {
-        position: absolute;
-        left: 50%;
-        height: 100%;
-        transform: translateX(-50%);
+}
+.avatar {
+    position: absolute;
+    left: 50%;
+    height: 100%;
+    transform: translateX(-50%);
+    &.isVertical {
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: unset;
+        transform: translateX(0);
+        transform: translateY(-50%);
     }
 }

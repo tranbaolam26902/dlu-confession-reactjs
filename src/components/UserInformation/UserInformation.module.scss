@@ -39,4 +39,12 @@
         height: 100%;
         transform: translateX(-50%);
     }
+    img.isVertical {
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: unset;
+        transform: translateX(0);
+        transform: translateY(-50%);
+    }
 }

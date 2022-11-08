@@ -24,6 +24,7 @@ function UserInformation() {
     const [joinDay, setJoinDay] = useState(1);
     const [joinMonth, setJoinMonth] = useState(1);
     const [joinYear, setJoinYear] = useState(2022);
+    const [isVertical, setIsVertical] = useState(true);
 
     // Variables
     const userId = window.location.pathname.split('/').pop();
@@ -44,6 +45,16 @@ function UserInformation() {
                 setJoinMonth(joinDate[1]);
                 setJoinYear(joinDate[0]);
             });
+    };
+
+    // Event handlers
+    const handleLoadAvatar = () => {
+        const img = new Image();
+        img.src = `${avatarURL}${userInformation.UserProfile.Avatar}`;
+        img.onload = () => {
+            if (img.height > img.width) setIsVertical(true);
+            else setIsVertical(false);
+        };
     };
 
     useEffect(() => {
@@ -68,7 +79,14 @@ function UserInformation() {
                     <hr className='mt-2 mb-0' />
                     <div className={cx('body')}>
                         <div className={cx('avatar')}>
-                            <img src={avatarURL + userInformation.UserProfile.Avatar} alt='avatar' />
+                            <img
+                                src={avatarURL + userInformation.UserProfile.Avatar}
+                                className={cx({
+                                    isVertical: isVertical,
+                                })}
+                                onLoad={handleLoadAvatar}
+                                alt='avatar'
+                            />
                         </div>
                         <h4 className='mt-3 fw-bold'>{userInformation.UserProfile.NickName}</h4>
                         {userInformation.UserProfile.Description ? (
