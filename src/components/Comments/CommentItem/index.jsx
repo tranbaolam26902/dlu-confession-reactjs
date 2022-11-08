@@ -1,14 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 
-import { useStore, actions } from '../../../store';
+import { useStore, actions, useToken } from '../../../store';
 import styles from './CommentItem.module.scss';
 import icons from '../../../assets/icons';
 
 import Avatar from '../../Avatar';
 import ReplyComment from '../ReplyComment';
 import CommentOptions from '../CommentOptions';
-import { useEffect } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -17,6 +16,7 @@ function CommentItem({ data }) {
     // eslint-disable-next-line
     const [states, dispatch] = useStore();
     const { apiURL, userId, avatarURL } = states;
+    const { token } = useToken();
 
     // Variables
     const INIT_HEIGHT = 40;
@@ -81,6 +81,12 @@ function CommentItem({ data }) {
         const row = (currentHeight - INIT_HEIGHT) / LINE_HEIGHT;
         if (inputRows <= 8) setInputRows(row + INIT_ROWS);
     };
+    const handleReply = () => {
+        if (!token) {
+            dispatch(actions.setShowPostModal(false));
+            dispatch(actions.setShowSignInModal(true));
+        } else setShowReply(true);
+    };
     const handleSend = () => {
         if (comment !== '') {
             const formData = new FormData();
@@ -129,8 +135,7 @@ function CommentItem({ data }) {
                         )}
                     </div>
                     <div className={cx('actions')}>
-                        <button onClick={() => setShowReply(true)}>Phản hồi</button>
-                        <button>Báo cáo</button>
+                        <button onClick={handleReply}>Phản hồi</button>
                         <h6>{day + ' tháng ' + month}</h6>
                         {data.IsEdited && (
                             <h6>
