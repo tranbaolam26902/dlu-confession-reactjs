@@ -13,7 +13,7 @@ function Profile() {
     // Global states
     // eslint-disable-next-line
     const [states, dispatch] = useStore();
-    const { apiURL, posts } = states;
+    const { apiURL, posts, userId } = states;
 
     // Component's states
     const [userPosts, setUserPosts] = useState([]);
@@ -43,6 +43,7 @@ function Profile() {
         <>
             {userPosts.length === 0 ? <EmptyPosts message='Chưa có bài viết' /> : null}
             {userPosts.map((post) => {
+                if (post.PrivateMode && post.PostHistories[0].AccountId !== userId) return;
                 return <Post data={post} key={post.Id} />;
             })}
         </>
