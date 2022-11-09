@@ -9,6 +9,7 @@
     font-weight: bold;
 }
 .action {
+    color: var(--red);
     &:hover {
         text-decoration: underline;
     }

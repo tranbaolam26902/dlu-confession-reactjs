@@ -17,6 +17,9 @@ const icons = {
     arrowDown: require('./arrow-down.svg').default,
     arrowUp: require('./arrow-up.svg').default,
     send: require('./send.svg').default,
+    eye: require('./eye.svg').default,
+    tick: require('./tick.svg').default,
+    trash: require('./trash.svg').default,
 };
 
 export default icons;

@@ -19,7 +19,7 @@ import {
     SET_SHOW_REPORT_MODAL,
 } from './constants';
 
-const apiURL = 'http://10.0.101.174:31234';
+const apiURL = 'http://10.0.247.232:31234';
 
 const initStates = {
     apiURL: apiURL,

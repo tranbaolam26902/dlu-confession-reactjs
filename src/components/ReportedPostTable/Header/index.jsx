@@ -10,9 +10,13 @@ function Header() {
         <div className={cx('wrapper')}>
             <Row>
                 <Col sm={2}>Thông tin bài viết</Col>
-                <Col sm={6}>Nội dung bài viết</Col>
-                <Col sm={3}>Lý do bị báo cáo</Col>
-                <Col sm={1}>Thao tác</Col>
+                <Col sm={10}>
+                    <Row>
+                        <Col sm={6}>Nội dung bài viết</Col>
+                        <Col sm={4}>Lý do bị báo cáo</Col>
+                        <Col sm={2}>Thao tác</Col>
+                    </Row>
+                </Col>
             </Row>
         </div>
     );

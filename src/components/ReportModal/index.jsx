@@ -47,6 +47,7 @@ function ReportModal() {
             const formData = new FormData();
             const data = {};
             data.Description = reason ? reason !== '' : otherReason;
+            reason !== '' ? (data.Description = reason) : (data.Description = otherReason);
             formData.append('id', postData.Id);
             formData.append('Report', JSON.stringify(data));
             fetch(`${apiURL}/api/userpost/Report`, {
