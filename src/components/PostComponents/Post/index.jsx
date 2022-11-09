@@ -110,7 +110,7 @@ function Post({ data }) {
                         })}
                     </div>
                     <div>
-                        <h3 className='mb-1 fw-bold' role='button' onClick={handleOpenPostModal}>
+                        <h3 className={cx('title')} role='button' onClick={handleOpenPostModal}>
                             {data.Title}
                         </h3>
                         <div className={cx('content')} onClick={handleOpenPostModal}>
