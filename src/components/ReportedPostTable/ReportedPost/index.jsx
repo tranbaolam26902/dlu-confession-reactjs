@@ -102,7 +102,17 @@ function ReportedPost({ data }) {
                             ))}
                         </Col>
                         <Col sm={2}>
-                            <img src={icons.tick} alt='icon-status' />
+                            {data.Active ? (
+                                <div>
+                                    <img src={icons.infoCircle} className={cx('warning')} alt='icon-status' />
+                                    <span className='ms-1'>Xem xét</span>
+                                </div>
+                            ) : (
+                                <div>
+                                    <img src={icons.closeCircle} className={cx('danger')} alt='icon-status' />
+                                    <span className='ms-1'>Tạm ẩn</span>
+                                </div>
+                            )}
                         </Col>
                         <Col sm={2}>
                             <Stack gap={1} className='d-flex flex-column'>
