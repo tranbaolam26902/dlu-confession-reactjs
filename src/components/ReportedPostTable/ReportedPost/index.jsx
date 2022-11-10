@@ -34,8 +34,9 @@ function ReportedPost({ data }) {
     };
     const countReason = (reason) => {
         let count = 0;
-        data.PostReports.map((r) => {
-            if (r.Description === reason) count++;
+        data.PostReports.map((report) => {
+            if (report.Description === reason) count++;
+            return null;
         });
         return count;
     };
@@ -56,7 +57,21 @@ function ReportedPost({ data }) {
             });
         }
     };
-    const handleIgnore = () => {};
+    const handleIgnore = () => {
+        if (window.confirm('Xác nhận bỏ qua bài viết này?')) {
+            const formData = new FormData();
+            formData.append('id', data.Id);
+            fetch(`${apiURL}/api/admpost/IgnorePost`, {
+                method: 'POST',
+                headers: {
+                    Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+                },
+                body: formData,
+            }).then(() => {
+                updatePosts();
+            });
+        }
+    };
     const handleViewDetail = () => {
         dispatch(actions.setPostData(data));
         dispatch(actions.setShowPostModal(true));
