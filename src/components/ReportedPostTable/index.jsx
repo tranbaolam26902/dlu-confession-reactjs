@@ -31,6 +31,17 @@ function ReportedPostTable() {
             .then((responseReportedPosts) => setReportedPosts(responseReportedPosts));
     };
 
+    // Event handlers
+    const handleDeleteAll = () => {
+        if (window.confirm('Xác nhận xóa tất cả bài viết đã ẩn?')) {
+            fetch(`${apiURL}/api/admpost/DeleteViolate`, {
+                headers: {
+                    Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+                },
+            }).then(() => getReportedPosts());
+        }
+    };
+
     useEffect(() => {
         getReportedPosts();
     }, [posts]);
@@ -44,7 +55,9 @@ function ReportedPostTable() {
                     <div className='d-flex justify-content-between align-items-center'>
                         <h4 className={cx('title')}>Danh sách bài viết bị báo cáo</h4>
                         <Stack gap={3} direction='horizontal' className='justify-content-end mb-2'>
-                            <button className={cx('action')}>Xóa tất cả bài viết đã ẩn</button>
+                            <button className={cx('action')} onClick={handleDeleteAll}>
+                                Xóa bài viết đã ẩn
+                            </button>
                             <SearchReportedPosts />
                         </Stack>
                     </div>
