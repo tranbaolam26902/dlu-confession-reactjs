@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import classNames from 'classnames/bind';
 import { Col, Row, Stack } from 'react-bootstrap';
 
@@ -63,13 +62,6 @@ function ReportedPost({ data }) {
         dispatch(actions.setShowPostModal(true));
     };
 
-    useEffect(() => {
-        console.log(reasons);
-        console.log(data.PostReports.map((postReport) => postReport.Description === reasons[0]));
-        console.log(data.PostReports.map((postReport) => postReport.Description === reasons[2]));
-        console.log(data.PostReports.map((postReport) => postReport.Description === reasons[3]));
-    }, []);
-
     return (
         <div className={cx('wrapper')}>
             <Row>
@@ -97,7 +89,7 @@ function ReportedPost({ data }) {
                 </Col>
                 <Col sm={10}>
                     <Row>
-                        <Col sm={6} onClick={handleViewDetail} role='button'>
+                        <Col sm={4} onClick={handleViewDetail} role='button'>
                             <div className='fw-bold'>{data.Title}</div>
                             <div className={cx('content')}>{data.Content}</div>
                         </Col>
@@ -108,6 +100,9 @@ function ReportedPost({ data }) {
                                     - {reason}: {countReason(reason)}
                                 </div>
                             ))}
+                        </Col>
+                        <Col sm={2}>
+                            <img src={icons.tick} alt='icon-status' />
                         </Col>
                         <Col sm={2}>
                             <Stack gap={1} className='d-flex flex-column'>
