@@ -9,16 +9,30 @@ import Header from './Header';
 import ReportedPost from './ReportedPost';
 import SearchReportedPosts from './SearchReportedPosts';
 import EmptyPosts from '../EmptyPosts';
+import Pagination from '../Pagination';
 
 const cx = classNames.bind(styles);
 
 function ReportedPostTable() {
     // Global states
+    // eslint-disable-next-line
     const [states, dispatch] = useStore();
     const { apiURL, posts } = states;
 
     // Component's states
     const [reportedPosts, setReportedPosts] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    // variables
+    const postsPerPage = 10;
+
+    // Get current posts
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentPosts = reportedPosts.slice(indexOfFirstPost, indexOfLastPost);
+
+    // Change page
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     // Functions
     const getReportedPosts = () => {
@@ -44,6 +58,7 @@ function ReportedPostTable() {
 
     useEffect(() => {
         getReportedPosts();
+        // eslint-disable-next-line
     }, [posts]);
 
     return (
@@ -63,10 +78,18 @@ function ReportedPostTable() {
                     </div>
                     <Header />
                     <div className={cx('wrapper')}>
-                        {reportedPosts.map((post) => (
+                        {currentPosts.map((post) => (
                             <ReportedPost data={post} key={post.Id} />
                         ))}
                     </div>
+                    {reportedPosts.length > postsPerPage ? (
+                        <Pagination
+                            postsPerPage={postsPerPage}
+                            totalPosts={reportedPosts.length}
+                            paginate={paginate}
+                            currentPage={currentPage}
+                        />
+                    ) : null}
                 </>
             )}
         </>

@@ -22,6 +22,8 @@ const icons = {
     trash: require('./trash.svg').default,
     closeCircle: require('./close-circle.svg').default,
     infoCircle: require('./info-circle.svg').default,
+    arrowLeft: require('./arrow-left.svg').default,
+    arrowRight: require('./arrow-right.svg').default,
 };
 
 export default icons;
