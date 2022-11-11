@@ -1,4 +1,3 @@
-import { Stack } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
 import styles from './AccountTable.module.scss';
@@ -12,13 +11,9 @@ const cx = classNames.bind(styles);
 function AccountTable() {
     return (
         <>
-            <div className='d-flex justify-content-between align-items-center'>
+            <div className='d-flex align-items-center justify-content-between mb-2'>
                 <h4 className={cx('title')}>Danh sách tài khoản</h4>
-                <Stack gap={3} direction='horizontal' className='justify-content-end mb-2'>
-                    <button className={cx('action')}>Xóa tất cả</button>
-                    <button className={cx('action')}>Bỏ qua tất cả</button>
-                    <SearchReportedPosts />
-                </Stack>
+                <SearchReportedPosts />
             </div>
             <Header />
             <div className={cx('wrapper')}>

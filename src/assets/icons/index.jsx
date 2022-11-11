@@ -20,6 +20,7 @@ const icons = {
     eye: require('./eye.svg').default,
     tick: require('./tick.svg').default,
     trash: require('./trash.svg').default,
+    edit: require('./edit.svg').default,
 };
 
 export default icons;
