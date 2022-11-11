@@ -77,11 +77,11 @@ function PostOptions({ data }) {
             render={(attrs) => (
                 <PopoverWrapper>
                     <div className='d-flex flex-column'>
-                        {roles && !roles.includes('Manager') ? (
+                        {(roles && roles.includes('Manager')) || data.PostHistories[0].AccountId === userId ? null : (
                             <button className={cx('post-option')} onClick={handleReport}>
                                 Báo cáo
                             </button>
-                        ) : null}
+                        )}
                         {userId === data.PostHistories[0].AccountId ? (
                             <button className={cx('post-option')} onClick={handleEdit}>
                                 Chỉnh sửa

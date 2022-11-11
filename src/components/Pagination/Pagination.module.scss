@@ -1,0 +1,22 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 32px;
+    width: 100%;
+}
+.controller {
+    padding: 4px 6px;
+    // background-color: red;
+}
+.page {
+    display: inline-block;
+    padding: 4px 6px;
+    & + .page {
+        margin-left: 8px;
+    }
+}
+.active {
+    color: var(--secondary);
+    font-weight: bold;
+}

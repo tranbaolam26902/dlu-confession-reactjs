@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import classNames from 'classnames/bind';
 import { Col, Row, Stack } from 'react-bootstrap';
 
@@ -35,8 +34,9 @@ function ReportedPost({ data }) {
     };
     const countReason = (reason) => {
         let count = 0;
-        data.PostReports.map((r) => {
-            if (r.Description === reason) count++;
+        data.PostReports.map((report) => {
+            if (report.Description === reason) count++;
+            return null;
         });
         return count;
     };
@@ -57,18 +57,25 @@ function ReportedPost({ data }) {
             });
         }
     };
-    const handleIgnore = () => {};
+    const handleIgnore = () => {
+        if (window.confirm('Xác nhận bỏ qua bài viết này?')) {
+            const formData = new FormData();
+            formData.append('id', data.Id);
+            fetch(`${apiURL}/api/admpost/IgnorePost`, {
+                method: 'POST',
+                headers: {
+                    Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+                },
+                body: formData,
+            }).then(() => {
+                updatePosts();
+            });
+        }
+    };
     const handleViewDetail = () => {
         dispatch(actions.setPostData(data));
         dispatch(actions.setShowPostModal(true));
     };
-
-    useEffect(() => {
-        console.log(reasons);
-        console.log(data.PostReports.map((postReport) => postReport.Description === reasons[0]));
-        console.log(data.PostReports.map((postReport) => postReport.Description === reasons[2]));
-        console.log(data.PostReports.map((postReport) => postReport.Description === reasons[3]));
-    }, []);
 
     return (
         <div className={cx('wrapper')}>
@@ -97,7 +104,7 @@ function ReportedPost({ data }) {
                 </Col>
                 <Col sm={10}>
                     <Row>
-                        <Col sm={6} onClick={handleViewDetail} role='button'>
+                        <Col sm={4} onClick={handleViewDetail} role='button'>
                             <div className='fw-bold'>{data.Title}</div>
                             <div className={cx('content')}>{data.Content}</div>
                         </Col>
@@ -108,6 +115,19 @@ function ReportedPost({ data }) {
                                     - {reason}: {countReason(reason)}
                                 </div>
                             ))}
+                        </Col>
+                        <Col sm={2}>
+                            {data.Active ? (
+                                <div>
+                                    <img src={icons.infoCircle} className={cx('warning')} alt='icon-status' />
+                                    <span className='ms-1'>Xem xét</span>
+                                </div>
+                            ) : (
+                                <div>
+                                    <img src={icons.closeCircle} className={cx('danger')} alt='icon-status' />
+                                    <span className='ms-1'>Tạm ẩn</span>
+                                </div>
+                            )}
                         </Col>
                         <Col sm={2}>
                             <Stack gap={2} direction='vertical'>
