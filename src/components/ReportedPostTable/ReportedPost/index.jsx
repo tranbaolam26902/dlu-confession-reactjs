@@ -110,7 +110,7 @@ function ReportedPost({ data }) {
                             ))}
                         </Col>
                         <Col sm={2}>
-                            <Stack gap={1} className='d-flex flex-column'>
+                            <Stack gap={2} direction='vertical'>
                                 <button className='text-start' onClick={handleDelete}>
                                     <img src={icons.trash} className='me-1' alt='icon-trash' />
                                     <span className={cx('delete')}>Xóa bài viết</span>
