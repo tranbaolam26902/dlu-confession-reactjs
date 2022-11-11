@@ -3,11 +3,10 @@ import { Col, Row, Stack } from 'react-bootstrap';
 
 import { useStore } from '../../../store';
 import styles from './AccountItem.module.scss';
+import icons from '../../../assets/icons';
 import images from '../../../assets/img';
 
 import Avatar from '../../Avatar';
-import CategoryTag from '../../CategoryTag';
-import { ButtonToProfile } from '../../Buttons';
 
 const cx = classNames.bind(styles);
 
@@ -15,50 +14,37 @@ function AccountItem() {
     // Global states
     const [states, dispatch] = useStore();
     const { apiURL, avatarURL } = states;
-    const data = {
-        PrivateMode: true,
-    };
+
     return (
         <div className={cx('wrapper')}>
             <Row>
-                <Col sm={2}>
-                    <div className='d-flex mt-1 mb-2'>
-                        {data.PrivateMode && <Avatar avatar={images.avatar} />}
-                        {!data.PrivateMode && <Avatar avatar={`${avatarURL}${data.Avatar}`} />}
-                        <div className='ms-2'>
-                            {data.PrivateMode && <h5 className='fw-bold'>Ẩn danh</h5>}
-                            {!data.PrivateMode && (
-                                <h5 className='fw-bold'>
-                                    <ButtonToProfile>hello</ButtonToProfile>
-                                </h5>
-                            )}
-                            <h6>1 tháng 11</h6>
-                        </div>
-                    </div>
-                    <div>
-                        <CategoryTag>Hello</CategoryTag>
-                        <CategoryTag>I'll be there</CategoryTag>
+                <Col sm={1}>
+                    <div className='d-flex'>
+                        <Avatar avatar={images.avatar} alt='avatar' />
                     </div>
                 </Col>
-                <Col sm={6}>
-                    <div className='fw-bold'>Title goes here</div>
-                    <div className={cx('content')}>
-                        {'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore aperiam accusantium aliquid quisquam earum obcaecati temporibus, nesciunt sed cumque provident fugiat dolorum, doloremque sunt qui, nam deleniti perspiciatis neque. Modi cupiditate perferendis quia. Tenetur facilis quod quo exercitationem, ullam dignissimos nam esse dicta incidunt tempora eaque fugit, modi, similique beatae!Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore aperiam accusantium aliquid quisquam earum obcaecati temporibus, nesciunt sed cumque provident fugiat dolorum, doloremque sunt qui, nam deleniti perspiciatis neque. Modi cupiditate perferendis quia. Tenetur facilis quod quo exercitationem, ullam dignissimos nam esse dicta incidunt tempora eaque fugit, modi, similique beatae!Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore aperiam accusantium aliquid quisquam earum obcaecati temporibus, nesciunt sed cumque provident fugiat dolorum, doloremque sunt qui, nam deleniti perspiciatis neque. Modi cupiditate perferendis quia. Tenetur facilis quod quo exercitationem, ullam dignissimos nam esse dicta incidunt tempora eaque fugit, modi, similique beatae!'.replace(
-                            /\n+/g,
-                            '\n',
-                        )}
-                    </div>
+                <Col sm={3}>User 01</Col>
+                <Col sm={2}>20 tháng 11, 2022</Col>
+                <Col sm={3}>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorum qui neque explicabo cum quasi
+                    quae, sapiente saepe aperiam! Dolores, facere.
                 </Col>
                 <Col sm={3}>
-                    <div>- Nội dung không phù hợp: 5 lần</div>
-                    <div>- Sử dụng hình ảnh cá nhân của tôi: 1 lần</div>
-                </Col>
-                <Col sm={1}>
-                    <Stack gap={1} className='d-flex flex-column'>
-                        <button className='text-start text-decoration-underline'>Xóa</button>
-                        <button className='text-start text-decoration-underline'>Bỏ qua</button>
-                        <button className='text-start text-decoration-underline'>Xem chi tiết</button>
-                    </Stack>
+                    <Row>
+                        <Col sm={6}>Quản trị viên</Col>
+                        <Col sm={6}>
+                            <Stack gap={2} direction='vertical'>
+                                <button className='text-start' onClick={() => {}}>
+                                    <img src={icons.trash} className='me-1' alt='icon-trash' />
+                                    <span className={cx('delete')}>Xóa tài khoản</span>
+                                </button>
+                                <button className='text-start' onClick={() => {}}>
+                                    <img src={icons.edit} className='me-1' alt='icon-edit' />
+                                    <span>Chỉnh sửa</span>
+                                </button>
+                            </Stack>
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
         </div>
