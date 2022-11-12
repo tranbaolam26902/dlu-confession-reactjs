@@ -64,9 +64,7 @@ function AccountTable() {
                     return <AccountItem data={account} key={account.Id} setReRender={setReRender} />;
                 })}
             </div>
-            {currentAccounts.length === 0 ? (
-                <div className='text-center'>Không tìm thấy tài khoản liên quan đến từ khóa tìm kiếm</div>
-            ) : null}
+            {currentAccounts.length === 0 ? <div className='text-center'>Không tìm thấy tài khoản</div> : null}
             {accounts.length > accountsPerPage ? (
                 <Pagination
                     itemsPerPage={accountsPerPage}

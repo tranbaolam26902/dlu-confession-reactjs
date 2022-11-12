@@ -77,9 +77,7 @@ function ReportedPostTable() {
                     <ReportedPost data={post} key={post.Id} />
                 ))}
             </div>
-            {currentPosts.length === 0 ? (
-                <div className='text-center'>Không tìm thấy bài viết liên quan đến từ khóa tìm kiếm</div>
-            ) : null}
+            {currentPosts.length === 0 ? <div className='text-center'>Không tìm thấy bài viết</div> : null}
             {reportedPosts.length > postsPerPage ? (
                 <Pagination
                     itemsPerPage={postsPerPage}

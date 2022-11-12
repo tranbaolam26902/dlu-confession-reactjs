@@ -43,7 +43,7 @@ function Profile() {
         <>
             {userPosts.length === 0 ? <EmptyPosts message='Chưa có bài viết' /> : null}
             {userPosts.map((post) => {
-                if (post.PrivateMode && post.PostHistories[0].AccountId !== userId) return;
+                if (post.PrivateMode && post.PostHistories[0].AccountId !== userId) return null;
                 return <Post data={post} key={post.Id} />;
             })}
         </>
