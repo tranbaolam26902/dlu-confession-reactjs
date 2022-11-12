@@ -104,12 +104,7 @@ function UserInformation() {
                 </>
             ) : null}
             {userInformation.Id ? (
-                <EditModal
-                    data={userInformation}
-                    setData={setUserInformation}
-                    showEditModal={showEditModal}
-                    setShowEditModal={setShowEditModal}
-                />
+                <EditModal data={userInformation} showEditModal={showEditModal} setShowEditModal={setShowEditModal} />
             ) : null}
         </div>
     );

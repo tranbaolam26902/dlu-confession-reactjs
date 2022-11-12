@@ -10,7 +10,7 @@ import { Button } from '../../Buttons';
 
 const cx = classNames.bind(styles);
 
-function EditModal({ data, setData, showEditModal, setShowEditModal }) {
+function EditModal({ data, showEditModal, setShowEditModal }) {
     // Global states
     // eslint-disable-next-line
     const [states, dispatch] = useStore();
@@ -53,12 +53,7 @@ function EditModal({ data, setData, showEditModal, setShowEditModal }) {
                     Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
                 },
                 body: formData,
-            })
-                .then((response) => response.json())
-                .then((responseUserInformation) => {
-                    setData(responseUserInformation);
-                    handleClose();
-                });
+            }).then(() => window.location.reload());
         } else setErrorMessage('Tên hiển thị không được để trống!');
     };
     const handleChangeAvatar = (e) => {
