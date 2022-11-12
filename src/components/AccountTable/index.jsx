@@ -56,7 +56,7 @@ function AccountTable() {
         <>
             <div className='d-flex align-items-center justify-content-between mb-2'>
                 <h4 className={cx('title')}>Danh sách tài khoản</h4>
-                <SearchAccount />
+                <SearchAccount setAccounts={setAccounts} />
             </div>
             <Header />
             <div className={cx('wrapper')}>
@@ -64,6 +64,9 @@ function AccountTable() {
                     return <AccountItem data={account} key={account.Id} setReRender={setReRender} />;
                 })}
             </div>
+            {currentAccounts.length === 0 ? (
+                <div className='text-center'>Không tìm thấy tài khoản liên quan đến từ khóa tìm kiếm</div>
+            ) : null}
             {accounts.length > accountsPerPage ? (
                 <Pagination
                     itemsPerPage={accountsPerPage}
