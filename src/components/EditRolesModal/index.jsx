@@ -16,7 +16,6 @@ function EditRolesModal({ setReRender }) {
     const { apiURL, showEditRolesModal, accountData } = states;
 
     // Component's states
-    const [roles, setRoles] = useState([]);
     const [adminId, setAdminId] = useState('');
     const [managerId, setManagerId] = useState('');
     const [userId, setUserId] = useState('');
@@ -35,11 +34,11 @@ function EditRolesModal({ setReRender }) {
         })
             .then((response) => response.json())
             .then((responseRoles) => {
-                setRoles(responseRoles);
                 responseRoles.map((role) => {
                     if (role.Name === 'Admin') setAdminId(role.Id);
                     if (role.Name === 'Manager') setManagerId(role.Id);
                     if (role.Name === 'User') setUserId(role.Id);
+                    return null;
                 });
             });
     };
@@ -81,6 +80,7 @@ function EditRolesModal({ setReRender }) {
 
     useEffect(() => {
         getRoles();
+        // eslint-disable-next-line
     }, []);
 
     return (

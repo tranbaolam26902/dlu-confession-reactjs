@@ -8,7 +8,6 @@ import styles from './ReportedPostTable.module.scss';
 import Header from './Header';
 import ReportedPost from './ReportedPost';
 import SearchReportedPosts from './SearchReportedPosts';
-import EmptyPosts from '../EmptyPosts';
 import Pagination from '../Pagination';
 
 const cx = classNames.bind(styles);
@@ -35,7 +34,7 @@ function ReportedPostTable() {
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     // Functions
-    const getReportedPosts = () => {
+    const updateReportedPosts = () => {
         fetch(`${apiURL}/api/admpost/PostViolate`, {
             headers: {
                 Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
@@ -52,46 +51,43 @@ function ReportedPostTable() {
                 headers: {
                     Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
                 },
-            }).then(() => getReportedPosts());
+            }).then(() => updateReportedPosts());
         }
     };
 
     useEffect(() => {
-        getReportedPosts();
+        updateReportedPosts();
         // eslint-disable-next-line
     }, [posts]);
 
     return (
         <>
-            {reportedPosts.length === 0 ? (
-                <EmptyPosts message='Chưa có bài viết nào bị báo cáo' />
-            ) : (
-                <>
-                    <div className='d-flex justify-content-between align-items-center'>
-                        <h4 className={cx('title')}>Danh sách bài viết bị báo cáo</h4>
-                        <Stack gap={3} direction='horizontal' className='justify-content-end mb-2'>
-                            <button className={cx('action')} onClick={handleDeleteAll}>
-                                Xóa bài viết đã ẩn
-                            </button>
-                            <SearchReportedPosts />
-                        </Stack>
-                    </div>
-                    <Header />
-                    <div className={cx('wrapper')}>
-                        {currentPosts.map((post) => (
-                            <ReportedPost data={post} key={post.Id} />
-                        ))}
-                    </div>
-                    {reportedPosts.length > postsPerPage ? (
-                        <Pagination
-                            itemsPerPage={postsPerPage}
-                            totalItems={reportedPosts.length}
-                            paginate={paginate}
-                            currentPage={currentPage}
-                        />
-                    ) : null}
-                </>
-            )}
+            <div className='d-flex justify-content-between align-items-center'>
+                <h4 className={cx('title')}>Danh sách bài viết bị báo cáo</h4>
+                <Stack gap={3} direction='horizontal' className='justify-content-end mb-2'>
+                    <button className={cx('action')} onClick={handleDeleteAll}>
+                        Xóa bài viết đã ẩn
+                    </button>
+                    <SearchReportedPosts setReportedPosts={setReportedPosts} />
+                </Stack>
+            </div>
+            <Header />
+            <div className={cx('wrapper')}>
+                {currentPosts.map((post) => (
+                    <ReportedPost data={post} key={post.Id} />
+                ))}
+            </div>
+            {currentPosts.length === 0 ? (
+                <div className='text-center'>Không tìm thấy bài viết liên quan đến từ khóa tìm kiếm</div>
+            ) : null}
+            {reportedPosts.length > postsPerPage ? (
+                <Pagination
+                    itemsPerPage={postsPerPage}
+                    totalItems={reportedPosts.length}
+                    paginate={paginate}
+                    currentPage={currentPage}
+                />
+            ) : null}
         </>
     );
 }

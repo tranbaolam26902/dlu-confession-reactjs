@@ -9,6 +9,7 @@ const cx = classNames.bind(styles);
 
 function SearchAccount({ setAccounts }) {
     // Global states
+    // eslint-disable-next-line
     const [states, dispatch] = useStore();
     const { apiURL } = states;
 
