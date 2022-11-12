@@ -40,7 +40,11 @@ function CategoryTag({ id, isEditing, children }) {
     };
 
     return (
-        <Link to={`/category/${id}`} className={cx('wrapper')}>
+        <Link
+            to={`/category/${id}`}
+            onClick={() => dispatch(actions.setShowPostModal(false))}
+            className={cx('wrapper')}
+        >
             {children}
             <span className={cx('btn-delete', { isEditing })} onClick={handleDelete}>
                 &#10005;

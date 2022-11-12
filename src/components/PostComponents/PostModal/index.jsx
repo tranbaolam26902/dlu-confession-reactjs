@@ -71,7 +71,11 @@ function PostModal() {
                     </div>
                     <div className='mb-2'>
                         {postData.Categories.map((category) => {
-                            return <CategoryTag key={category.Id}>{category.Name}</CategoryTag>;
+                            return (
+                                <CategoryTag id={category.Id} key={category.Id}>
+                                    {category.Name}
+                                </CategoryTag>
+                            );
                         })}
                     </div>
                     <div>
