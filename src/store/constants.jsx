@@ -16,3 +16,5 @@ export const SET_MESSAGE = 'set_message';
 export const SET_SHOW_MESSAGE_MODAL = 'set_show_message_modal';
 export const SET_NOTIFICATIONS = 'set_notifications';
 export const SET_SHOW_REPORT_MODAL = 'set_show_report_modal';
+export const SET_SHOW_EDIT_ROLES_MODAL = 'set_show_edit_roles_modal';
+export const SET_ROLE_FOR_EDIT = 'set_role_for_edit';

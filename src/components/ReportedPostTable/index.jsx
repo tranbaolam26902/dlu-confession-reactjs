@@ -84,8 +84,8 @@ function ReportedPostTable() {
                     </div>
                     {reportedPosts.length > postsPerPage ? (
                         <Pagination
-                            postsPerPage={postsPerPage}
-                            totalPosts={reportedPosts.length}
+                            itemsPerPage={postsPerPage}
+                            totalItems={reportedPosts.length}
                             paginate={paginate}
                             currentPage={currentPage}
                         />

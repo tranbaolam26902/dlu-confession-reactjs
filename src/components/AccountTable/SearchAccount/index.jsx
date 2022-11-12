@@ -10,7 +10,7 @@ function SearchAccount() {
         <div className={cx('wrapper')}>
             <input
                 type='text'
-                placeholder='Tìm kiếm bài viết bị báo cáo ...'
+                placeholder='Tìm kiếm tài khoản ...'
                 // value={keyword}
                 // onChange={(e) => setKeyword(e.target.value)}
                 className={cx('search-input')}
