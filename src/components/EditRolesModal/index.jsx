@@ -36,14 +36,12 @@ function EditRolesModal({ setReRender }) {
             .then((response) => response.json())
             .then((responseRoles) => {
                 setRoles(responseRoles);
+                responseRoles.map((role) => {
+                    if (role.Name === 'Admin') setAdminId(role.Id);
+                    if (role.Name === 'Manager') setManagerId(role.Id);
+                    if (role.Name === 'User') setUserId(role.Id);
+                });
             });
-    };
-    const getIdForRoles = () => {
-        roles.map((role) => {
-            if (role.Name === 'Admin') setAdminId(role.Id);
-            if (role.Name === 'Manager') setManagerId(role.Id);
-            if (role.Name === 'User') setUserId(role.Id);
-        });
     };
 
     // Event handlers
@@ -56,9 +54,9 @@ function EditRolesModal({ setReRender }) {
             RoleTemps: [],
             Id: accountData.Id,
         };
-        if (accountData.Role === ADMIN) data.RoleTemps.push(adminId, managerId, userId);
-        if (accountData.Role === MANAGER) data.RoleTemps.push(managerId, userId);
-        if (accountData.Role === USER) data.RoleTemps.push(userId);
+        if (accountData.Role === ADMIN) data.RoleTemps = [userId, managerId, adminId];
+        if (accountData.Role === MANAGER) data.RoleTemps = [userId, managerId];
+        if (accountData.Role === USER) data.RoleTemps = [userId];
         const formData = new FormData();
         formData.append('account', JSON.stringify(data));
         fetch(`${apiURL}/api/AdmUser/SetRolesUser`, {
@@ -83,7 +81,6 @@ function EditRolesModal({ setReRender }) {
 
     useEffect(() => {
         getRoles();
-        getIdForRoles();
     }, []);
 
     return (
