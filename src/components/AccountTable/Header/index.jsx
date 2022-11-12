@@ -13,7 +13,7 @@ function Header() {
                 <Col sm={2}>Tên tài khoản</Col>
                 <Col sm={3}>Tên hiển thị</Col>
                 <Col sm={2}>Ngày tham gia</Col>
-                <Col sm={2}>Quyền</Col>
+                <Col sm={2}>Loại tài khoản</Col>
                 <Col sm={2}>Thao tác</Col>
             </Row>
         </div>

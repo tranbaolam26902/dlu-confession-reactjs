@@ -24,14 +24,16 @@ function PostImage({ images, onClick }) {
             return <></>;
         case 1:
             return (
-                <img
-                    role='button'
-                    src={imageURL + images[0].Path}
-                    alt='post'
-                    loading='lazy'
-                    className={cx('normal')}
-                    onClick={onClick}
-                />
+                <div className={cx('wrapper')}>
+                    <img
+                        role='button'
+                        src={imageURL + images[0].Path}
+                        alt='post'
+                        loading='lazy'
+                        className={cx('normal')}
+                        onClick={onClick}
+                    />
+                </div>
             );
         case 2:
             return (

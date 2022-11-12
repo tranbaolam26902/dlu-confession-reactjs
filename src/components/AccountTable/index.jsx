@@ -21,6 +21,7 @@ function AccountTable() {
     // Component's states
     const [accounts, setAccounts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [reRender, setReRender] = useState({});
 
     // variables
     const accountsPerPage = 10;
@@ -49,7 +50,7 @@ function AccountTable() {
     useEffect(() => {
         updateAccounts();
         // eslint-disable-next-line
-    }, []);
+    }, [reRender]);
 
     return (
         <>
@@ -60,7 +61,7 @@ function AccountTable() {
             <Header />
             <div className={cx('wrapper')}>
                 {currentAccounts.map((account) => {
-                    return <AccountItem data={account} key={account.Id} />;
+                    return <AccountItem data={account} key={account.Id} setReRender={setReRender} />;
                 })}
             </div>
             {accounts.length > accountsPerPage ? (
@@ -71,7 +72,7 @@ function AccountTable() {
                     currentPage={currentPage}
                 />
             ) : null}
-            <EditRolesModal />
+            <EditRolesModal setReRender={setReRender} />
         </>
     );
 }

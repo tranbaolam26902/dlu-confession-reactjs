@@ -18,7 +18,7 @@ import {
     SET_NOTIFICATIONS,
     SET_SHOW_REPORT_MODAL,
     SET_SHOW_EDIT_ROLES_MODAL,
-    SET_ROLE_FOR_EDIT,
+    SET_ACCOUNT_DATA,
 } from './constants';
 
 export const setShowSignInModal = (payload) => ({
@@ -116,7 +116,7 @@ export const setShowEditRolesModal = (payload) => ({
     payload,
 });
 
-export const setRoleForEdit = (payload) => ({
-    type: SET_ROLE_FOR_EDIT,
+export const setAccountData = (payload) => ({
+    type: SET_ACCOUNT_DATA,
     payload,
 });

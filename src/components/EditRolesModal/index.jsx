@@ -10,14 +10,16 @@ import { Button } from '../Buttons';
 
 const cx = classNames.bind(styles);
 
-function EditRolesModal() {
+function EditRolesModal({ setReRender }) {
     // Global states
     const [states, dispatch] = useStore();
-    const { apiURL, showEditRolesModal, roleForEdit } = states;
+    const { apiURL, showEditRolesModal, accountData } = states;
 
     // Component's states
     const [roles, setRoles] = useState([]);
-    const [roleId, setRoleId] = useState('');
+    const [adminId, setAdminId] = useState('');
+    const [managerId, setManagerId] = useState('');
+    const [userId, setUserId] = useState('');
 
     // Constants
     const ADMIN = 'Quản trị viên';
@@ -25,7 +27,7 @@ function EditRolesModal() {
     const USER = 'Người dùng';
 
     // Functions
-    const getRoleIds = () => {
+    const getRoles = () => {
         fetch(`${apiURL}/api/AdmUser/getrole`, {
             headers: {
                 Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
@@ -36,11 +38,12 @@ function EditRolesModal() {
                 setRoles(responseRoles);
             });
     };
-    const getRoleIdByName = (name) => {
-        const roleTemp = roles.map((role) => {
-            if (role.Name === name) return role;
+    const getIdForRoles = () => {
+        roles.map((role) => {
+            if (role.Name === 'Admin') setAdminId(role.Id);
+            if (role.Name === 'Manager') setManagerId(role.Id);
+            if (role.Name === 'User') setUserId(role.Id);
         });
-        return roleTemp.Id;
     };
 
     // Event handlers
@@ -49,22 +52,45 @@ function EditRolesModal() {
     };
     const handleEdit = (e) => {
         e.preventDefault();
-        console.log(roleId);
+        const data = {
+            RoleTemps: [],
+            Id: accountData.Id,
+        };
+        if (accountData.Role === ADMIN) data.RoleTemps.push(adminId, managerId, userId);
+        if (accountData.Role === MANAGER) data.RoleTemps.push(managerId, userId);
+        if (accountData.Role === USER) data.RoleTemps.push(userId);
+        const formData = new FormData();
+        formData.append('account', JSON.stringify(data));
+        fetch(`${apiURL}/api/AdmUser/SetRolesUser`, {
+            method: 'POST',
+            headers: {
+                Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+            },
+            body: formData,
+        }).then((response) => {
+            setReRender({ response });
+            handleClose();
+        });
     };
     const handleOnChange = (e) => {
-        dispatch(actions.setRoleForEdit(e.target.value));
-        setRoleId(e.target.value);
+        dispatch(
+            actions.setAccountData({
+                Id: accountData.Id,
+                Role: e.target.value,
+            }),
+        );
     };
 
     useEffect(() => {
-        getRoleIds();
+        getRoles();
+        getIdForRoles();
     }, []);
 
     return (
         <Modal show={showEditRolesModal} onHide={handleClose} centered>
             <div className={cx('wrapper')}>
                 <div className={cx('header')}>
-                    <h3 className={cx('title')}>Chỉnh sửa quyền</h3>
+                    <h3 className={cx('title')}>Chỉnh sửa tài khoản</h3>
                     <button className={cx('close')} onClick={handleClose}>
                         <img src={icons.close} alt='icon-close' />
                     </button>
@@ -72,13 +98,14 @@ function EditRolesModal() {
                 <hr className='my-0' />
                 <form onSubmit={handleEdit}>
                     <Stack gap={3} className='pt-3'>
+                        <div>Chọn loại tài khoản:</div>
                         <div>
                             <input
                                 id='admin'
                                 type='radio'
                                 name='roles'
-                                value={getRoleIdByName(ADMIN)}
-                                checked={ADMIN === roleForEdit}
+                                value={ADMIN}
+                                checked={accountData.Role === ADMIN}
                                 onChange={handleOnChange}
                             />
                             <label htmlFor='admin' className='ms-1'>
@@ -90,8 +117,8 @@ function EditRolesModal() {
                                 id='manager'
                                 type='radio'
                                 name='roles'
-                                value={getRoleIdByName(MANAGER)}
-                                checked={MANAGER === roleForEdit}
+                                value={MANAGER}
+                                checked={accountData.Role === MANAGER}
                                 onChange={handleOnChange}
                             />
                             <label htmlFor='manager' className='ms-1'>
@@ -103,8 +130,8 @@ function EditRolesModal() {
                                 id='user'
                                 type='radio'
                                 name='roles'
-                                value={getRoleIdByName(USER)}
-                                checked={USER === roleForEdit}
+                                value={USER}
+                                checked={accountData.Role === USER}
                                 onChange={handleOnChange}
                             />
                             <label htmlFor='user' className='ms-1'>

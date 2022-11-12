@@ -18,10 +18,10 @@ import {
     SET_NOTIFICATIONS,
     SET_SHOW_REPORT_MODAL,
     SET_SHOW_EDIT_ROLES_MODAL,
-    SET_ROLE_FOR_EDIT,
+    SET_ACCOUNT_DATA,
 } from './constants';
 
-const apiURL = 'http://192.168.1.43:31234';
+const apiURL = 'https://localhost:44332';
 
 const initStates = {
     apiURL: apiURL,
@@ -47,7 +47,7 @@ const initStates = {
     notifications: [],
     showReportModal: false,
     showEditRolesModal: false,
-    roleForEdit: '',
+    accountData: {},
 };
 
 function reducer(state, action) {
@@ -147,10 +147,10 @@ function reducer(state, action) {
                 ...state,
                 showEditRolesModal: action.payload,
             };
-        case SET_ROLE_FOR_EDIT:
+        case SET_ACCOUNT_DATA:
             return {
                 ...state,
-                roleForEdit: action.payload,
+                accountData: action.payload,
             };
         default:
             throw new Error('Error');

@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { Col, Row, Stack } from 'react-bootstrap';
 import classNames from 'classnames/bind';
 
@@ -8,19 +7,13 @@ import icons from '../../../assets/icons';
 
 import Avatar from '../../Avatar';
 import { ButtonToProfile } from '../../Buttons';
-import { setShowEditRolesModal } from '../../../store/actions';
 
 const cx = classNames.bind(styles);
 
-function AccountItem({ data }) {
+function AccountItem({ data, setReRender }) {
     // Global states
     const [states, dispatch] = useStore();
     const { apiURL, avatarURL } = states;
-
-    // Component's states
-    const [adminId, setAdminId] = useState('');
-    const [managerId, setManagerId] = useState('');
-    const [userId, setUserId] = useState('');
 
     // Convert join date
     const date = data.UserProfile.Birthday.split('-');
@@ -28,22 +21,6 @@ function AccountItem({ data }) {
     const month = date[1];
 
     // Functions
-    const getRoleIds = () => {
-        fetch(`${apiURL}/api/AdmUser/getrole`, {
-            headers: {
-                Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
-            },
-        })
-            .then((response) => response.json())
-            .then((responseRoles) => {
-                responseRoles.map((role) => {
-                    if (role.Name === 'Admin') setAdminId(role.Id);
-                    if (role.Name === 'Manager') setManagerId(role.Id);
-                    if (role.Name === 'User') setUserId(role.Id);
-                    return null;
-                });
-            });
-    };
     const getAccountRole = (roles) => {
         switch (roles.length) {
             case 3:
@@ -60,17 +37,26 @@ function AccountItem({ data }) {
     // Event handlers
     const handleDelete = () => {
         if (window.confirm('Xác nhận xóa tài khoản?')) {
+            const formData = new FormData();
+            formData.append('id', data.Id);
+            fetch(`${apiURL}/api/AdmUser/delete`, {
+                method: 'POST',
+                headers: {
+                    Authorization: localStorage.getItem('token').replace(/['"]+/g, ''),
+                },
+                body: formData,
+            }).then((response) => setReRender({ response }));
         }
     };
     const handleEdit = () => {
-        dispatch(actions.setRoleForEdit(getAccountRole(data.Roles)));
-        dispatch(setShowEditRolesModal(true));
+        dispatch(
+            actions.setAccountData({
+                Id: data.Id,
+                Role: getAccountRole(data.Roles),
+            }),
+        );
+        dispatch(actions.setShowEditRolesModal(true));
     };
-
-    useEffect(() => {
-        getRoleIds();
-        // eslint-disable-next-line
-    }, []);
 
     return (
         <div className={cx('wrapper')}>
@@ -100,7 +86,7 @@ function AccountItem({ data }) {
                         </button>
                         <button className='text-start'>
                             <img src={icons.eye} className='me-1' alt='icon-edit' />
-                            <ButtonToProfile id={data.Id}>Xem chi tiết</ButtonToProfile>
+                            <ButtonToProfile id={data.Id}>Xem trang cá nhân</ButtonToProfile>
                         </button>
                     </Stack>
                 </Col>
