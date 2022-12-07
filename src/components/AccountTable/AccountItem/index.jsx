@@ -70,7 +70,8 @@ function AccountItem({ data, setReRender }) {
                 </Col>
                 <Col sm={2}>{data.UserName}</Col>
                 <Col sm={3}>
-                    <ButtonToProfile id={data.Id}>{data.UserProfile.NickName}</ButtonToProfile>
+                    <div>Tên hiển thị: {data.UserProfile.NickName}</div>
+                    <div>Email: {data.Email}</div>
                 </Col>
                 <Col sm={2}>{day + ' tháng ' + month}</Col>
                 <Col sm={2}>{getAccountRole(data.Roles)}</Col>

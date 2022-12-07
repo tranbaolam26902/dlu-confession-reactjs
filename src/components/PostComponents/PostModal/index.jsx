@@ -28,6 +28,21 @@ function PostModal() {
     const day = date[2].split('T')[0];
     const month = date[1];
 
+    // Functions
+    const addLinkToText = () => {
+        const content = postData.Content.replace(/\n+/g, '\n').split(' ');
+        let result = '';
+        content.map((word, index) => {
+            if (word.includes('http')) {
+                result += `<a href="${word}" target="__blank" style='color: #007bff;'>Liên kết</a>`;
+                return null;
+            }
+            result += word + ' ';
+            return null;
+        });
+        return result;
+    };
+
     // Event handlers
     const handleScroll = () => {
         if (scrollToComment) commentRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -80,7 +95,7 @@ function PostModal() {
                     </div>
                     <div>
                         <h3 className='mb-1 fw-bold'>{postData.Title}</h3>
-                        <div className={cx('content')}>{postData.Content.replace(/\n+/g, '\n')}</div>
+                        <div className={cx('content')} dangerouslySetInnerHTML={{ __html: addLinkToText() }}></div>
                         {postData.Pictures.map((picture) => {
                             return (
                                 <img

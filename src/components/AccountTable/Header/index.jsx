@@ -11,7 +11,7 @@ function Header() {
             <Row>
                 <Col sm={1}>Ảnh</Col>
                 <Col sm={2}>Tên tài khoản</Col>
-                <Col sm={3}>Tên hiển thị</Col>
+                <Col sm={3}>Thông tin chi tiết</Col>
                 <Col sm={2}>Ngày tham gia</Col>
                 <Col sm={2}>Loại tài khoản</Col>
                 <Col sm={2}>Thao tác</Col>

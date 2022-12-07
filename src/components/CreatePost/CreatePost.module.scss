@@ -24,7 +24,13 @@
     flex: 1;
     // Button contains all items selected
     & > div > div {
+        overflow-y: auto;
+        &::-webkit-scrollbar {
+            background-color: var(--primary);
+            border-radius: 16px;
+        }
         padding-bottom: 16px !important;
+        max-height: 50vh;
     }
     & > div > button {
         position: relative;

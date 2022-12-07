@@ -55,6 +55,7 @@ function CreatePost() {
             if (editPostData.Content) setPostContent(editPostData.Content);
             else setPostContent('');
             setUploadImages(editPostData.Pictures.map((picture) => `${imageURL}${picture.Path}`));
+            setIsPrivatePost(editPostData.PrivateMode);
         }
     };
     const clearData = () => {
@@ -268,6 +269,7 @@ function CreatePost() {
                                             id='private'
                                             type='checkbox'
                                             className='me-2'
+                                            checked={isPrivatePost}
                                             onChange={() => setIsPrivatePost(!isPrivatePost)}
                                         />
                                         <h5>

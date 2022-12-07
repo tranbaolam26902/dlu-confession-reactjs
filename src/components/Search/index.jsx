@@ -6,6 +6,7 @@ import classNames from 'classnames/bind';
 import { useStore } from '../../store';
 import styles from './Search.module.scss';
 import icons from '../../assets/icons';
+import images from '../../assets/img';
 
 import { Wrapper as PopoverWrapper } from '../Popover';
 import Avatar from '../../components/Avatar';
@@ -82,8 +83,12 @@ function Search() {
                                             className={cx('search-result-item')}
                                             onClick={() => handleSearch(result.Title)}
                                         >
-                                            <Avatar avatar={avatarURL + result.Avatar} />
-                                            <div className='ms-3 fw-bold'>{result.Title}</div>
+                                            {result.PrivateMode ? (
+                                                <Avatar avatar={images.avatar} />
+                                            ) : (
+                                                <Avatar avatar={avatarURL + result.Avatar} />
+                                            )}
+                                            <div className={cx('search-result-title')}>{result.Title}</div>
                                         </div>
                                     );
                                 })}

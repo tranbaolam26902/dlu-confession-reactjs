@@ -62,6 +62,30 @@ function App() {
                     })}
                     {roles && roles.includes('Manager')
                         ? privateRoutes.map((route, index) => {
+                              if (route.path !== '/manage-reported-posts') return null;
+                              const Page = route.component;
+                              let Layout = DefaultLayout;
+                              if (route.layout) {
+                                  Layout = route.layout;
+                              } else if (route.layout === null) {
+                                  Layout = Fragment;
+                              }
+                              return (
+                                  <Route
+                                      key={index}
+                                      path={route.path}
+                                      element={
+                                          <Layout>
+                                              <Page />
+                                          </Layout>
+                                      }
+                                  />
+                              );
+                          })
+                        : null}
+                    {roles && roles.includes('Admin')
+                        ? privateRoutes.map((route, index) => {
+                              if (route.path !== '/manage-accounts') return null;
                               const Page = route.component;
                               let Layout = DefaultLayout;
                               if (route.layout) {

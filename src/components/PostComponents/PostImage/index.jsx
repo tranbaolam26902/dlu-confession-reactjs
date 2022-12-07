@@ -24,7 +24,7 @@ function PostImage({ images, onClick }) {
             return <></>;
         case 1:
             return (
-                <div className={cx('wrapper')}>
+                <div>
                     <img
                         role='button'
                         src={imageURL + images[0].Path}

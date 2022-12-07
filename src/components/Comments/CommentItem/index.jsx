@@ -68,6 +68,20 @@ function CommentItem({ data }) {
                 dispatch(actions.setPostData(responsePostData));
             });
     };
+    const addLinkToText = () => {
+        const content = data.Content.replace(/\n+/g, '\n').split(' ');
+        let result = '';
+        content.map((word, index) => {
+            if (word.includes('http')) {
+                console.log(word);
+                result += ` <a href="${word}" target="__blank" style='color: #007bff;'>Liên kết</a> `;
+                return null;
+            }
+            result += word + ' ';
+            return null;
+        });
+        return result;
+    };
 
     // Event handlers
     const handleCommentInput = (e) => {
@@ -133,7 +147,7 @@ function CommentItem({ data }) {
                             <h5 className='fw-bold'>
                                 <ButtonToProfile id={data.AccountId}>{data.NickName}</ButtonToProfile>
                             </h5>
-                            <span>{data.Content.replace(/\n+/g, '\n')}</span>
+                            <span dangerouslySetInnerHTML={{ __html: addLinkToText() }}></span>
                         </div>
                         {(data.AccountId === userId || isPersonalPost) && (
                             <CommentOptions data={data} setIsEditing={setIsEditing} />

@@ -41,6 +41,19 @@ function Post({ data }) {
                 dispatch(actions.setPosts(responsePosts));
             });
     };
+    const addLinkToText = () => {
+        const content = data.Content.replace(/\n+/g, '\n').split(' ');
+        let result = '';
+        content.map((word, index) => {
+            if (word.includes('http')) {
+                result += `<a href="${word}" target="__blank" style='color: #007bff;'>Liên kết</a>`;
+                return null;
+            }
+            result += word + ' ';
+            return null;
+        });
+        return result;
+    };
 
     // Event handlers
     const handleOpenPostModal = () => {
@@ -113,9 +126,11 @@ function Post({ data }) {
                         <h3 className={cx('title')} role='button' onClick={handleOpenPostModal}>
                             {data.Title}
                         </h3>
-                        <div className={cx('content')} onClick={handleOpenPostModal}>
-                            {data.Content.replace(/\n+/g, '\n')}
-                        </div>
+                        <div
+                            className={cx('content')}
+                            dangerouslySetInnerHTML={{ __html: addLinkToText() }}
+                            onClick={handleOpenPostModal}
+                        ></div>
                         <PostImage images={data.Pictures} onClick={handleOpenPostModal} />
                     </div>
                     <div className='d-flex justify-content-end mt-3'>

@@ -33,6 +33,22 @@ function Profile() {
                 setUserPosts(responsePosts);
             });
     };
+    const countPrivatePosts = () => {
+        let count = 0;
+        userPosts.map((post) => {
+            if (post.PrivateMode === true) count++;
+            return null;
+        });
+        return count;
+    };
+    const isPersonalPosts = () => {
+        let result = false;
+        userPosts.map((post) => {
+            if (post.PostHistories[0].AccountId === userId) result = true;
+            return null;
+        });
+        return result;
+    };
 
     useEffect(() => {
         getUserPosts();
@@ -41,7 +57,10 @@ function Profile() {
 
     return (
         <>
-            {userPosts.length === 0 ? <EmptyPosts message='Chưa có bài viết' /> : null}
+            {(userPosts.length === 0 || userPosts.length === countPrivatePosts()) && !isPersonalPosts() ? (
+                <EmptyPosts message='Chưa có bài viết' />
+            ) : null}
+
             {userPosts.map((post) => {
                 if (post.PrivateMode && post.PostHistories[0].AccountId !== userId) return null;
                 return <Post data={post} key={post.Id} />;
